@@ -196,10 +196,6 @@ public:
 
 //******************** Operations of weighting, finding and casing **********************
   int CountBit() const;
-  int LeftOne(int nNext = -1) const;
-  int LeftOne(BYTE& bt) const;
-  ptrdiff_t RightOne(ptrdiff_t nNext = -1) const;
-  ptrdiff_t RightOne(BYTE& bt) const;
   ptrdiff_t LeftOne(ptrdiff_t nNext = -1) const;
   ptrdiff_t LeftOne(BYTE& bt) const;
   ptrdiff_t RightOne(ptrdiff_t nNext = -1) const;
