@@ -171,8 +171,8 @@ public:
   const CBV& operator ^=(const BYTE* pbt);
   const CBV& operator -=(const CBV& bv1);
   const CBV& operator -=(const BYTE* pbt);
-  const CBV& operator <<=(int nShift);
-  const CBV& operator >>=(int nShift);
+  const CBV& operator <<=(size_t nShift);
+  const CBV& operator >>=(size_t nShift);
 
 //********************************** Logic operations ***********************************
   FSTD(CBV) operator|(const CBV& bv1,const CBV& bv2);
