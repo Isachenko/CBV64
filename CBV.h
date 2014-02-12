@@ -117,7 +117,7 @@ extern BOOL GetRandMode();
 
 class CArch;
 
-class CBV
+class BV
 {
 public:
 //******************************* Constructors\Destructor *******************************
@@ -141,9 +141,9 @@ public:
   CBV GenRbvN(int n);   // 09.11.2007
 //*************************************** Reading ***************************************
   operator BYTE*() const;
-  BYTE operator[](int nIndex) const;
-  BYTE GetByteAt(int nIndex) const;
-  BOOL GetBitAt(int nIndex) const;
+  BYTE operator[](size_t nIndex) const;
+  BYTE GetByteAt(size_t nIndex) const;
+  BOOL GetBitAt(size_t nIndex) const;
 #ifndef _LINUX
   CString BitChar(char One = '1',char Zero='0', int Max=0);
 #else
@@ -507,13 +507,10 @@ public:
   void SetRowDif(const BYTE* mask, int nRow, const BYTE* v1, const BYTE* v2);
 
 protected:
-  BYTE** m_pData;
-  int m_nSize;
-  int m_nMaxSize;
-  int m_nGrowBy;
-  int m_nBitLength;
-  int m_nByteLength;
-  int m_nAllocLength;
+  BYTE* m_bVect;
+  size_t m_nBitLength;
+  size_t m_nByteLength;
+  size_t m_nAllocLength;
 
 //******************************** Protected functions **********************************
   void Init();
