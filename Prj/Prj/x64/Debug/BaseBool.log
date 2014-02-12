@@ -1,93 +1,99 @@
-﻿Build started 12.02.2014 13:26:37.
-     1>Project "D:\Work\Учебная практика\SRC\Prj\Prj\BaseBool.vcxproj" on node 2 (Rebuild target(s)).
+﻿Построение начато 12.02.2014 14:09:50.
+     1>Проект "c:\Users\IsachenkoA\Documents\GitHub\CBV64\Prj\Prj\BaseBool.vcxproj" в узле 2 (целевые объекты Build).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\AMD64\CL.exe /c /I. /Zi /nologo /W3 /WX- /Od /D WIN32 /D _DEBUG /D _WINDOWS /D _MSVC9 /D _VC80_UPGRADE=0x0600 /D _AFXDLL /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\../../bin/Debug/BaseBool/" /Fd".\../../bin/Debug/BaseBool/vc110.pdb" /Gd /TP /errorReport:prompt ..\Common\Bm.cpp ..\Common\Bv.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /I. /Zi /nologo /W3 /WX- /Od /D WIN32 /D _DEBUG /D _WINDOWS /D _MSVC9 /D _VC80_UPGRADE=0x0600 /D _AFXDLL /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\../../bin/Debug/BaseBool/" /Fd".\../../bin/Debug/BaseBool/vc110.pdb" /Gd /TP /errorReport:prompt ..\Common\Bm.cpp ..\Common\Bv.cpp
          Bm.cpp
          _WIN32_WINNT not defined. Defaulting to _WIN32_WINNT_MAXVER (see WinSDKVer.h)
-     1>d:\work\учебная практика\src\prj\common\../Common/BaseBool.h(616): warning C4267: 'return' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bm.cpp(148): warning C4244: '=' : conversion from 'ptrdiff_t' to 'int', possible loss of data
-     1>..\Common\Bm.cpp(725): warning C4244: '=' : conversion from 'ptrdiff_t' to 'int', possible loss of data
-     1>..\Common\Bm.cpp(727): warning C4244: '=' : conversion from 'ptrdiff_t' to 'int', possible loss of data
-     1>..\Common\Bm.cpp(784): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bm.cpp(1857): warning C4244: 'argument' : conversion from 'INT_PTR' to 'int', possible loss of data
-     1>..\Common\Bm.cpp(1858): warning C4244: 'argument' : conversion from 'INT_PTR' to 'int', possible loss of data
-     1>..\Common\Bm.cpp(1877): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bm.cpp(1887): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bm.cpp(1902): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bm.cpp(1905): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bm.cpp(1906): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bm.cpp(1908): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bm.cpp(1948): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
+     1>c:\users\isachenkoa\documents\github\cbv64\prj\common\../Common/BaseBool.h(616): warning C4267: return: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bm.cpp(148): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
+     1>..\Common\Bm.cpp(725): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
+     1>..\Common\Bm.cpp(727): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
+     1>..\Common\Bm.cpp(784): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bm.cpp(1857): warning C4244: аргумент: преобразование "INT_PTR" в "int", возможна потеря данных
+     1>..\Common\Bm.cpp(1858): warning C4244: аргумент: преобразование "INT_PTR" в "int", возможна потеря данных
+     1>..\Common\Bm.cpp(1877): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bm.cpp(1887): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bm.cpp(1902): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bm.cpp(1905): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bm.cpp(1906): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bm.cpp(1908): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bm.cpp(1948): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
          Bv.cpp
          _WIN32_WINNT not defined. Defaulting to _WIN32_WINNT_MAXVER (see WinSDKVer.h)
-     1>d:\work\учебная практика\src\prj\common\BaseBool.h(616): warning C4267: 'return' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(112): warning C4293: '<<' : shift count negative or too big, undefined behavior
-     1>..\Common\Bv.cpp(112): warning C4293: '>>' : shift count negative or too big, undefined behavior
-     1>..\Common\Bv.cpp(125): warning C4293: '<<' : shift count negative or too big, undefined behavior
-     1>..\Common\Bv.cpp(125): warning C4293: '>>' : shift count negative or too big, undefined behavior
-     1>..\Common\Bv.cpp(353): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(361): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(364): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(366): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(376): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(379): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(780): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(781): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(804): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(805): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(827): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(828): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(838): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(839): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(849): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(850): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(860): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(861): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(870): warning C4267: 'argument' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(871): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1420): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1421): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1422): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1430): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1431): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1444): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1445): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1446): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1454): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1455): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1483): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1484): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1485): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1493): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1494): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1507): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1508): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1509): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1517): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1518): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1546): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1547): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1548): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1556): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1557): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1570): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1571): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1572): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1580): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1581): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1609): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1610): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1611): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1619): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-     1>..\Common\Bv.cpp(1620): warning C4267: '=' : conversion from 'size_t' to 'int', possible loss of data
-         Generating Code...
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(1299,5): warning MSB8012: TargetPath(D:\Work\Учебная практика\SRC\Prj\Prj\x64\Debug\BaseBool.lib) does not match the Library's OutputFile property value (D:\Work\Учебная практика\SRC\bin\Debug\BaseBool\BaseBool.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+     1>c:\users\isachenkoa\documents\github\cbv64\prj\common\BaseBool.h(616): warning C4267: return: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(112): warning C4293: <<: отрицательное или слишком большое смещение; поведение не определено
+     1>..\Common\Bv.cpp(112): warning C4293: >>: отрицательное или слишком большое смещение; поведение не определено
+     1>..\Common\Bv.cpp(125): warning C4293: <<: отрицательное или слишком большое смещение; поведение не определено
+     1>..\Common\Bv.cpp(125): warning C4293: >>: отрицательное или слишком большое смещение; поведение не определено
+     1>..\Common\Bv.cpp(207): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(224): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(225): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(240): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(241): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(243): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(353): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(361): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(364): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(366): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(376): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(379): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(780): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(781): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(804): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(805): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(827): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(828): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(838): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(839): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(849): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(850): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(860): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(861): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(870): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(871): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1424): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1425): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1426): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1434): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1435): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1448): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1449): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1450): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1458): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1459): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1487): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1488): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1489): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1497): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1498): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1511): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1512): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1513): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1521): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1522): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1550): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1551): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1552): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1560): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1561): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1574): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1575): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1576): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1584): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1585): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1613): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1614): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1615): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1623): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1624): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+         Создание кода...
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(1299,5): warning MSB8012: TargetPath(C:\Users\IsachenkoA\Documents\GitHub\CBV64\Prj\Prj\x64\Debug\BaseBool.lib) does not match the Library's OutputFile property value (c:\Users\IsachenkoA\Documents\GitHub\CBV64\bin\Debug\BaseBool\BaseBool.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
        Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\AMD64\Lib.exe /OUT:".\../../bin/Debug/BaseBool\BaseBool.lib" /NOLOGO /MACHINE:X64 .\../../bin/Debug/BaseBool/Bm.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\Lib.exe /OUT:".\../../bin/Debug/BaseBool\BaseBool.lib" /NOLOGO /MACHINE:X64 .\../../bin/Debug/BaseBool/Bm.obj
          .\../../bin/Debug/BaseBool/Bv.obj
-         BaseBool.vcxproj -> D:\Work\Учебная практика\SRC\Prj\Prj\x64\Debug\BaseBool.lib
-     1>Done Building Project "D:\Work\Учебная практика\SRC\Prj\Prj\BaseBool.vcxproj" (Rebuild target(s)).
+         BaseBool.vcxproj -> C:\Users\IsachenkoA\Documents\GitHub\CBV64\Prj\Prj\x64\Debug\BaseBool.lib
+     1>Построение проекта "c:\Users\IsachenkoA\Documents\GitHub\CBV64\Prj\Prj\BaseBool.vcxproj" завершено (целевые объекты Build).
 
-Build succeeded.
+Построение успешно завершено.
 
-Time Elapsed 00:00:08.15
+Затраченное время: 00:00:05.05

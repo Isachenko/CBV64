@@ -198,7 +198,7 @@ CBV GetRandV()
 // вектора с равновероятным распределением нулей и единиц //
 //    Модификация Томашева - 27 января 1999
 //---------------------------------------------------------
-CBV CBV::GenRbv (int nCol)
+CBV CBV::GenRbv (size_t nCol)
 { 
   Empty();
   int a, b, hh, h, i, j, n; 
@@ -233,7 +233,7 @@ CBV CBV::GenRbv (int nCol)
 // Ускоренное генерирование псевдослучайного <n>-компонентного 
 // булева вектора с равновероятным распределением нулей и единиц 
 //---------------------------------------------------------
-CBV CBV::GenRbvN(int n)
+CBV CBV::GenRbvN(size_t n)
 { int i, k,m;
   unsigned long *Syn;
   Empty();
@@ -1073,7 +1073,8 @@ int CBV::CountBit() const
 
 //-------------------------------------------------------------------- LeftOne(ptrdiff_t nNext)
 ptrdiff_t CBV::LeftOne(ptrdiff_t nNext) const
-{ptrdiff_t i,j,pos = 0;
+{ptrdiff_t i,j;
+ int pos = 0;
  size_t k;                                //new 24.01.00
  BYTE ch;
 // ASSERT((m_nBitLength - nNext) >= 0);
@@ -1100,7 +1101,8 @@ ptrdiff_t CBV::LeftOne(ptrdiff_t nNext) const
 
 //--------------------------------------------------------------------- LeftOne(BYTE& bt)
 ptrdiff_t CBV::LeftOne(BYTE& bt) const
-{ptrdiff_t i,pos;
+{ptrdiff_t i;
+ int pos;
  for (i=0;i<m_nByteLength;i++)
    if (m_bVect[i]!=0) {
      pos=0;
@@ -1112,7 +1114,8 @@ ptrdiff_t CBV::LeftOne(BYTE& bt) const
 
 //------------------------------------------------------------------- RightOne(int nPrev)
 ptrdiff_t CBV::RightOne(ptrdiff_t nPrev) const
-{ptrdiff_t i,j,pos = 7;
+{ptrdiff_t i,j;
+ int pos = 7;
  BYTE ch;
  ASSERT((m_nBitLength - nPrev) >= 0);
  if (nPrev == -1) {i=m_nByteLength-1;j=0;}
@@ -1133,7 +1136,8 @@ ptrdiff_t CBV::RightOne(ptrdiff_t nPrev) const
 
 //-------------------------------------------------------------------- RightOne(BYTE& bt)
 ptrdiff_t CBV::RightOne(BYTE& bt) const
-{ptrdiff_t i,pos;
+{ptrdiff_t i;
+ int pos;
  for (i=m_nByteLength-1;i>=0;i--)
    if (m_bVect[i]!=0)  {
      pos=7;

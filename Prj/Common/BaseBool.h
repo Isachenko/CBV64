@@ -134,11 +134,11 @@ public:
   size_t GetAllocLength() const;
 
 //*********************** Functions for generation **************************************
-  CBV GenRbv (int nCol);
+  CBV GenRbv (size_t nCol);
   CBV GenRbvMid(int nCol, int nRang);
   CBV GenRbvFix (int nCol, int nRang);
 
-  CBV GenRbvN(int n);   // 09.11.2007
+  CBV GenRbvN(size_t n);   // 09.11.2007
 //*************************************** Reading ***************************************
   operator BYTE*() const;
   BYTE operator[](size_t nIndex) const;
