@@ -1,14 +1,14 @@
 /////////////////////////////////////////////////////////////////
 // Ver.2.1.3     09.11.2007
-//               Новый метод генерации векторов GenRbvN
+//               РќРѕРІС‹Р№ РјРµС‚РѕРґ РіРµРЅРµСЂР°С†РёРё РІРµРєС‚РѕСЂРѕРІ GenRbvN
 // Ver.2.1.2     22.02.2006
-//               RemoveAllRows - сохраняет число столбцов матрицы
-//               Add для CBM перестала быть inline, допускает добавление
-//               всей матрицы целиком при -1, принятом по умолчанию
+//               RemoveAllRows - СЃРѕС…СЂР°РЅСЏРµС‚ С‡РёСЃР»Рѕ СЃС‚РѕР»Р±С†РѕРІ РјР°С‚СЂРёС†С‹
+//               Add РґР»СЏ CBM РїРµСЂРµСЃС‚Р°Р»Р° Р±С‹С‚СЊ inline, РґРѕРїСѓСЃРєР°РµС‚ РґРѕР±Р°РІР»РµРЅРёРµ
+//               РІСЃРµР№ РјР°С‚СЂРёС†С‹ С†РµР»РёРєРѕРј РїСЂРё -1, РїСЂРёРЅСЏС‚РѕРј РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 // Ver.2.1.1     20.07.2006
-//               разнообразие генераторов  
+//               СЂР°Р·РЅРѕРѕР±СЂР°Р·РёРµ РіРµРЅРµСЂР°С‚РѕСЂРѕРІ  
 // Ver.2.1.0     07.07.2006
-//               Переход к LINUX
+//               РџРµСЂРµС…РѕРґ Рє LINUX
 
 /////////////////////////////////////////////////////////////////
 // Ver.2.0.6     19.06.2006
@@ -108,7 +108,7 @@ BYTE w=a;
  w=(w&0x55)+((w>>1)&0x55);  w=(w&0x33)+((w>>2)&0x33); return((w&0x0f)+((w>>4)&0x0f));
 }
 
-//----------- Внеклассовые функции для работы с датчиком случайных ------------
+//----------- Р’РЅРµРєР»Р°СЃСЃРѕРІС‹Рµ С„СѓРЅРєС†РёРё РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РґР°С‚С‡РёРєРѕРј СЃР»СѓС‡Р°Р№РЅС‹С… ------------
 extern void SetRgrain( unsigned long NewRgrain);
 extern unsigned long GetRgrain();
 extern unsigned int GetRandN();
@@ -117,21 +117,21 @@ extern BOOL GetRandMode();
 
 class CArch;
 
-class BV
+class CBV
 {
 public:
 //******************************* Constructors\Destructor *******************************
-  BV();
-  BV(const BYTE* pbt, size_t nLenBit);
-  BV(BYTE ch, size_t nRepeat = 1,BOOL Fl = TRUE);
-  BV(const BV& bvSrc);
-  BV(const char* pch);
-  ~BV();
+  CBV();
+  CBV(const CBV& bvSrc);
+  CBV(BYTE ch, int nRepeat = 1,BOOL Fl = TRUE);
+  CBV(const BYTE* pbt, int nLenBit);
+  CBV(const char* pch);
+  ~CBV();
 
 //*********************** Functions for getting class's parametrs ***********************
-  size_t GetByteLength() const;
-  size_t GetBitLength() const;
-  size_t GetAllocLength() const;
+  int GetByteLength() const;
+  int GetBitLength() const;
+  int GetAllocLength() const;
 
 //*********************** Functions for generation **************************************
   CBV GenRbv (int nCol);
@@ -141,9 +141,9 @@ public:
   CBV GenRbvN(int n);   // 09.11.2007
 //*************************************** Reading ***************************************
   operator BYTE*() const;
-  BYTE operator[](size_t nIndex) const;
-  BYTE GetByteAt(size_t nIndex) const;
-  BOOL GetBitAt(size_t nIndex) const;
+  BYTE operator[](int nIndex) const;
+  BYTE GetByteAt(int nIndex) const;
+  BOOL GetBitAt(int nIndex) const;
 #ifndef _LINUX
   CString BitChar(char One = '1',char Zero='0', int Max=0);
 #else
@@ -171,8 +171,8 @@ public:
   const CBV& operator ^=(const BYTE* pbt);
   const CBV& operator -=(const CBV& bv1);
   const CBV& operator -=(const BYTE* pbt);
-  const CBV& operator <<=(size_t nShift);
-  const CBV& operator >>=(size_t nShift);
+  const CBV& operator <<=(int nShift);
+  const CBV& operator >>=(int nShift);
 
 //********************************** Logic operations ***********************************
   FSTD(CBV) operator|(const CBV& bv1,const CBV& bv2);
@@ -189,24 +189,17 @@ public:
   FSTD(CBV) operator-(const CBV& bv1,const BYTE* pbt);
   FSTD(CBV) operator~(const CBV& bv2);
   void Invert(const BYTE* pbt);
-  FSTD(CBV) operator<<(const CBV& bv1, size_t nShift);
-  FSTD(CBV) operator>>(const CBV& bv1, size_t nShift);
-  void LoopLeftShift(size_t nShift);
-  void LoopRightShift(size_t nShift);
+  FSTD(CBV) operator<<(const CBV& bv1, int nShift);
+  FSTD(CBV) operator>>(const CBV& bv1, int nShift);
+  void LoopLeftShift(int nShift);
+  void LoopRightShift(int nShift);
 
 //******************** Operations of weighting, finding and casing **********************
   int CountBit() const;
-<<<<<<< HEAD
   int LeftOne(int nNext = -1) const;
   int LeftOne(BYTE& bt) const;
-  ptrdiff_t RightOne(ptrdiff_t nNext = -1) const;
-  ptrdiff_t RightOne(BYTE& bt) const;
-=======
-  ptrdiff_t LeftOne(ptrdiff_t nNext = -1) const;
-  ptrdiff_t LeftOne(BYTE& bt) const;
-  ptrdiff_t RightOne(ptrdiff_t nNext = -1) const;
-  ptrdiff_t RightOne(BYTE& bt) const;
->>>>>>> 000fd0662a5c872143d3598c3fcea7fdd47f2924
+  int RightOne(int nNext = -1) const;
+  int RightOne(BYTE& bt) const;
 
 //**************************** Operations of concatinations *****************************
   void Concat(const CBV& bv);
@@ -251,17 +244,17 @@ public:
 
 //***************************** Advanced access to memory *******************************
   void Empty();
-  BYTE* GetBuffer(int nMinBufLength);
-  void ReleaseBuffer(int nNewLength = -1);
-  BYTE* SetSize(int nNewLength,int nNewAllocLength=-1);
+  BYTE* GetBuffer(size_t nMinBufLength);
+  void ReleaseBuffer(ptrdiff_t nNewLength = -1);
+  BYTE* SetSize(ptrdiff_t nNewLength,ptrdiff_t nNewAllocLength=-1);
 
-  void AssignDiz(size_t nBitLength, const BYTE* v1, const BYTE* v2);
-  void AssignDiz(size_t nBitLength, int Num, BYTE* v1, ...);
-  void AssignCon(size_t nBitLength, const BYTE* v1, const BYTE* v2);
-  void AssignCon(size_t nBitLength, int Num, BYTE* v1, ...);
-  void AssignXor(size_t nBitLength, const BYTE* v1, const BYTE* v2);
-  void AssignXor(size_t nBitLength, int Num, BYTE* v1, ...);
-  void AssignDif(size_t nBitLength, const BYTE* v1, const BYTE* v2);
+  void AssignDiz(int nBitLength, const BYTE* v1, const BYTE* v2);
+  void AssignDiz(int nBitLength, int Num, BYTE* v1, ...);
+  void AssignCon(int nBitLength, const BYTE* v1, const BYTE* v2);
+  void AssignCon(int nBitLength, int Num, BYTE* v1, ...);
+  void AssignXor(int nBitLength, const BYTE* v1, const BYTE* v2);
+  void AssignXor(int nBitLength, int Num, BYTE* v1, ...);
+  void AssignDif(int nBitLength, const BYTE* v1, const BYTE* v2);
 
 protected:
   BYTE* m_bVect;
@@ -270,7 +263,7 @@ protected:
   int m_nAllocLength;
 
 //******************************** Protected functions **********************************
-  void AllocCopy(CBV& dest, int nCopyLen, int nCopyIndex, int nExtraLen) const;
+  void AllocCopy(CBV& dest, ptrdiff_t nCopyLen, ptrdiff_t nCopyIndex, ptrdiff_t nExtraLen) const;
   void AllocBuffer(int nLen);
   void CharBit(int nLenByte,const char* pch);
   void AssignChar(int nLenBit, const char* pch);
@@ -514,10 +507,13 @@ public:
   void SetRowDif(const BYTE* mask, int nRow, const BYTE* v1, const BYTE* v2);
 
 protected:
-  BYTE* m_bVect;
-  size_t m_nBitLength;
-  size_t m_nByteLength;
-  size_t m_nAllocLength;
+  BYTE** m_pData;
+  int m_nSize;
+  int m_nMaxSize;
+  int m_nGrowBy;
+  int m_nBitLength;
+  int m_nByteLength;
+  int m_nAllocLength;
 
 //******************************** Protected functions **********************************
   void Init();
