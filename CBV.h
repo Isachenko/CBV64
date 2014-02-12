@@ -198,8 +198,8 @@ public:
   int CountBit() const;
   int LeftOne(int nNext = -1) const;
   int LeftOne(BYTE& bt) const;
-  int RightOne(int nNext = -1) const;
-  int RightOne(BYTE& bt) const;
+  ptrdiff_t RightOne(ptrdiff_t nNext = -1) const;
+  ptrdiff_t RightOne(BYTE& bt) const;
 
 //**************************** Operations of concatinations *****************************
   void Concat(const CBV& bv);
