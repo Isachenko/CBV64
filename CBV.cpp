@@ -769,9 +769,9 @@ const CBV& CBV::operator -=(const BYTE* pbt)
 /////////////////////////////////// Logic operations ////////////////////////////////////
 
 //****************************** Protected function ***********************************//
-//--------------------------- LeftShiftVect(const BYTE* SrcVect, int nSrcLen, int nShift)
-void CBV::LeftShiftVect(const BYTE* SrcVect, int nSrcLen, int nShift)
-{int j,i,l_bit,r_bit,nNewLenByte,nNewLenBit,nSrcByte,AdrBeg;
+//--------------------------- LeftShiftVect(const BYTE* SrcVect, size_t nSrcLen, size_t nShift)
+void CBV::LeftShiftVect(const BYTE* SrcVect, size_t nSrcLen, size_t nShift)
+{size_t j,i,l_bit,r_bit,nNewLenByte,nNewLenBit,nSrcByte,AdrBeg;
  ASSERT(nShift >= 0);
  nNewLenBit = nSrcLen - nShift;
  ASSERT(nNewLenBit >= 0);
@@ -795,9 +795,9 @@ void CBV::LeftShiftVect(const BYTE* SrcVect, int nSrcLen, int nShift)
  memset(m_bVect+nNewLenByte, 0, i);
 }
 
-//-------------------------- RightShiftVect(const BYTE* SrcVect, int nSrcLen, int nShift)
-void CBV::RightShiftVect(const BYTE* SrcVect, int nSrcLen, int nShift)
-{int i,j,l_bit,r_bit,nSrcByte,AdrBeg;
+//-------------------------- RightShiftVect(const BYTE* SrcVect, size_t nSrcLen, size_t nShift)
+void CBV::RightShiftVect(const BYTE* SrcVect, size_t nSrcLen, size_t nShift)
+{size_t i,j,l_bit,r_bit,nSrcByte,AdrBeg;
  ASSERT(nShift >= 0);
  ASSERT((nSrcLen - nShift) >= 0);
  nSrcByte = LEN_BYTE(nSrcLen);
@@ -818,9 +818,9 @@ void CBV::RightShiftVect(const BYTE* SrcVect, int nSrcLen, int nShift)
    m_bVect[nSrcByte-1] = (m_bVect[nSrcByte-1] >> (S_1 - i)) << (S_1 - i);
 }
 
-//---------------------- Diz(const BYTE* Vect1,int BitLen1,const BYTE* Vect2,int BitLen2)
-void CBV::Diz(const BYTE* Vect1,int BitLen1,const BYTE* Vect2,int BitLen2)
-{int i,LenByte;
+//---------------------- Diz(const BYTE* Vect1,size_t BitLen1,const BYTE* Vect2,size_t BitLen2)
+void CBV::Diz(const BYTE* Vect1,size_t BitLen1,const BYTE* Vect2,size_t BitLen2)
+{size_t i,LenByte;
  ASSERT(BitLen1 == BitLen2);
  ASSERT(BitLen1 >= 0);
  LenByte = LEN_BYTE(BitLen1);
@@ -829,9 +829,9 @@ void CBV::Diz(const BYTE* Vect1,int BitLen1,const BYTE* Vect2,int BitLen2)
  for (i=0; i<LenByte; i++) m_bVect[i] = Vect1[i] | Vect2[i];
 }
 
-//---------------------- Con(const BYTE* Vect1,int BitLen1,const BYTE* Vect2,int BitLen2)
-void CBV::Con(const BYTE* Vect1,int BitLen1,const BYTE* Vect2,int BitLen2)
-{int i,LenByte;
+//---------------------- Con(const BYTE* Vect1,size_t BitLen1,const BYTE* Vect2,size_t BitLen2)
+void CBV::Con(const BYTE* Vect1,size_t BitLen1,const BYTE* Vect2,size_t BitLen2)
+{size_t i,LenByte;
  ASSERT(BitLen1 == BitLen2);
  ASSERT(BitLen1 >= 0);
  LenByte = LEN_BYTE(BitLen1);
@@ -840,9 +840,9 @@ void CBV::Con(const BYTE* Vect1,int BitLen1,const BYTE* Vect2,int BitLen2)
  for (i=0; i<LenByte; i++) m_bVect[i] = Vect1[i] & Vect2[i];
 }
 
-//--------------------- Add2(const BYTE* Vect1,int BitLen1,const BYTE* Vect2,int BitLen2)
-void CBV::Add2(const BYTE* Vect1,int BitLen1,const BYTE* Vect2,int BitLen2)
-{int i,LenByte;
+//--------------------- Add2(const BYTE* Vect1,size_t BitLen1,const BYTE* Vect2,size_t BitLen2)
+void CBV::Add2(const BYTE* Vect1,size_t BitLen1,const BYTE* Vect2,size_t BitLen2)
+{size_t i,LenByte;
  ASSERT(BitLen1 == BitLen2);
  ASSERT(BitLen1 >= 0);
  LenByte = LEN_BYTE(BitLen1);
@@ -851,9 +851,9 @@ void CBV::Add2(const BYTE* Vect1,int BitLen1,const BYTE* Vect2,int BitLen2)
  for (i=0; i<LenByte; i++) m_bVect[i] = Vect1[i] ^ Vect2[i];
 }
 
-//------------------- ConNot(const BYTE* Vect1,int BitLen1,const BYTE* Vect2,int BitLen2)
-void CBV::ConNot(const BYTE* Vect1,int BitLen1,const BYTE* Vect2,int BitLen2)
-{int i,LenByte;
+//------------------- ConNot(const BYTE* Vect1,size_t BitLen1,const BYTE* Vect2,size_t BitLen2)
+void CBV::ConNot(const BYTE* Vect1,size_t BitLen1,const BYTE* Vect2,size_t BitLen2)
+{size_t i,LenByte;
  ASSERT(BitLen1 == BitLen2);
  ASSERT(BitLen1 >= 0);
  LenByte = LEN_BYTE(BitLen1);
@@ -862,9 +862,9 @@ void CBV::ConNot(const BYTE* Vect1,int BitLen1,const BYTE* Vect2,int BitLen2)
  for (i=0; i<LenByte; i++) m_bVect[i] = Vect1[i] & ~Vect2[i];
 }
 
-//---------------------------------------------------- Not(const BYTE* Vect1,int BitLen1)
-void CBV::Not(const BYTE* Vect1,int BitLen1)
-{int i,LenByte;
+//---------------------------------------------------- Not(const BYTE* Vect1,size_t BitLen1)
+void CBV::Not(const BYTE* Vect1,size_t BitLen1)
+{size_t i,LenByte;
  ASSERT(BitLen1 >= 0);
  LenByte = LEN_BYTE(BitLen1);
  AllocBuffer(LenByte);
@@ -875,14 +875,14 @@ void CBV::Not(const BYTE* Vect1,int BitLen1)
 }
 //*************************************************************************************//
 
-//------------------------------------- operator <<(const CBV& bv1, int nShift)
-STD(CBV) operator <<(const CBV& bv1, int nShift)
+//------------------------------------- operator <<(const CBV& bv1, size_t nShift)
+STD(CBV) operator <<(const CBV& bv1, size_t nShift)
 { CBV s;
  s.LeftShiftVect(bv1.m_bVect,bv1.m_nBitLength,nShift);  return s;
 }
 
-//------------------------------------- operator >>(const CBV& bv1, int nShift)
-STD(CBV) operator >>(const CBV& bv1, int nShift)
+//------------------------------------- operator >>(const CBV& bv1, size_t nShift)
+STD(CBV) operator >>(const CBV& bv1, size_t nShift)
 { CBV s;
  s.RightShiftVect(bv1.m_bVect,bv1.m_nBitLength,nShift);  return s;
 }
@@ -980,16 +980,16 @@ return s;
 
 //-------------------------------------------------- Invert(const BYTE* pbt)
 void CBV:: Invert(const BYTE* pbt)
-{ int i;
+{ size_t i;
  for (i=0; i<m_nByteLength; i++) m_bVect[i] = ~pbt[i];
  i = ADR_BIT(m_nBitLength);
  if (i)  m_bVect[m_nByteLength-1] = (m_bVect[m_nByteLength-1] >> (S_1-i)) << (S_1-i);
 }
 
-//------------------------------------------------------------- LoopLeftShift(int nShift)
-void CBV::LoopLeftShift(int nShift)
+//------------------------------------------------------------- LoopLeftShift(size_t nShift)
+void CBV::LoopLeftShift(size_t nShift)
 {  // LeftShift bool vector  -- assume that 'this' is a new CBV object
- int i,j,l_bit,r_bit,nNewLenByte,nNewLenBit,nEndLenByte;
+ size_t i,j,l_bit,r_bit,nNewLenByte,nNewLenBit,nEndLenByte;
  BYTE *work;
  ASSERT(nShift >= 0);
  nNewLenBit = m_nBitLength - nShift;
@@ -1025,10 +1025,10 @@ void CBV::LoopLeftShift(int nShift)
  delete [] work;
 }
 
-//------------------------------------------------------------ LoopRightShift(int nShift)
-void CBV::LoopRightShift(int nShift)
+//------------------------------------------------------------ LoopRightShift(size_t nShift)
+void CBV::LoopRightShift(size_t nShift)
 {  // LeftShift bool vector  -- assume that 'this' is a new CBV object
- int i,j,l_bit,r_bit,AdrBeg,AdrEnd,BitEnd;
+ size_t i,j,l_bit,r_bit,AdrBeg,AdrEnd,BitEnd;
  BYTE *work;
  ASSERT(nShift >= 0);
  ASSERT((m_nBitLength - nShift) >= 0);
