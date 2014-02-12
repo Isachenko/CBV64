@@ -62,7 +62,7 @@ typedef int BOOL;
 #endif
 
 #define S_1          8
-#define S_4          32
+#define S_4          64
 #define BIT_BYTE(x_) ((x_)/S_1)
 #define BIT_LONG(x_) ((x_)/S_4)
 #define LEN_BYTE(x_) (((x_)+S_1-1)/S_1)
@@ -71,7 +71,7 @@ typedef int BOOL;
 #define ADR_BITLONG(x_)  ((x_)%S_4)
 
 #define BYTE_1 0xff
-#define LONG_1 0xffffffff
+#define LONG_1 0xffffffffffffffff
 
 const BYTE OB[8]={128,64,32,16,8,4,2,1};
 const ULONG OB4[32]=
@@ -117,16 +117,16 @@ extern BOOL GetRandMode();
 
 class CArch;
 
-class BV
+class CBV
 {
 public:
 //******************************* Constructors\Destructor *******************************
-  BV();
-  BV(const BYTE* pbt, size_t nLenBit);
-  BV(BYTE ch, size_t nRepeat = 1,BOOL Fl = TRUE);
-  BV(const BV& bvSrc);
-  BV(const char* pch);
-  ~BV();
+  CBV();
+  CBV(const BYTE* pbt, size_t nLenBit);
+  CBV(BYTE ch, size_t nRepeat = 1,BOOL Fl = TRUE);
+  CBV(const CBV& bvSrc);
+  CBV(const char* pch);
+  ~CBV();
 
 //*********************** Functions for getting class's parametrs ***********************
   size_t GetByteLength() const;
@@ -507,10 +507,14 @@ public:
   void SetRowDif(const BYTE* mask, int nRow, const BYTE* v1, const BYTE* v2);
 
 protected:
-  BYTE* m_bVect;
-  size_t m_nBitLength;
-  size_t m_nByteLength;
-  size_t m_nAllocLength;
+    BYTE** m_pData;
+	int m_nSize;
+	int m_nMaxSize;
+	int m_nGrowBy;
+	int m_nBitLength;
+	int m_nByteLength;
+	int m_nAllocLength;
+
 
 //******************************** Protected functions **********************************
   void Init();
@@ -532,29 +536,29 @@ protected:
 //                                                CBV class
 ////////////////////////////////////////////////////////////////////////////////////////
 
-inline int CBV::GetByteLength() const                               //GetByteLength
+inline size_t CBV::GetByteLength() const                               //GetByteLength
 { return m_nByteLength; }
 
-inline int CBV::GetBitLength() const                                //GetBitLength
+inline size_t CBV::GetBitLength() const                                //GetBitLength
 { return m_nBitLength; }
 
-inline int CBV::GetAllocLength() const                              //GetAllocLength
+inline size_t CBV::GetAllocLength() const                              //GetAllocLength
 { return m_nAllocLength; }
 
 inline CBV::operator BYTE*() const                     //operator const BYTE*()
 { return ( BYTE*)m_bVect; }
 
-inline BYTE CBV::operator[](int nIndex) const                         //operator[]
+inline BYTE CBV::operator[](size_t nIndex) const                         //operator[]
 { ASSERT(nIndex >= 0); ASSERT(nIndex < m_nByteLength);
   return m_bVect[nIndex];
 }
 
-inline BYTE CBV::GetByteAt(int nIndex) const                          //GetByteAt
+inline BYTE CBV::GetByteAt(size_t nIndex) const                          //GetByteAt
 { ASSERT(nIndex >= 0); ASSERT(nIndex < m_nByteLength);
   return m_bVect[nIndex];
 }
 
-inline BOOL CBV::GetBitAt(int nIndex) const                           //GetBitAt
+inline BOOL CBV::GetBitAt(size_t nIndex) const                           //GetBitAt
 { ASSERT(nIndex >= 0); ASSERT(nIndex < m_nBitLength);
   return ((m_bVect[BIT_BYTE(nIndex)] & OB[ADR_BIT(nIndex)])!=0);
 }

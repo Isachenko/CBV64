@@ -345,8 +345,8 @@ CBV::CBV(const CBV& bvSrc)
 /////////////////////////// More sophisticated construction /////////////////////////////
 
 //------------------------------------------------- CBV(BYTE ch, int nLength, BOOL Fl)
-CBV::CBV(BYTE mask, int nLength, BOOL Fl)
-{ int nLenByte,w;
+CBV::CBV(BYTE mask, size_t nLength, BOOL Fl)
+{ size_t nLenByte,w;
   if (nLength < 1) Init();      // return empty vector if invalid repeat count
   else {
     if (Fl) {   // Bits
@@ -369,8 +369,8 @@ CBV::CBV(BYTE mask, int nLength, BOOL Fl)
 }
 
 //--------------------------------------------------- CBV(const BYTE* pbt,int nLenBit)
-CBV::CBV(const BYTE* pbt,int nLenBit)
-{ int nLenByte;
+CBV::CBV(const BYTE* pbt,size_t nLenBit)
+{ size_t nLenByte;
   if (nLenBit==0) Init();
   else   {
     nLenByte = LEN_BYTE(nLenBit);
@@ -382,7 +382,7 @@ CBV::CBV(const BYTE* pbt,int nLenBit)
 
 //--------------------------------------------------------------- CBV(const char* pch)
 CBV::CBV(const char* pch)
-{ int nLenByte,nLenBit;
+{ size_t nLenByte,nLenBit;
   if ((nLenBit = SafeStrlen(pch)) == 0) Init();
   else   {
     nLenByte = LEN_BYTE(nLenBit);        // Translate from symbol to bit
