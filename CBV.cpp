@@ -492,8 +492,8 @@ void CBV::AssignChar(int nLenBit, const char* pch)
 }
 
 //------------------------ Extr(const BYTE* SrcVect, int SrcBitLen,int nFirst,int nCount)
-void CBV::Extr(const BYTE* SrcVect, int SrcBitLen,int nFirst,int nCount)
-{ int i,j,nLenByte,l_bit,r_bit,AdrBeg;
+void CBV::Extr(const BYTE* SrcVect, size_t SrcBitLen,size_t nFirst,size_t nCount)
+{ size_t i,j,nLenByte,l_bit,r_bit,AdrBeg;
 
   ASSERT(nCount >= 0);  ASSERT(nFirst >= 0);
   ASSERT((nCount+nFirst) <= SrcBitLen);
