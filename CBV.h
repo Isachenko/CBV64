@@ -122,15 +122,9 @@ class CBV
 public:
 //******************************* Constructors\Destructor *******************************
   CBV();
-<<<<<<< HEAD
-  CBV(const CBV& bvSrc);
-  CBV(BYTE ch, int nRepeat = 1,BOOL Fl = TRUE);
-  CBV(const BYTE* pbt, int nLenBit);
-=======
   CBV(const BYTE* pbt, size_t nLenBit);
   CBV(BYTE ch, size_t nRepeat = 1,BOOL Fl = TRUE);
   CBV(const CBV& bvSrc);
->>>>>>> 26cc7b4ec0fca1ee8b37868d03cc78945c165323
   CBV(const char* pch);
   ~CBV();
 
@@ -202,17 +196,10 @@ public:
 
 //******************** Operations of weighting, finding and casing **********************
   int CountBit() const;
-<<<<<<< HEAD
-  int LeftOne(int nNext = -1) const;
-  int LeftOne(BYTE& bt) const;
-  int RightOne(int nNext = -1) const;
-  int RightOne(BYTE& bt) const;
-=======
   ptrdiff_t LeftOne(ptrdiff_t nNext = -1) const;
   ptrdiff_t LeftOne(BYTE& bt) const;
   ptrdiff_t RightOne(ptrdiff_t nNext = -1) const;
   ptrdiff_t RightOne(BYTE& bt) const;
->>>>>>> 26cc7b4ec0fca1ee8b37868d03cc78945c165323
 
 //**************************** Operations of concatinations *****************************
   void Concat(const CBV& bv);
@@ -520,7 +507,6 @@ public:
   void SetRowDif(const BYTE* mask, int nRow, const BYTE* v1, const BYTE* v2);
 
 protected:
-<<<<<<< HEAD
   BYTE** m_pData;
   int m_nSize;
   int m_nMaxSize;
@@ -528,16 +514,6 @@ protected:
   int m_nBitLength;
   int m_nByteLength;
   int m_nAllocLength;
-=======
-    BYTE** m_pData;
-	int m_nSize;
-	int m_nMaxSize;
-	int m_nGrowBy;
-	int m_nBitLength;
-	int m_nByteLength;
-	int m_nAllocLength;
-
->>>>>>> 26cc7b4ec0fca1ee8b37868d03cc78945c165323
 
 //******************************** Protected functions **********************************
   void Init();
