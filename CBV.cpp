@@ -1193,7 +1193,7 @@ void CBV::Concat(BOOL Bit/*=FALSE*/)
 
 //------------------------------------------------------------------------------ IsZero()
 BOOL CBV::IsZero() const
-{ int i;
+{ size_t i;
  if (m_nByteLength == 0) return FALSE;  // 27.05.02
  for (i=0; i<m_nByteLength; i++)  if (m_bVect[i]) return FALSE;
  return TRUE;
@@ -1201,7 +1201,8 @@ BOOL CBV::IsZero() const
 
 //------------------------------------------------------------------------------- IsOne()
 BOOL CBV::IsOne() const
-{ int i; char LastB;
+{ 
+ size_t i; char LastB;
  if (m_nByteLength == 0) return FALSE;    // 27.05.02
  for (i=0; i<m_nByteLength-1; i++)
    { LastB = ~m_bVect[i]; if (LastB) return FALSE; }
@@ -1211,6 +1212,7 @@ BOOL CBV::IsOne() const
  if (LastB) return FALSE;
  return TRUE;
 }
+
 
 //-------------------------------------- operator ==(const CBV& bv1,const CBV& bv2)
 
@@ -1286,69 +1288,69 @@ STD(BOOL) operator <=(const CBV& bv1, const BYTE* p2)
 STD(BOOL) operator<=(const BYTE* p1, const CBV& bv2)
 { return (bv2.PoglEq(p1,bv2.m_nBitLength,TRUE)); }
 
-
-/////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////// Input/output operations //////////////////////////////////////
-#ifndef _LINUX
-//-------------------------------- operator <<(CDumpContext& dc, const CBV& bv)
-#ifdef _DEBUG
-CDumpContext& AFXAPI operator <<(CDumpContext& dc, const CBV& bv)
-{int i;
- CString res('\0',bv.m_nBitLength);
- for (i=0; i<bv.m_nBitLength; i++)
-   if (bv.GetBitAt(i)) res.SetAt(i,'1');
-   else             res.SetAt(i,'0');
- dc << res; return dc;
-}
-#endif //_DEBUG
-
-//------------------------------------- operator<<(CArchive& ar, const CBV& bv)
-CArchive& AFXAPI operator<<(CArchive& ar, const CBV& bv)
-{
-  ar << bv.m_nByteLength;
-  ar << bv.m_nBitLength;
-  ar.Write(bv.m_bVect, bv.m_nByteLength);
-  return ar;
-}
-
-//------------------------------------- operator>>(CArchive& ar, const CBV& bv)
-CArchive& AFXAPI operator>>(CArchive& ar, CBV& bv)
-{
-  bv.Empty();
-  ar >> bv.m_nByteLength;
-  ar >> bv.m_nBitLength;
-  if (bv.m_nByteLength != 0) {
-    bv.AllocBuffer(bv.m_nByteLength);
-    if (ar.Read(bv.m_bVect, bv.m_nByteLength) != (unsigned int)bv.m_nByteLength)
-      AfxThrowArchiveException(CArchiveException::endOfFile);
-  }
-  return ar;
-}
-
-#endif //_LINUX
-
-//------------------------------------- operator<<(CArchive& ar, const CBV& bv)
-
-STD(CArch&) operator<<(CArch& ar, const CBV& bv)
-{
-  ar << bv.m_nByteLength;
-  ar << bv.m_nBitLength;
-  ar.Write(bv.m_bVect, bv.m_nByteLength);
-  return ar;
-}
-
-//------------------------------------- operator>>(CArchive& ar, const CBV& bv)
-STD(CArch&) operator>>(CArch& ar, CBV& bv)
-{
-  bv.Empty();
-  ar >> bv.m_nByteLength;
-  ar >> bv.m_nBitLength;
-  if (bv.m_nByteLength != 0) {
-    bv.AllocBuffer(bv.m_nByteLength);
-    ar.Read(bv.m_bVect, bv.m_nByteLength);
-  }
-  return ar;
-}
+//
+///////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////// Input/output operations //////////////////////////////////////
+//#ifndef _LINUX
+////-------------------------------- operator <<(CDumpContext& dc, const CBV& bv)
+//#ifdef _DEBUG
+//CDumpContext& AFXAPI operator <<(CDumpContext& dc, const CBV& bv)
+//{int i;
+// CString res('\0',bv.m_nBitLength);
+// for (i=0; i<bv.m_nBitLength; i++)
+//   if (bv.GetBitAt(i)) res.SetAt(i,'1');
+//   else             res.SetAt(i,'0');
+// dc << res; return dc;
+//}
+//#endif //_DEBUG
+//
+////------------------------------------- operator<<(CArchive& ar, const CBV& bv)
+//CArchive& AFXAPI operator<<(CArchive& ar, const CBV& bv)
+//{
+//  ar << bv.m_nByteLength;
+//  ar << bv.m_nBitLength;
+//  ar.Write(bv.m_bVect, bv.m_nByteLength);
+//  return ar;
+//}
+//
+////------------------------------------- operator>>(CArchive& ar, const CBV& bv)
+//CArchive& AFXAPI operator>>(CArchive& ar, CBV& bv)
+//{
+//  bv.Empty();
+//  ar >> bv.m_nByteLength;
+//  ar >> bv.m_nBitLength;
+//  if (bv.m_nByteLength != 0) {
+//    bv.AllocBuffer(bv.m_nByteLength);
+//    if (ar.Read(bv.m_bVect, bv.m_nByteLength) != (unsigned int)bv.m_nByteLength)
+//      AfxThrowArchiveException(CArchiveException::endOfFile);
+//  }
+//  return ar;
+//}
+//
+//#endif //_LINUX
+//
+////------------------------------------- operator<<(CArchive& ar, const CBV& bv)
+//
+//STD(CArch&) operator<<(CArch& ar, const CBV& bv)
+//{
+//  ar << bv.m_nByteLength;
+//  ar << bv.m_nBitLength;
+//  ar.Write(bv.m_bVect, bv.m_nByteLength);
+//  return ar;
+//}
+//
+////------------------------------------- operator>>(CArchive& ar, const CBV& bv)
+//STD(CArch&) operator>>(CArch& ar, CBV& bv)
+//{
+//  bv.Empty();
+//  ar >> bv.m_nByteLength;
+//  ar >> bv.m_nBitLength;
+//  if (bv.m_nByteLength != 0) {
+//    bv.AllocBuffer(bv.m_nByteLength);
+//    ar.Read(bv.m_bVect, bv.m_nByteLength);
+//  }
+//  return ar;
+//}
 
 
 
