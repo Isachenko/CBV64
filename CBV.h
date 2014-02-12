@@ -121,17 +121,17 @@ class CBV
 {
 public:
 //******************************* Constructors\Destructor *******************************
-  CBV();
-  CBV(const CBV& bvSrc);
-  CBV(BYTE ch, int nRepeat = 1,BOOL Fl = TRUE);
-  CBV(const BYTE* pbt, int nLenBit);
-  CBV(const char* pch);
-  ~CBV();
+  BV();
+  BV(const BYTE* pbt, size_t nLenBit);
+  BV(BYTE ch, size_t nRepeat = 1,BOOL Fl = TRUE);
+  BV(const BV& bvSrc);
+  BV(const char* pch);
+  ~BV();
 
 //*********************** Functions for getting class's parametrs ***********************
-  int GetByteLength() const;
-  int GetBitLength() const;
-  int GetAllocLength() const;
+  size_t GetByteLength() const;
+  size_t GetBitLength() const;
+  size_t GetAllocLength() const;
 
 //*********************** Functions for generation **************************************
   CBV GenRbv (int nCol);
