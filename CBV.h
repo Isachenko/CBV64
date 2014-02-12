@@ -62,7 +62,7 @@ typedef int BOOL;
 #endif
 
 #define S_1          8
-#define S_4          32
+#define S_4          64
 #define BIT_BYTE(x_) ((x_)/S_1)
 #define BIT_LONG(x_) ((x_)/S_4)
 #define LEN_BYTE(x_) (((x_)+S_1-1)/S_1)
@@ -71,7 +71,7 @@ typedef int BOOL;
 #define ADR_BITLONG(x_)  ((x_)%S_4)
 
 #define BYTE_1 0xff
-#define LONG_1 0xffffffff
+#define LONG_1 0xffffffffffffffff
 
 const BYTE OB[8]={128,64,32,16,8,4,2,1};
 const ULONG OB4[32]=
@@ -122,9 +122,15 @@ class CBV
 public:
 //******************************* Constructors\Destructor *******************************
   CBV();
+<<<<<<< HEAD
   CBV(const CBV& bvSrc);
   CBV(BYTE ch, int nRepeat = 1,BOOL Fl = TRUE);
   CBV(const BYTE* pbt, int nLenBit);
+=======
+  CBV(const BYTE* pbt, size_t nLenBit);
+  CBV(BYTE ch, size_t nRepeat = 1,BOOL Fl = TRUE);
+  CBV(const CBV& bvSrc);
+>>>>>>> 26cc7b4ec0fca1ee8b37868d03cc78945c165323
   CBV(const char* pch);
   ~CBV();
 
@@ -134,11 +140,11 @@ public:
   int GetAllocLength() const;
 
 //*********************** Functions for generation **************************************
-  CBV GenRbv (int nCol);
-  CBV GenRbvMid(int nCol, int nRang);
-  CBV GenRbvFix (int nCol, int nRang);
+  CBV GenRbv (size_t nCol);
+  CBV GenRbvMid(size_t nCol, size_t nRang);
+  CBV GenRbvFix (size_t nCol, size_t nRang);
 
-  CBV GenRbvN(int n);   // 09.11.2007
+  CBV GenRbvN(size_t n);   // 09.11.2007
 //*************************************** Reading ***************************************
   operator BYTE*() const;
   BYTE operator[](int nIndex) const;
@@ -196,10 +202,17 @@ public:
 
 //******************** Operations of weighting, finding and casing **********************
   int CountBit() const;
+<<<<<<< HEAD
   int LeftOne(int nNext = -1) const;
   int LeftOne(BYTE& bt) const;
   int RightOne(int nNext = -1) const;
   int RightOne(BYTE& bt) const;
+=======
+  ptrdiff_t LeftOne(ptrdiff_t nNext = -1) const;
+  ptrdiff_t LeftOne(BYTE& bt) const;
+  ptrdiff_t RightOne(ptrdiff_t nNext = -1) const;
+  ptrdiff_t RightOne(BYTE& bt) const;
+>>>>>>> 26cc7b4ec0fca1ee8b37868d03cc78945c165323
 
 //**************************** Operations of concatinations *****************************
   void Concat(const CBV& bv);
@@ -270,20 +283,20 @@ protected:
   void AssignCopy(int nLenBit,int nLenByte, const BYTE* pbtSrcData);
   void ConcatCopy(int nSrc1Len, const BYTE* pbtSrc1Data, int nSrc2Len, const BYTE* pbtSrc2Data);
   void ConcatInPlace(int nSrcLen, const BYTE* pbtSrcData);
-  void LeftShiftVect(const BYTE* SrcVect, int nSrcLen, int nShift);
-  void LeftShiftInPlace(int nShift);
-  void RightShiftVect(const BYTE* SrcVect, int nSrcLen, int nShift);
-  void RightShiftInPlace(int nShift);
-  void Diz(const BYTE* Vect1,int BitLen1,const BYTE* Vect2,int BitLen2);
-  void DizInPlace(const BYTE* Vect1,int BitLen1);
-  void Con(const BYTE* Vect1,int BitLen1,const BYTE* Vect2,int BitLen2);
-  void ConInPlace(const BYTE* Vect1,int BitLen1);
-  void Add2(const BYTE* Vect1,int BitLen1,const BYTE* Vect2,int BitLen2);
-  void Add2InPlace(const BYTE* Vect1,int BitLen1);
-  void Not(const BYTE* Vect1,int BitLen1);
-  void ConNot(const BYTE* Vect1,int BitLen1,const BYTE* Vect2,int BitLen2);
-  void ConNotInPlace(const BYTE* Vect1,int BitLen1);
-  void Extr(const BYTE* SrcVect, int SrcBitLen,int nFirst,int nCount);
+  void LeftShiftVect(const BYTE* SrcVect, size_t nSrcLen, size_t nShift);
+  void LeftShiftInPlace(size_t nShift);
+  void RightShiftVect(const BYTE* SrcVect, size_t nSrcLen, size_t nShift);
+  void RightShiftInPlace(size_t nShift);
+  void Diz(const BYTE* Vect1,size_t BitLen1,const BYTE* Vect2,size_t BitLen2);
+  void DizInPlace(const BYTE* Vect1,size_t BitLen1);
+  void Con(const BYTE* Vect1,size_t BitLen1,const BYTE* Vect2,size_t BitLen2);
+  void ConInPlace(const BYTE* Vect1,size_t BitLen1);
+  void Add2(const BYTE* Vect1,size_t BitLen1,const BYTE* Vect2,size_t BitLen2);
+  void Add2InPlace(const BYTE* Vect1,size_t BitLen1);
+  void Not(const BYTE* Vect1,size_t BitLen1);
+  void ConNot(const BYTE* Vect1,size_t BitLen1,const BYTE* Vect2,size_t BitLen2);
+  void ConNotInPlace(const BYTE* Vect1,size_t BitLen1);
+  void Extr(const BYTE* SrcVect, size_t SrcBitLen,size_t nFirst,size_t nCount);
   void Conc(const BYTE* SrcVect, int SrcBitLen);
   void Conc2(const BYTE* Vect1, int SrcBitLen1,const BYTE* Vect2, int SrcBitLen2);
   BOOL Equality(const BYTE* Vect2,int BitLen2) const;
@@ -507,6 +520,7 @@ public:
   void SetRowDif(const BYTE* mask, int nRow, const BYTE* v1, const BYTE* v2);
 
 protected:
+<<<<<<< HEAD
   BYTE** m_pData;
   int m_nSize;
   int m_nMaxSize;
@@ -514,6 +528,16 @@ protected:
   int m_nBitLength;
   int m_nByteLength;
   int m_nAllocLength;
+=======
+    BYTE** m_pData;
+	int m_nSize;
+	int m_nMaxSize;
+	int m_nGrowBy;
+	int m_nBitLength;
+	int m_nByteLength;
+	int m_nAllocLength;
+
+>>>>>>> 26cc7b4ec0fca1ee8b37868d03cc78945c165323
 
 //******************************** Protected functions **********************************
   void Init();
@@ -535,29 +559,29 @@ protected:
 //                                                CBV class
 ////////////////////////////////////////////////////////////////////////////////////////
 
-inline int CBV::GetByteLength() const                               //GetByteLength
+inline size_t CBV::GetByteLength() const                               //GetByteLength
 { return m_nByteLength; }
 
-inline int CBV::GetBitLength() const                                //GetBitLength
+inline size_t CBV::GetBitLength() const                                //GetBitLength
 { return m_nBitLength; }
 
-inline int CBV::GetAllocLength() const                              //GetAllocLength
+inline size_t CBV::GetAllocLength() const                              //GetAllocLength
 { return m_nAllocLength; }
 
 inline CBV::operator BYTE*() const                     //operator const BYTE*()
 { return ( BYTE*)m_bVect; }
 
-inline BYTE CBV::operator[](int nIndex) const                         //operator[]
+inline BYTE CBV::operator[](size_t nIndex) const                         //operator[]
 { ASSERT(nIndex >= 0); ASSERT(nIndex < m_nByteLength);
   return m_bVect[nIndex];
 }
 
-inline BYTE CBV::GetByteAt(int nIndex) const                          //GetByteAt
+inline BYTE CBV::GetByteAt(size_t nIndex) const                          //GetByteAt
 { ASSERT(nIndex >= 0); ASSERT(nIndex < m_nByteLength);
   return m_bVect[nIndex];
 }
 
-inline BOOL CBV::GetBitAt(int nIndex) const                           //GetBitAt
+inline BOOL CBV::GetBitAt(size_t nIndex) const                           //GetBitAt
 { ASSERT(nIndex >= 0); ASSERT(nIndex < m_nBitLength);
   return ((m_bVect[BIT_BYTE(nIndex)] & OB[ADR_BIT(nIndex)])!=0);
 }

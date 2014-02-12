@@ -200,14 +200,14 @@ CBV GetRandV()
 // вектора с равновероятным распределением нулей и единиц //
 //    Модификация Томашева - 27 января 1999
 //---------------------------------------------------------
-CBV CBV::GenRbv (int nCol)
+CBV CBV::GenRbv (size_t nCol)
 { 
   Empty();
-  int a, b, hh, h, i, j, n; 
+  size_t a, b, hh, h, i, j, n; 
   a=(GetRandMode())?32:16;
   b=a/8;  hh=a-8;  
   n=(nCol/a)+((nCol%a)?1:0);
-  unsigned int nn;
+  size_t nn;
   m_nBitLength = n*a;
   m_nByteLength = m_nAllocLength = LEN_BYTE(n*a);
   m_bVect = new unsigned char[m_nByteLength];
@@ -235,8 +235,8 @@ CBV CBV::GenRbv (int nCol)
 // Ускоренное генерирование псевдослучайного <n>-компонентного 
 // булева вектора с равновероятным распределением нулей и единиц 
 //---------------------------------------------------------
-CBV CBV::GenRbvN(int n)
-{ int i, k,m;
+CBV CBV::GenRbvN(size_t n)
+{ size_t i, k,m;
   unsigned long *Syn;
   Empty();
   m_nBitLength = n;
@@ -260,10 +260,10 @@ CBV CBV::GenRbvN(int n)
 // Изменен с целью минимизации дисперсии (1/32) // Исправлен 02.10.08
 // Изменен для случая nRang>=nCol // Исправлен 08.11.08
 //////////////////////////////////////////////////////////////
-CBV CBV::GenRbvMid(int nCol, int nRang)
+CBV CBV::GenRbvMid(size_t nCol, size_t nRang)
 { 
   //int i, j, rr=(32*nRang)/nCol;
-  int i, j, rr=(nRang<nCol) ? (32*nRang)/nCol : 31;
+  size_t i, j, rr=(nRang<nCol) ? (32*nRang)/nCol : 31;
   CBV bvM((BYTE)0,nCol), bv;
   if(rr) 
   {
@@ -300,12 +300,12 @@ CBV CBV::GenRbvMid(int nCol, int nRang)
 // (при nRang>=nCol все компоненты вектора равны 1) 
 ////////////////////////////////////////////////////////////
 
-CBV CBV::GenRbvFix (int nCol, int nRang)
+CBV CBV::GenRbvFix (size_t nCol, size_t nRang)
 {
   SetSize(nCol);
   if(nRang>=nCol) { One(); return *this; }
   Zero();
-  int j; unsigned int k; 
+  size_t j; size_t k; 
   for ( j = 0; j <nRang; j++)
   {
     k = GetRandN() % nCol;
@@ -347,8 +347,8 @@ CBV::CBV(const CBV& bvSrc)
 /////////////////////////// More sophisticated construction /////////////////////////////
 
 //------------------------------------------------- CBV(BYTE ch, int nLength, BOOL Fl)
-CBV::CBV(BYTE mask, int nLength, BOOL Fl)
-{ int nLenByte,w;
+CBV::CBV(BYTE mask, size_t nLength, BOOL Fl)
+{ size_t nLenByte,w;
   if (nLength < 1) Init();      // return empty vector if invalid repeat count
   else {
     if (Fl) {   // Bits
@@ -371,8 +371,8 @@ CBV::CBV(BYTE mask, int nLength, BOOL Fl)
 }
 
 //--------------------------------------------------- CBV(const BYTE* pbt,int nLenBit)
-CBV::CBV(const BYTE* pbt,int nLenBit)
-{ int nLenByte;
+CBV::CBV(const BYTE* pbt,size_t nLenBit)
+{ size_t nLenByte;
   if (nLenBit==0) Init();
   else   {
     nLenByte = LEN_BYTE(nLenBit);
@@ -384,7 +384,7 @@ CBV::CBV(const BYTE* pbt,int nLenBit)
 
 //--------------------------------------------------------------- CBV(const char* pch)
 CBV::CBV(const char* pch)
-{ int nLenByte,nLenBit;
+{ size_t nLenByte,nLenBit;
   if ((nLenBit = SafeStrlen(pch)) == 0) Init();
   else   {
     nLenByte = LEN_BYTE(nLenBit);        // Translate from symbol to bit
@@ -494,8 +494,8 @@ void CBV::AssignChar(int nLenBit, const char* pch)
 }
 
 //------------------------ Extr(const BYTE* SrcVect, int SrcBitLen,int nFirst,int nCount)
-void CBV::Extr(const BYTE* SrcVect, int SrcBitLen,int nFirst,int nCount)
-{ int i,j,nLenByte,l_bit,r_bit,AdrBeg;
+void CBV::Extr(const BYTE* SrcVect, size_t SrcBitLen,size_t nFirst,size_t nCount)
+{ size_t i,j,nLenByte,l_bit,r_bit,AdrBeg;
 
   ASSERT(nCount >= 0);  ASSERT(nFirst >= 0);
   ASSERT((nCount+nFirst) <= SrcBitLen);
