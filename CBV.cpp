@@ -1111,8 +1111,8 @@ ptrdiff_t CBV::LeftOne(BYTE& bt) const
 }
 
 //------------------------------------------------------------------- RightOne(int nPrev)
-int CBV::RightOne(int nPrev) const
-{int i,j,pos = 7;
+ptrdiff_t CBV::RightOne(ptrdiff_t nPrev) const
+{ptrdiff_t i,j,pos = 7;
  BYTE ch;
  ASSERT((m_nBitLength - nPrev) >= 0);
  if (nPrev == -1) {i=m_nByteLength-1;j=0;}
@@ -1132,7 +1132,7 @@ int CBV::RightOne(int nPrev) const
 }
 
 //-------------------------------------------------------------------- RightOne(BYTE& bt)
-int CBV::RightOne(BYTE& bt) const
+ptrdiff_t CBV::RightOne(BYTE& bt) const
 {int i,pos;
  for (i=m_nByteLength-1;i>=0;i--)
    if (m_bVect[i]!=0)  {
