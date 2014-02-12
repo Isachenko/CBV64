@@ -1071,10 +1071,10 @@ int CBV::CountBit() const
  return one;
 }
 
-//-------------------------------------------------------------------- LeftOne(int nNext)
-int CBV::LeftOne(int nNext) const
-{int i,j,pos = 0;
- int k;                                //new 24.01.00
+//-------------------------------------------------------------------- LeftOne(ptrdiff_t nNext)
+int CBV::LeftOne(size_t nNext) const
+{size_t i,j,pos = 0;
+ size_t k;                                //new 24.01.00
  BYTE ch;
 // ASSERT((m_nBitLength - nNext) >= 0);
  ASSERT((m_nBitLength - nNext) > 0);   //new 24.01.00
@@ -1099,8 +1099,8 @@ int CBV::LeftOne(int nNext) const
 }
 
 //--------------------------------------------------------------------- LeftOne(BYTE& bt)
-int CBV::LeftOne(BYTE& bt) const
-{int i,pos;
+size_t CBV::LeftOne(BYTE& bt) const
+{size_t i,pos;
  for (i=0;i<m_nByteLength;i++)
    if (m_bVect[i]!=0) {
      pos=0;
