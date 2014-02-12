@@ -1133,7 +1133,7 @@ ptrdiff_t CBV::RightOne(ptrdiff_t nPrev) const
 
 //-------------------------------------------------------------------- RightOne(BYTE& bt)
 ptrdiff_t CBV::RightOne(BYTE& bt) const
-{int i,pos;
+{ptrdiff_t i,pos;
  for (i=m_nByteLength-1;i>=0;i--)
    if (m_bVect[i]!=0)  {
      pos=7;

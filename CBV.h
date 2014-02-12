@@ -204,8 +204,8 @@ public:
 =======
   ptrdiff_t LeftOne(ptrdiff_t nNext = -1) const;
   ptrdiff_t LeftOne(BYTE& bt) const;
-  int RightOne(int nNext = -1) const;
-  int RightOne(BYTE& bt) const;
+  ptrdiff_t RightOne(ptrdiff_t nNext = -1) const;
+  ptrdiff_t RightOne(BYTE& bt) const;
 >>>>>>> 000fd0662a5c872143d3598c3fcea7fdd47f2924
 
 //**************************** Operations of concatinations *****************************
