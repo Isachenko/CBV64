@@ -270,9 +270,9 @@ public:
 
 protected:
   BYTE* m_bVect;
-  int m_nBitLength;
-  int m_nByteLength;
-  int m_nAllocLength;
+  size_t m_nBitLength;
+  size_t m_nByteLength;
+  size_t m_nAllocLength;
 
 //******************************** Protected functions **********************************
   void AllocCopy(CBV& dest, int nCopyLen, int nCopyIndex, int nExtraLen) const;
