@@ -640,9 +640,9 @@ void CBV::Concat(const CBV& bv1,const CBV& bv2)
 
 //****************************** Protected function ***********************************//
 //---------------------------------------------------------- LeftShiftInPlace(int nShift)
-void CBV::LeftShiftInPlace(int nShift)
+void CBV::LeftShiftInPlace(size_t nShift)
 {  // LeftShift bool vector  -- assume that 'this' is a new CBV object
- int i,j,l_bit,r_bit,nNewLenByte,nNewLenBit,AdrBeg;
+ size_t i,j,l_bit,r_bit,nNewLenByte,nNewLenBit,AdrBeg;
 
  ASSERT(nShift >= 0);
  nNewLenBit = m_nBitLength - nShift;
@@ -665,9 +665,9 @@ void CBV::LeftShiftInPlace(int nShift)
 }
 
 //--------------------------------------------------------- RightShiftInPlace(int nShift)
-void CBV::RightShiftInPlace(int nShift)
+void CBV::RightShiftInPlace(size_t nShift)
 {  // RightShift bool vector  -- assume that 'this' is a new CBV object
- int i,j,l_bit,r_bit,AdrBeg;
+ size_t i,j,l_bit,r_bit,AdrBeg;
  BYTE *work;
  ASSERT(nShift >= 0);
  ASSERT((m_nBitLength - nShift) >= 0);
@@ -691,32 +691,32 @@ void CBV::RightShiftInPlace(int nShift)
 }
 
 //--------------------------------------------- DizInPlace(const BYTE* Vect1,int BitLen1)
-void CBV::DizInPlace(const BYTE* Vect1,int BitLen1)
-{int i;
+void CBV::DizInPlace(const BYTE* Vect1,size_t BitLen1)
+{size_t i;
  ASSERT(BitLen1 >= 0);
  ASSERT(BitLen1 == m_nBitLength);
  for (i=0; i<m_nByteLength; i++) m_bVect[i] = m_bVect[i] | Vect1[i];
 }
 
 //--------------------------------------------- ConInPlace(const BYTE* Vect1,int BitLen1)
-void CBV::ConInPlace(const BYTE* Vect1,int BitLen1)
-{int i;
+void CBV::ConInPlace(const BYTE* Vect1,size_t BitLen1)
+{size_t i;
  ASSERT(BitLen1 >= 0);
  ASSERT(BitLen1 == m_nBitLength);
  for (i=0; i<m_nByteLength; i++) m_bVect[i] = m_bVect[i] & Vect1[i];
 }
 
 //-------------------------------------------- Add2InPlace(const BYTE* Vect1,int BitLen1)
-void CBV::Add2InPlace(const BYTE* Vect1,int BitLen1)
-{int i;
+void CBV::Add2InPlace(const BYTE* Vect1,size_t BitLen1)
+{size_t i;
  ASSERT(BitLen1 >= 0);
  ASSERT(BitLen1 == m_nBitLength);
  for (i=0; i<m_nByteLength; i++) m_bVect[i] = m_bVect[i] ^ Vect1[i];
 }
 
 //------------------------------------------ ConNotInPlace(const BYTE* Vect1,int BitLen1)
-void CBV::ConNotInPlace(const BYTE* Vect1,int BitLen1)
-{int i;
+void CBV::ConNotInPlace(const BYTE* Vect1,size_t BitLen1)
+{size_t i;
  ASSERT(BitLen1 >= 0);
  ASSERT(BitLen1 == m_nBitLength);
  for (i=0; i<m_nByteLength; i++) m_bVect[i] = m_bVect[i] & ~Vect1[i];
@@ -726,11 +726,11 @@ void CBV::ConNotInPlace(const BYTE* Vect1,int BitLen1)
 //*************************************************************************************//
 
 //-------------------------------------------------------------- operator <<=(int nShift)
-const CBV&  CBV::operator <<=(int nShift)
+const CBV&  CBV::operator <<=(size_t nShift)
 { LeftShiftInPlace(nShift);  return *this; }
 
 //-------------------------------------------------------------- operator >>=(int nShift)
-const CBV& CBV::operator >>=(int nShift)
+const CBV& CBV::operator >>=(size_t nShift)
 { RightShiftInPlace(nShift); return *this;}
 
 //-------------------------------------------------------- operator |=(const CBV& bv1)
