@@ -189,10 +189,10 @@ public:
   FSTD(CBV) operator-(const CBV& bv1,const BYTE* pbt);
   FSTD(CBV) operator~(const CBV& bv2);
   void Invert(const BYTE* pbt);
-  FSTD(CBV) operator<<(const CBV& bv1, int nShift);
-  FSTD(CBV) operator>>(const CBV& bv1, int nShift);
-  void LoopLeftShift(int nShift);
-  void LoopRightShift(int nShift);
+  FSTD(CBV) operator<<(const CBV& bv1, size_t nShift);
+  FSTD(CBV) operator>>(const CBV& bv1, size_t nShift);
+  void LoopLeftShift(size_t nShift);
+  void LoopRightShift(size_t nShift);
 
 //******************** Operations of weighting, finding and casing **********************
   int CountBit() const;
