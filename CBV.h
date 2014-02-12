@@ -134,11 +134,11 @@ public:
   size_t GetAllocLength() const;
 
 //*********************** Functions for generation **************************************
-  CBV GenRbv (int nCol);
-  CBV GenRbvMid(int nCol, int nRang);
-  CBV GenRbvFix (int nCol, int nRang);
+  CBV GenRbv (size_t nCol);
+  CBV GenRbvMid(size_t nCol, size_t nRang);
+  CBV GenRbvFix (size_t nCol, size_t nRang);
 
-  CBV GenRbvN(int n);   // 09.11.2007
+  CBV GenRbvN(size_t n);   // 09.11.2007
 //*************************************** Reading ***************************************
   operator BYTE*() const;
   BYTE operator[](size_t nIndex) const;
@@ -171,8 +171,8 @@ public:
   const CBV& operator ^=(const BYTE* pbt);
   const CBV& operator -=(const CBV& bv1);
   const CBV& operator -=(const BYTE* pbt);
-  const CBV& operator <<=(int nShift);
-  const CBV& operator >>=(int nShift);
+  const CBV& operator <<=(size_t nShift);
+  const CBV& operator >>=(size_t nShift);
 
 //********************************** Logic operations ***********************************
   FSTD(CBV) operator|(const CBV& bv1,const CBV& bv2);
@@ -196,17 +196,10 @@ public:
 
 //******************** Operations of weighting, finding and casing **********************
   int CountBit() const;
-<<<<<<< HEAD
-  int LeftOne(int nNext = -1) const;
-  int LeftOne(BYTE& bt) const;
-  ptrdiff_t RightOne(ptrdiff_t nNext = -1) const;
-  ptrdiff_t RightOne(BYTE& bt) const;
-=======
   ptrdiff_t LeftOne(ptrdiff_t nNext = -1) const;
   ptrdiff_t LeftOne(BYTE& bt) const;
-  int RightOne(int nNext = -1) const;
-  int RightOne(BYTE& bt) const;
->>>>>>> 000fd0662a5c872143d3598c3fcea7fdd47f2924
+  ptrdiff_t RightOne(ptrdiff_t nNext = -1) const;
+  ptrdiff_t RightOne(BYTE& bt) const;
 
 //**************************** Operations of concatinations *****************************
   void Concat(const CBV& bv);
