@@ -105,55 +105,23 @@ size_t GetRandN()
 //---------------------------------------------------------
 CBV GetRandV()
 { 
-  CBV Vect(0,GetRandMode()?32:16,TRUE);
+  CBV Vect(0,32,TRUE);
 
   BYTE Work[4];
   unsigned long   f13 = 1220703125;  // f13 = 5**13
   unsigned long  d, m = 0x7fffffff;  //  m  = 2**31-1
-#ifdef _LINUX
- __asm mov eax,Rgrain         //      
- __asm mul f13                //  Rgrain=(Rgrain*f13)[mod(2**31-1)]
- __asm div m                  //  (непосредсвенно на ассемблере)
- __asm mov d,edx              //                              V.T.
   
-  Rgrain = d;     // Rgrain - глобальная перем.= тек.сост.генератора 
-  Work[0] = (BYTE)( d >> 16); Work[1] = (BYTE)( d >> 8);
-  
-  if (GetRandMode())
-  {
-    __asm mov eax,Rgrain         //      
-    __asm mul f13                //  Rgrain=(Rgrain*f13)[mod(2**31-1)]
-    __asm div m                  //  (непосредсвенно на ассемблере)
-    __asm mov d,edx              //                              V.T.
-  
-    Rgrain = d;     // Rgrain - глобальная перем.= тек.сост.генератора 
-    Work[2] = (BYTE)( d >> 16); Work[3] = (BYTE)( d >> 8);
-  }
-#else
- /*asm(
-        "movl Rgrain, %eax\n"
-        "mull -32(%ebp)\n"
-        "divl -40(%ebp)\n"
-        "movl %edx, -36(%ebp)"
- );*/
   d = (Rgrain*f13)%m;
  
   Rgrain = d;     // Rgrain - глобальная перем.= тек.сост.генератора 
-  Work[0] = (BYTE)( d >> 16); Work[1] = (BYTE)( d >> 8);
+  Work[0] = (BYTE)( d >> 16); 
+  Work[1] = (BYTE)( d >> 8);
   
-  if (GetRandMode())
-  {
-/* asm(
-        "movl Rgrain, %eax\n"
-        "mull -32(%ebp)\n"
-        "divl -40(%ebp)\n"
-        "movl %edx, -36(%ebp)"
- );*/
     d = (Rgrain*f13)%m;  
     Rgrain = d;     // Rgrain - глобальная перем.= тек.сост.генератора 
-    Work[2] = (BYTE)( d >> 16); Work[3] = (BYTE)( d >> 8);
-    }
-#endif
+  Work[2] = (BYTE)( d >> 16); 
+  Work[3] = (BYTE)( d >> 8);
+
   Vect = (const BYTE*) Work;
 
   return Vect;
@@ -169,7 +137,8 @@ CBV CBV::GenRbv (size_t nCol)
 { 
   Empty();
   int a, b, hh, h, i, j, n; 
-  a=(GetRandMode())?32:16;
+  //a=(GetRandMode())?32:16;
+  a = 32;
   b=a/8;  hh=a-8;  
   n=(nCol/a)+((nCol%a)?1:0);
   unsigned int nn;
