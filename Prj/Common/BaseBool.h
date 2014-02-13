@@ -215,7 +215,7 @@ public:
 
 //**************************** Operations of concatinations *****************************
   void Concat(const CBV& bv);
-  void Concat(const BYTE* pbt, int nLength);
+  void Concat(const BYTE* pbt, size_t nLength);
   void Concat(const CBV& bv1,const CBV& bv2);
   void Concat(BOOL Bit=FALSE);
 
@@ -277,11 +277,9 @@ protected:
 //******************************** Protected functions **********************************
   void AllocCopy(CBV& dest, int nCopyLen, int nCopyIndex, int nExtraLen) const;
   void AllocBuffer(int nLen);
-  void CharBit(int nLenByte,const char* pch);
-  void AssignChar(int nLenBit, const char* pch);
-  void AssignCopy(int nLenBit,int nLenByte, const BYTE* pbtSrcData);
-  void ConcatCopy(int nSrc1Len, const BYTE* pbtSrc1Data, int nSrc2Len, const BYTE* pbtSrc2Data);
-  void ConcatInPlace(int nSrcLen, const BYTE* pbtSrcData);
+  void CharBit(size_t nLenByte,const char* pch);
+  void AssignChar(size_t nLenBit, const char* pch);
+  void AssignCopy(size_t nLenBit,size_t nLenByte, const BYTE* pbtSrcData);
   void LeftShiftVect(const BYTE* SrcVect, size_t nSrcLen, size_t nShift);
   void LeftShiftInPlace(size_t nShift);
   void RightShiftVect(const BYTE* SrcVect, size_t nSrcLen, size_t nShift);
@@ -296,13 +294,13 @@ protected:
   void ConNot(const BYTE* Vect1,size_t BitLen1,const BYTE* Vect2,size_t BitLen2);
   void ConNotInPlace(const BYTE* Vect1,size_t BitLen1);
   void Extr(const BYTE* SrcVect, int SrcBitLen,int nFirst,int nCount);
-  void Conc(const BYTE* SrcVect, int SrcBitLen);
-  void Conc2(const BYTE* Vect1, int SrcBitLen1,const BYTE* Vect2, int SrcBitLen2);
-  BOOL Equality(const BYTE* Vect2,int BitLen2) const;
-  BOOL Pogl(const BYTE* Vect2,int BitLen2,BOOL Dist) const;
-  BOOL PoglEq(const BYTE* Vect2,int BitLen2,BOOL Dist) const;
+  void Conc(const BYTE* SrcVect, size_t SrcBitLen);
+  void Conc2(const BYTE* Vect1, size_t SrcBitLen1,const BYTE* Vect2, size_t SrcBitLen2);
+  BOOL Equality(const BYTE* Vect2,size_t BitLen2) const;
+  BOOL Pogl(const BYTE* Vect2,size_t BitLen2,BOOL Dist) const;
+  BOOL PoglEq(const BYTE* Vect2,size_t BitLen2,BOOL Dist) const;
   static void SafeDelete(BYTE* pbv);
-  static int SafeStrlen(const char* pch);
+  static size_t SafeStrlen(const char* pch);
   void Init();
 };
 
@@ -620,7 +618,7 @@ inline void CBV::Init()                                        // Init() (protec
 inline void CBV::SafeDelete(BYTE* pch)                        //SafeDelete (protect)
 { if (pch != NULL) delete [] pch; }
 
-inline int CBV::SafeStrlen(const char* pch)                   //SafeStrlen (protect)
+inline size_t CBV::SafeStrlen(const char* pch)                   //SafeStrlen (protect)
 { return (pch == NULL) ? 0 : strlen((char*)pch); }
 
 

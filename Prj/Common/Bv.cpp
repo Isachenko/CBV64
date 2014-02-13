@@ -450,42 +450,48 @@ void CBV::AllocBuffer(int nLen)
 }
 
 //-------------------------- AssignCopy(int nLenBit,int nLenByte, const BYTE* pbtSrcData)
-void CBV::AssignCopy(int nLenBit,int nLenByte, const BYTE* pbtSrcData)
+void CBV::AssignCopy(size_t nLenBit, size_t nLenByte, const BYTE* pbtSrcData)
 { //--- check if it will fit
-  if (nLenByte > m_nAllocLength) { // it won't fit, allocate another one
+  if (nLenByte > m_nAllocLength)
+  { // it won't fit, allocate another one
     Empty();
     AllocBuffer(nLenByte);
   }
   else
    memset(m_bVect+nLenByte,0,m_nAllocLength-nLenByte);   // 21.02.2007
     
-  if (nLenByte != 0) memcpy(m_bVect, pbtSrcData, nLenByte);
+  if (nLenByte != 0)
+	  memcpy(m_bVect, pbtSrcData, nLenByte);
   m_nByteLength = nLenByte;
   m_nBitLength = nLenBit;
 }
 
 //------------------------------------------------- CharBit(int nLenByte,const char* pch)
-void CBV::CharBit(int nLenByte,const char* pch)
-{ int i,j;
-  for (j=0; j<nLenByte; j++) {
-    for (i=0; i<S_1 && *pch; i++) {
-      if (*pch=='1') m_bVect[j] |= OB[i];
-      else { ASSERT(*pch=='0' || *pch=='-'|| *pch=='.'); }  //new 03.06.98
+void CBV::CharBit(size_t nLenByte,const char* pch)
+{
+	for (size_t j = 0; j < nLenByte; ++j)
+		for (size_t i = 0; i < S_1 && *pch; ++i)
+		{
+			if (*pch == '1')
+				m_bVect[j] |= OB[i];
+			else
+			{ ASSERT(*pch == '0' || *pch == '-'|| *pch == '.'); }  //new 03.06.98
       ++pch;
     }
   }
-}
 
 //---------------------------------------------- AssignChar(int nLenBit, const char* pch)
-void CBV::AssignChar(int nLenBit, const char* pch)
+void CBV::AssignChar(size_t nLenBit, const char* pch)
 { //--- check if it will fit
-  int nLenByte = LEN_BYTE(nLenBit);
-  if (nLenByte > m_nAllocLength) { // it won't fit, allocate another one
+	size_t nLenByte = LEN_BYTE(nLenBit);
+	if (nLenByte > m_nAllocLength)
+	{ // it won't fit, allocate another one
     Empty();
     AllocBuffer(nLenByte);
     m_nBitLength = nLenBit;
   }
-  else memset(m_bVect,0,nLenByte);
+	else
+		memset(m_bVect, 0, nLenByte);
   CharBit(nLenByte,pch);
   m_nByteLength = nLenByte;
   m_nBitLength = nLenBit;
@@ -543,16 +549,23 @@ CBV CBV::Extract(int nFirst,int nCount)
 //****************************** Protected function ***********************************//
 //---------------------------------------------- Conc(const BYTE* SrcVect, int SrcBitLen)
 
- void CBV::Conc(const BYTE* SrcVect, int SrcBitLen)
-{ int NewBitLen, NewByteLen, SrcByteLen, OldByte, r_bit,l_bit,i,j;
+ void CBV::Conc(const BYTE* SrcVect, size_t SrcBitLen)
+{
+	size_t r_bit, l_bit, i, j;
   BYTE *work;
-  NewBitLen = m_nBitLength + SrcBitLen;
-  if (NewBitLen == 0) { Init(); return;}
-  NewByteLen = LEN_BYTE(NewBitLen);
-  OldByte=m_nByteLength;
+	size_t NewBitLen = m_nBitLength + SrcBitLen;
+	if (NewBitLen == 0)
+	{
+		Init();
+		return;
+	}
+	size_t NewByteLen = LEN_BYTE(NewBitLen);
+	size_t OldByte = m_nByteLength;
   r_bit = ADR_BIT(m_nBitLength);
-  if (m_nAllocLength < NewByteLen)  {
-    if (m_nByteLength) {
+	if (m_nAllocLength < NewByteLen)
+	{
+		if (m_nByteLength)
+		{
       work = new BYTE[m_nByteLength];
       memcpy(work, m_bVect, m_nByteLength);
       Empty();
@@ -563,26 +576,33 @@ CBV CBV::Extract(int nFirst,int nCount)
     else { AllocBuffer(NewByteLen); }
   }
   else                                   // new 16.11.99
-    if(m_nByteLength < NewByteLen) {      // new 16.11.99
+		if(m_nByteLength < NewByteLen)     // new 16.11.99
+		{
       m_nByteLength = NewByteLen;
       m_bVect[m_nByteLength-1]=0;        // new 16.11.99
     }
   m_nBitLength = NewBitLen;
-  SrcByteLen = LEN_BYTE(SrcBitLen);
-  if (r_bit==0)  {
+		size_t SrcByteLen = LEN_BYTE(SrcBitLen);
+		if (r_bit == 0) 
+		{
     memcpy(m_bVect+OldByte, SrcVect, SrcByteLen);
     r_bit = S_1 - ADR_BIT(m_nBitLength);                       //new 02.02.99
-    if (r_bit==8) r_bit=0;                                     //new 02.02.99
+			if (r_bit == 8)
+				r_bit = 0;                                     //new 02.02.99
     m_bVect[m_nByteLength-1] = (m_bVect[m_nByteLength-1]>>r_bit)<<r_bit; //new 02.02.99
     return;
   }
-  l_bit = S_1-r_bit; i=OldByte;
+		
+		l_bit = S_1 - r_bit;
+		i = OldByte;
   m_bVect[i-1] |= SrcVect[0]>>r_bit;
   for (j=0; j<SrcByteLen-1; j++)
-    { m_bVect[i++] = (SrcVect[j] << l_bit) | (SrcVect[j+1] >> r_bit); }
+			m_bVect[i++] = (SrcVect[j] << l_bit) | (SrcVect[j + 1] >> r_bit);
+		
   if (j*S_1+l_bit < SrcBitLen)
     m_bVect[m_nByteLength-1] |= SrcVect[SrcByteLen-1] << l_bit;
-  if (j=ADR_BIT(m_nBitLength)) {
+		if (j = ADR_BIT(m_nBitLength))
+		{
     i = S_1 - j;
     m_bVect[m_nByteLength-1] = (m_bVect[m_nByteLength-1] >> i) << i;
   }
@@ -590,16 +610,23 @@ CBV CBV::Extract(int nFirst,int nCount)
 
 
 //------------ Conc2(const BYTE* Vect1, int SrcBitLen1,const BYTE* Vect2, int SrcBitLen2)
-void CBV::Conc2(const BYTE* Vect1, int SrcBitLen1,const BYTE* Vect2, int SrcBitLen2)
-{ int NewBitLen, NewByteLen, SrcByteLen, OldByte, r_bit,l_bit,i,j;
-
+void CBV::Conc2(const BYTE* Vect1, size_t SrcBitLen1,const BYTE* Vect2, size_t SrcBitLen2)
+{
+	size_t NewBitLen, NewByteLen, SrcByteLen, OldByte, r_bit,l_bit,i,j;
   NewBitLen = SrcBitLen1 + SrcBitLen2;
-  if (NewBitLen == 0) { Init(); return;}
+	if (NewBitLen == 0)
+	{
+		Init();
+		return;
+	}
   NewByteLen = LEN_BYTE(NewBitLen);
-  if (m_nAllocLength < NewByteLen)  {
-    Empty(); AllocBuffer(NewByteLen);
+	if (m_nAllocLength < NewByteLen)
+	{
+		Empty();
+		AllocBuffer(NewByteLen);
   }
-  else       {                            // new 16.11.99
+	else
+	{                            // new 16.11.99
 //  if(m_nByteLength < NewByteLen)       // new 24.01.00
     m_nByteLength = NewByteLen;
     m_bVect[m_nByteLength-1]=0;          // new 16.11.99
@@ -609,14 +636,20 @@ void CBV::Conc2(const BYTE* Vect1, int SrcBitLen1,const BYTE* Vect2, int SrcBitL
   memcpy(m_bVect, Vect1, OldByte);
   r_bit = ADR_BIT(SrcBitLen1);
   SrcByteLen = LEN_BYTE(SrcBitLen2);
-  if (r_bit==0)  { memcpy(m_bVect+OldByte, Vect2, SrcByteLen); return;}
-  l_bit = S_1-r_bit; i=OldByte;
+	if (r_bit == 0)
+	{
+		memcpy(m_bVect + OldByte, Vect2, SrcByteLen);
+		return;
+	}
+	l_bit = S_1 - r_bit;
+	i = OldByte;
   m_bVect[OldByte-1] |= Vect2[0]>>r_bit;
   for (j=0; j<SrcByteLen-1; j++)
-    { m_bVect[i++] = (Vect2[j] << l_bit) | (Vect2[j+1] >> r_bit); }
+		m_bVect[i++] = (Vect2[j] << l_bit) | (Vect2[j + 1] >> r_bit);
   if (j*S_1+l_bit < SrcBitLen2)
     m_bVect[m_nByteLength-1] |= Vect2[SrcByteLen-1] << l_bit;
-  if (j=ADR_BIT(m_nBitLength)) {
+	if (j = ADR_BIT(m_nBitLength))
+	{
     i = S_1 - j;
     m_bVect[m_nByteLength-1] = (m_bVect[m_nByteLength-1] >> i) << i;
   }
@@ -624,7 +657,7 @@ void CBV::Conc2(const BYTE* Vect1, int SrcBitLen1,const BYTE* Vect2, int SrcBitL
 //*************************************************************************************//
 
 //-------------------------------------------------- Concat(const BYTE* pbt, int nLength)
-void CBV::Concat(const BYTE* pbt, int nLength)
+void CBV::Concat(const BYTE* pbt, size_t nLength)
 {  Conc(pbt,nLength); return; }
 
 //-------------------------------------------------------------- Concat(const CBV& bv)
@@ -1153,35 +1186,61 @@ ptrdiff_t CBV::RightOne(BYTE& bt) const
 
 //****************************** Protected function ***********************************//
 //----------------------------------------- Equality(const BYTE* Vect2,int BitLen2) const
-BOOL CBV::Equality(const BYTE* Vect2,int BitLen2) const
-{int i;
- if (Vect2==NULL && m_bVect) return FALSE;
- if (m_nBitLength!=BitLen2)  return FALSE;
+BOOL CBV::Equality(const BYTE* Vect2,size_t BitLen2) const
+{
+	size_t i;
+	if (Vect2 == NULL && m_bVect)
+		return FALSE;
+	if (m_nBitLength != BitLen2)
+		return FALSE;
  for (i=0;i<m_nByteLength;i++)
-   if (m_bVect[i]!=Vect2[i]) return FALSE;
+		if (m_bVect[i] != Vect2[i])
+			return FALSE;
  return TRUE;
 }
 
 //----------------------------------- Pogl(const BYTE* Vect2,int BitLen2,BOOL Dist) const
-BOOL CBV::Pogl(const BYTE* Vect2,int BitLen2,BOOL Dist) const
-{ int i,j=0;
+BOOL CBV::Pogl(const BYTE* Vect2,size_t BitLen2,BOOL Dist) const
+{
+	size_t i, j = 0;
  ASSERT(m_nBitLength==BitLen2);
- for (i=0;i<m_nByteLength;i++) {
-   if (m_bVect[i] == Vect2[i]) j++;
-   if (Dist) { if ((m_bVect[i] & Vect2[i]) != Vect2[i])   return FALSE; }
-   else      { if ((m_bVect[i] & Vect2[i]) != m_bVect[i]) return FALSE; }
+	for (i = 0; i < m_nByteLength; i++)
+	{
+		if (m_bVect[i] == Vect2[i])
+			j++;
+		if (Dist)
+		{
+			if ((m_bVect[i] & Vect2[i]) != Vect2[i])
+				return FALSE;
  }
- if (j==m_nByteLength) return FALSE;
+		else
+		{
+			if ((m_bVect[i] & Vect2[i]) != m_bVect[i])
+				return FALSE;
+		}
+	}
+	if (j == m_nByteLength)
+		return FALSE;
  return TRUE;
 }
 
 //--------------------------------- PoglEq(const BYTE* Vect2,int BitLen2,BOOL Dist) const
-BOOL CBV::PoglEq(const BYTE* Vect2,int BitLen2,BOOL Dist) const
-{ int i;
+BOOL CBV::PoglEq(const BYTE* Vect2,size_t BitLen2,BOOL Dist) const
+{
+	size_t i;
  ASSERT(m_nBitLength==BitLen2);
- for (i=0;i<m_nByteLength;i++) {
-   if (Dist) { if ((m_bVect[i] & Vect2[i]) != Vect2[i])   return FALSE; }
-   else      { if ((m_bVect[i] & Vect2[i]) != m_bVect[i]) return FALSE; }
+	for (i = 0; i < m_nByteLength; i++)
+	{
+		if (Dist)
+		{
+			if ((m_bVect[i] & Vect2[i]) != Vect2[i])
+				return FALSE;
+		}
+		else
+		{
+			if ((m_bVect[i] & Vect2[i]) != m_bVect[i])
+				return FALSE;
+		}
  }
  return TRUE;
 }
