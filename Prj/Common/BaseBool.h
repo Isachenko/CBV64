@@ -119,7 +119,7 @@ BYTE w=a;
 //----------- Внеклассовые функции для работы с датчиком случайных ------------
 extern void SetRgrain( unsigned long NewRgrain);
 extern unsigned long GetRgrain();
-extern unsigned int GetRandN();
+extern size_t GetRandN();
 extern void SetRandMode(BOOL Fl = TRUE);
 extern BOOL GetRandMode();
 
