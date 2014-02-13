@@ -599,6 +599,11 @@ CBV CBM::GetColumnBv(int nColumn,BYTE* mask) const
  return bv;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+//********************************* Select of matrix ***********************************
+
   
 //------------------------------------------------ExtractRows(int nFirst, int nCount)
 CBM CBM::ExtractRows(int nFirst, int nCount) const
