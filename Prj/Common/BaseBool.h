@@ -704,13 +704,13 @@ inline BOOL CBM::GetBitAt(int nRow,int nColumn, BYTE * mask) const
 }
 
 
-inline void CBM::SetByteAt(int nRow,int nIndex, BYTE ch)
+inline void CBM::SetByteAt(size_t nRow,size_t nIndex, BYTE ch)
 { ASSERT(nIndex >= 0); ASSERT(nRow >= 0);
   ASSERT(nIndex < m_nByteLength); ASSERT(nRow < m_nSize);
   m_pData[nRow][nIndex] = ch;
 }
 
-inline void CBM::SetBitAt(int nRow,int nColumn,  BOOL bit)
+inline void CBM::SetBitAt(size_t nRow,size_t nColumn,  BOOL bit)
 { ASSERT(nColumn >= 0); ASSERT(nRow >= 0);
   ASSERT(nColumn < m_nBitLength); ASSERT(nRow < m_nSize);
   if (bit) m_pData[nRow][BIT_BYTE(nColumn)] |=OB[ADR_BIT(nColumn)];
