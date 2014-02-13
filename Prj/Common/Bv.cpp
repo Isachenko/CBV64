@@ -1389,11 +1389,11 @@ STD(CArch&) operator>>(CArch& ar, CBV& bv)
 ////////////////////////////// Advanced dump of memmory /////////////////////////////////
 //---------------------------------------------------------- GetBuffer(int nMinBufLength)
 
-BYTE* CBV::GetBuffer(int nMinBufLength)
+BYTE* CBV::GetBuffer(size_t nMinBufLength)
 { ASSERT(nMinBufLength >= 0);
  if (nMinBufLength > m_nBitLength) {    
    BYTE* pbtOldData = m_bVect;
-   int nOldLen = m_nByteLength;  
+   size_t nOldLen = m_nByteLength;  
    AllocBuffer(LEN_BYTE(nMinBufLength));
    memcpy(m_bVect, pbtOldData, nOldLen);
    m_nByteLength = LEN_BYTE(nMinBufLength);
@@ -1405,8 +1405,8 @@ BYTE* CBV::GetBuffer(int nMinBufLength)
 }
 
 //--------------------------------------------------------- ReleaseBuffer(int nNewLength)
-void CBV::ReleaseBuffer(int nNewLength)
-{ int nNewByte;
+void CBV::ReleaseBuffer(ptrdiff_t nNewLength)
+{ ptrdiff_t nNewByte;
  if (nNewLength == -1) nNewLength = m_nBitLength;
  nNewByte = LEN_BYTE(nNewLength);
  ASSERT(nNewByte <= m_nAllocLength);
@@ -1418,12 +1418,12 @@ void CBV::ReleaseBuffer(int nNewLength)
 }
 
 //--------------------------------------------------------- GetBufferSetLength(int nNewLength)
-BYTE* CBV::SetSize(int nNewLength,int nNewAllocLength/*-1*/)
-{ int i;
+BYTE* CBV::SetSize(ptrdiff_t nNewLength,ptrdiff_t nNewAllocLength/*-1*/)
+{ ptrdiff_t i;
   ASSERT(nNewLength >= 0);
-  int nLen=(nNewAllocLength > 0)?nNewAllocLength:nNewLength;
+  ptrdiff_t nLen=(nNewAllocLength > 0)?nNewAllocLength:nNewLength;
   ASSERT(nNewLength <=nLen);
-  int nOldByte = m_nByteLength;    // 03.01.2002
+  ptrdiff_t nOldByte = m_nByteLength;    // 03.01.2002
   GetBuffer(nLen);                      //nLen - in bits
   m_nByteLength = LEN_BYTE(nNewLength);
   m_nBitLength = nNewLength;

@@ -256,9 +256,9 @@ public:
 
 //***************************** Advanced access to memory *******************************
   void Empty();
-  BYTE* GetBuffer(int nMinBufLength);
-  void ReleaseBuffer(int nNewLength = -1);
-  BYTE* SetSize(int nNewLength,int nNewAllocLength=-1);
+  BYTE* GetBuffer(size_t nMinBufLength);
+  void ReleaseBuffer(ptrdiff_t nNewLength = -1);
+  BYTE* SetSize(ptrdiff_t nNewLength,ptrdiff_t nNewAllocLength=-1);
 
   void AssignDiz(size_t nBitLength, const BYTE* v1, const BYTE* v2);
   void AssignDiz(size_t nBitLength, int Num, BYTE* v1, ...);
