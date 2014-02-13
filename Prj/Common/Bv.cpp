@@ -80,52 +80,19 @@ BOOL GetRandMode() { return NewRand; }
 // 32 или 16-разрядного(Романов - переход к 32 от 16 - 10.03.2006)
 // Корректно работающий вариант Томашева - 27 января 1999 //
 ////////////////////////////////////////////////////////////
-unsigned int GetRandN()
+size_t GetRandN()
 
 { unsigned long  f13 = 1220703125;  // f13 = 5**13
   unsigned long   m  = 0x7fffffff;  //  m  = 2**31-1
   unsigned long   w; 
-#ifdef _LINUX
-  __asm mov eax,Rgrain   //      
-  __asm mul f13          //  Rgrain=(Rgrain*f13)(mod(2**31-1)
-  __asm div m            //   (непосредсвенно на ассемблере)
-  __asm mov Rgrain,edx   //                              V.T.
-  w = (Rgrain<<8)>>16;
-  if (GetRandMode())
-  {
-  __asm mov eax,Rgrain   //      
-  __asm mul f13          //  Rgrain=(Rgrain*f13)(mod(2**31-1)
-  __asm div m            //   (непосредсвенно на ассемблере)
-  __asm mov Rgrain,edx   //                              V.T.
-    w = (w<<16)|((Rgrain<<8)>>16);
-  }
-#else
 
-/* asm(
-	"movl Rgrain, %eax\n"	
-	"mull -4(%ebp)\n"	
-	"divl -8(%ebp)\n"	
-	"movl %edx, Rgrain"	
- );*/
-  Rgrain = (Rgrain*f13)%m;
-//  printf ("Rgrain%x\n",Rgrain);
-  w = (Rgrain<<40)>>48;
-//  printf ("w%x\n",w);
-  if (GetRandMode())
-  {
-/* asm(
-	"movl Rgrain, %eax\n"	
-	"mull -4(%ebp)\n"	
-	"divl -8(%ebp)\n"	
-	"movl %edx, Rgrain"	
- );*/
-    Rgrain = (Rgrain*f13)%m;
-//    printf ("Rgrain%x\n",Rgrain);
+  _int64 x1 = Rgrain;
+  x1 = (x1*f13)%m;
+  w = (x1<<40)>>48;
   
-    w = (w<<16)|((Rgrain<<40)>>48);
-    }
-#endif
-//    printf("%x\n",w);
+  x1 = (x1*f13)%m;
+  w = (w<<16)|((x1<<40)>>48);
+  Rgrain = x1;
   return (w);
 }
 
