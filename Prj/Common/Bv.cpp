@@ -51,7 +51,6 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 
 static unsigned long Rgrain =1;
-static BOOL NewRand = TRUE;
 
 ///////////////////////////////////////////////////////////
 // ”становить новое "зерно" дл€ базового генератора      //
@@ -68,12 +67,10 @@ unsigned long GetRgrain() {return (Rgrain);}
 ///////////////////////////////////////////////////////////
 // ”становить новый режим генерации                      //
 ///////////////////////////////////////////////////////////
-void SetRandMode(BOOL Fl/* = TRUE*/) {NewRand = Fl; }
 
 ///////////////////////////////////////////////////////////
 // ¬з€ть текущий режим генерации                         //
 ///////////////////////////////////////////////////////////
-BOOL GetRandMode() { return NewRand; }
 
 //////////////////////////////////////////////////////////// GetRandN
 // ѕолучение очередного псевдослучайного целого числа     //
@@ -81,18 +78,18 @@ BOOL GetRandMode() { return NewRand; }
 //  орректно работающий вариант “омашева - 27 €нвар€ 1999 //
 ////////////////////////////////////////////////////////////
 size_t GetRandN()
+{
+	unsigned long	f13	= 1220703125;  // f13 = 5**13
+	size_t	m	= 0x7fffffffffffffff;  //  m  = 2**31-1
+	size_t  w;
 
-{ unsigned long  f13 = 1220703125;  // f13 = 5**13
-  unsigned long   m  = 0x7fffffff;  //  m  = 2**31-1
-  unsigned long   w; 
-
-  _int64 x1 = Rgrain;
+	size_t x1 = (size_t)Rgrain;
   x1 = (x1*f13)%m;
-  w = (x1<<40)>>48;
+	w = (x1 << 24) >> 32;
   
   x1 = (x1*f13)%m;
-  w = (w<<16)|((x1<<40)>>48);
-  Rgrain = x1;
+	w = (w << 32) | ((x1 << 24) >> 32);
+	Rgrain = (unsigned long)x1;
   return (w);
 }
 
@@ -105,26 +102,8 @@ size_t GetRandN()
 //---------------------------------------------------------
 CBV GetRandV()
 { 
-  CBV Vect(0,32,TRUE);
-
-  BYTE Work[4];
-  unsigned long   f13 = 1220703125;  // f13 = 5**13
-  unsigned long  d, m = 0x7fffffff;  //  m  = 2**31-1
-  
-  d = (Rgrain*f13)%m;
- 
-  Rgrain = d;     // Rgrain - глобальна€ перем.= тек.сост.генератора 
-  Work[0] = (BYTE)( d >> 16); 
-  Work[1] = (BYTE)( d >> 8);
-  
-    d = (Rgrain*f13)%m;  
-    Rgrain = d;     // Rgrain - глобальна€ перем.= тек.сост.генератора 
-  Work[2] = (BYTE)( d >> 16); 
-  Work[3] = (BYTE)( d >> 8);
-
-  Vect = (const BYTE*) Work;
-
-  return Vect;
+	size_t data = GetRandN();
+	return *(new CBV((BYTE *)&data, 64));
 }
 
 
@@ -136,12 +115,11 @@ CBV GetRandV()
 CBV CBV::GenRbv (size_t nCol)
 { 
   Empty();
-  int a, b, hh, h, i, j, n; 
-  //a=(GetRandMode())?32:16;
+	size_t a, b, hh, h, i, j, n; 
   a = 32;
   b=a/8;  hh=a-8;  
   n=(nCol/a)+((nCol%a)?1:0);
-  unsigned int nn;
+	size_t nn;
   m_nBitLength = n*a;
   m_nByteLength = m_nAllocLength = LEN_BYTE(n*a);
   m_bVect = new unsigned char[m_nByteLength];
@@ -156,11 +134,10 @@ CBV CBV::GenRbv (size_t nCol)
   for(h=hh, j=0; j<b; j++, h-=8)
     m_bVect[b*i+j] =  (nn>>h & 255); 
   
-  if (m_nBitLength != nCol) {
+	if (m_nBitLength != nCol)
+	{
     m_nBitLength = nCol;
     m_nByteLength = LEN_BYTE(nCol);
-//    if ((i = ADR_BIT(m_nBitLength)) > 0 ) i = S_1 - i;
-//    m_bVect[m_nByteLength-1] = (m_bVect[m_nByteLength-1] >>i) <<i;
   }
   return *this;
 }
@@ -170,14 +147,15 @@ CBV CBV::GenRbv (size_t nCol)
 // булева вектора с равноверо€тным распределением нулей и единиц 
 //---------------------------------------------------------
 CBV CBV::GenRbvN(size_t n)
-{ int i, k,m;
-  unsigned long *Syn;
+{ 
+	size_t i, k,m;
+	size_t *Syn;
   Empty();
   m_nBitLength = n;
   m_nByteLength = m_nAllocLength = LEN_BYTE(n);
   m_bVect = new unsigned char[m_nByteLength];
   k = LEN_LONG(n);
-  Syn = (unsigned long *) (m_bVect);
+	Syn = (size_t *) (m_bVect);
   for(i=0; i<k-1; i++)
     Syn[i] = GetRandN();
   m = S_4 - ADR_BITLONG(n);
@@ -201,16 +179,6 @@ CBV CBV::GenRbvMid(int nCol, int nRang)
   CBV bvM((BYTE)0,nCol), bv;
   if(rr) 
   {
-/*    bvM.One();
-    if(rr<32)
-      for(i=1; i<32; i=i<<1)
-      {
-        bv.GenRbv(nCol);
-        if(i & rr) bvM|= bv;
-        else bvM&= bv;
-      }
-  }
-*/
     CBV bvP(bvM);  
     for(i=1; i<6; i++)
     {
@@ -257,8 +225,9 @@ CBV CBV::GenRbvFix (int nCol, int nRang)
 //****************************** Protected function ***********************************//
 
 //------------- AllocCopy(CBV& dest, int nCopyLen, int nCopyIndex,int nExtraLen) const
-void CBV::AllocCopy(CBV& dest, int nCopyLen, int nCopyIndex,int nExtraLen) const
-{int nNewLen = nCopyLen + nExtraLen;
+void CBV::AllocCopy(CBV& dest, size_t nCopyLen, size_t nCopyIndex,size_t nExtraLen) const
+{
+	size_t nNewLen = nCopyLen + nExtraLen;
  if (nNewLen == 0) { dest.Init(); }
  else {
    dest.AllocBuffer(nNewLen);
@@ -282,7 +251,8 @@ CBV::CBV(const CBV& bvSrc)
 
 //------------------------------------------------- CBV(BYTE ch, int nLength, BOOL Fl)
 CBV::CBV(BYTE mask, size_t nLength, BOOL Fl)
-{ int nLenByte,w;
+{
+	size_t nLenByte, w;
   if (nLength < 1) Init();      // return empty vector if invalid repeat count
   else {
     if (Fl) {   // Bits
@@ -306,7 +276,8 @@ CBV::CBV(BYTE mask, size_t nLength, BOOL Fl)
 
 //--------------------------------------------------- CBV(const BYTE* pbt,int nLenBit)
 CBV::CBV(const BYTE* pbt, size_t nLenBit)
-{ int nLenByte;
+{ 
+	size_t nLenByte;
   if (nLenBit==0) Init();
   else   {
     nLenByte = LEN_BYTE(nLenBit);
@@ -318,7 +289,8 @@ CBV::CBV(const BYTE* pbt, size_t nLenBit)
 
 //--------------------------------------------------------------- CBV(const char* pch)
 CBV::CBV(const char* pch)
-{ int nLenByte,nLenBit;
+{ 
+	size_t nLenByte,nLenBit;
   if ((nLenBit = SafeStrlen(pch)) == 0) Init();
   else   {
     nLenByte = LEN_BYTE(nLenBit);        // Translate from symbol to bit
@@ -336,16 +308,18 @@ CBV::~CBV()       //  free any attached data
 ////////////////////////////////// Reading and writing //////////////////////////////////
 #ifndef _LINUX
 //----------------------------------------------------------- BitChar(char One,char Zero)
-CString CBV::BitChar(char One,char Zero,int Max/*=0*/)
-{ int i,j=0;
-  CString res('\0',m_nBitLength);
+CString CBV::BitChar(char One,char Zero,size_t Max/*=0*/)
+{ 
+	size_t i,j = 0;
+	CString res('\0', (int)m_nBitLength);
   for (i=0; i<m_nBitLength; i++, j++)
   {
-    if (GetBitAt(i)) res.SetAt(j,One);
-    else             res.SetAt(j,Zero);
-    if (Max!=0)
-      if ((Max==1)||((i+1)%Max == 0))
-      { res.SetAt(++j,'\n'); }  // res.SetAt(++j,'\r');
+		if (GetBitAt(i))
+			res.SetAt((int)j,One);
+		else
+			res.SetAt((int)j,Zero);
+		if ((Max != 0) && ((Max == 1) || ((i + 1) % Max == 0)))
+			res.SetAt((int)++j, '\n');
   }
   return res;
 }
@@ -373,8 +347,9 @@ char* CBV::BitChar(char One,char Zero,int Max/*=0*/)
 
 //****************************** Protected function ***********************************//
 //----------------------------------------------------------------- AllocBuffer(int nLen)
-void CBV::AllocBuffer(int nLen)
-{ASSERT(nLen >= 0);
+void CBV::AllocBuffer(size_t nLen)
+{
+	ASSERT(nLen >= 0);
  ASSERT(nLen <= INT_MAX - 1);    // max size (enough room for 1 extra)
  if (nLen == 0)     {   Init();     }
  else   {
@@ -434,15 +409,20 @@ void CBV::AssignChar(size_t nLenBit, const char* pch)
 }
 
 //------------------------ Extr(const BYTE* SrcVect, int SrcBitLen,int nFirst,int nCount)
-void CBV::Extr(const BYTE* SrcVect, int SrcBitLen,int nFirst,int nCount)
-{ int i,j,nLenByte,l_bit,r_bit,AdrBeg;
+void CBV::Extr(const BYTE* SrcVect, size_t SrcBitLen,size_t nFirst,size_t nCount)
+{
+	size_t i,j,nLenByte,l_bit,r_bit,AdrBeg;
 
   ASSERT(nCount >= 0);  ASSERT(nFirst >= 0);
   ASSERT((nCount+nFirst) <= SrcBitLen);
   nLenByte = LEN_BYTE(nCount);
   AllocBuffer(nLenByte);
   m_nBitLength = nCount;
-  if (SrcBitLen == nCount) { memcpy((BYTE*)m_bVect,SrcVect,nLenByte); return; }
+	if (SrcBitLen == nCount)
+	{
+		memcpy((BYTE*)m_bVect,SrcVect,nLenByte);
+		return;
+	}
   AdrBeg = BIT_BYTE(nFirst);
   memcpy((BYTE*)m_bVect,SrcVect+AdrBeg,nLenByte);
   l_bit = ADR_BIT(nFirst);
@@ -473,9 +453,11 @@ void CBV::One()
 }
 
 //-------------------------------------------------------- Extract(int nFirst,int nCount)
-CBV CBV::Extract(int nFirst,int nCount)
-{ CBV s;
-  s.Extr(m_bVect,m_nBitLength,nFirst,nCount);  return s;
+CBV CBV::Extract(size_t nFirst,size_t nCount)
+{ 
+	CBV s;
+	s.Extr(m_bVect,m_nBitLength,nFirst,nCount);
+	return s;
 }
 
 
@@ -1034,15 +1016,18 @@ void CBV::LoopRightShift(size_t nShift)
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////// Operation of weighting,finding and casing ///////////////////////
 //---------------------------------------------------------------------------- CountBit()
-int CBV::CountBit() const
-{ int j,one=0;
- for (j=0; j<m_nByteLength; j++) one+=TabC[m_bVect[j]];
+size_t CBV::CountBit() const
+{
+	size_t one = 0;
+	for (size_t j = 0; j < m_nByteLength; j++)
+		one += TabC[m_bVect[j]];
  return one;
 }
 
 //-------------------------------------------------------------------- LeftOne(ptrdiff_t nNext)
 ptrdiff_t CBV::LeftOne(ptrdiff_t nNext) const
-{ptrdiff_t i,j;
+{
+	size_t i,j;
  int pos = 0;
  size_t k;                                //new 24.01.00
  BYTE ch;
@@ -1070,7 +1055,8 @@ ptrdiff_t CBV::LeftOne(ptrdiff_t nNext) const
 
 //--------------------------------------------------------------------- LeftOne(BYTE& bt)
 ptrdiff_t CBV::LeftOne(BYTE& bt) const
-{ptrdiff_t i;
+{
+	size_t i;
  int pos;
  for (i=0;i<m_nByteLength;i++)
    if (m_bVect[i]!=0) {
@@ -1183,7 +1169,8 @@ BOOL CBV::PoglEq(const BYTE* Vect2,size_t BitLen2,BOOL Dist) const
 //*************************************************************************************//
 //--------------------------------- Concat(BOOL bBit)
 void CBV::Concat(BOOL Bit/*=FALSE*/)
-{ int nByteLength, nLen=m_nBitLength+1;
+{
+	size_t nByteLength, nLen = m_nBitLength + 1;
   if((nByteLength = LEN_BYTE(nLen)) > m_nAllocLength)
     GetBuffer(nLen);
   m_nByteLength = nByteLength;
@@ -1287,80 +1274,15 @@ STD(BOOL) operator <=(const CBV& bv1, const BYTE* p2)
 STD(BOOL) operator<=(const BYTE* p1, const CBV& bv2)
 { return (bv2.PoglEq(p1,bv2.m_nBitLength,TRUE)); }
 
-/*
-/////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////// Input/output operations //////////////////////////////////////
-#ifndef _LINUX
-//-------------------------------- operator <<(CDumpContext& dc, const CBV& bv)
-#ifdef _DEBUG
-CDumpContext& AFXAPI operator <<(CDumpContext& dc, const CBV& bv)
-{int i;
- CString res('\0',bv.m_nBitLength);
- for (i=0; i<bv.m_nBitLength; i++)
-   if (bv.GetBitAt(i)) res.SetAt(i,'1');
-   else             res.SetAt(i,'0');
- dc << res; return dc;
-}
-#endif //_DEBUG
-
-//------------------------------------- operator<<(CArchive& ar, const CBV& bv)
-CArchive& AFXAPI operator<<(CArchive& ar, const CBV& bv)
-{
-  ar << bv.m_nByteLength;
-  ar << bv.m_nBitLength;
-  ar.Write(bv.m_bVect, bv.m_nByteLength);
-  return ar;
-}
-
-//------------------------------------- operator>>(CArchive& ar, const CBV& bv)
-CArchive& AFXAPI operator>>(CArchive& ar, CBV& bv)
-{
-  bv.Empty();
-  ar >> bv.m_nByteLength;
-  ar >> bv.m_nBitLength;
-  if (bv.m_nByteLength != 0) {
-    bv.AllocBuffer(bv.m_nByteLength);
-    if (ar.Read(bv.m_bVect, bv.m_nByteLength) != (unsigned int)bv.m_nByteLength)
-      AfxThrowArchiveException(CArchiveException::endOfFile);
-  }
-  return ar;
-}
-
-#endif //_LINUX
-
-//------------------------------------- operator<<(CArchive& ar, const CBV& bv)
-
-STD(CArch&) operator<<(CArch& ar, const CBV& bv)
-{
-  ar << bv.m_nByteLength;
-  ar << bv.m_nBitLength;
-  ar.Write(bv.m_bVect, bv.m_nByteLength);
-  return ar;
-}
-
-//------------------------------------- operator>>(CArchive& ar, const CBV& bv)
-STD(CArch&) operator>>(CArch& ar, CBV& bv)
-{
-  bv.Empty();
-  ar >> bv.m_nByteLength;
-  ar >> bv.m_nBitLength;
-  if (bv.m_nByteLength != 0) {
-    bv.AllocBuffer(bv.m_nByteLength);
-    ar.Read(bv.m_bVect, bv.m_nByteLength);
-  }
-  return ar;
-}
-
-*/
-
-
 /////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// Advanced dump of memmory /////////////////////////////////
 //---------------------------------------------------------- GetBuffer(int nMinBufLength)
 
 BYTE* CBV::GetBuffer(size_t nMinBufLength)
-{ ASSERT(nMinBufLength >= 0);
- if (nMinBufLength > m_nBitLength) {    
+{
+	ASSERT(nMinBufLength >= 0);
+	if (nMinBufLength > m_nBitLength)
+	{    
    BYTE* pbtOldData = m_bVect;
    size_t nOldLen = m_nByteLength;  
    AllocBuffer(LEN_BYTE(nMinBufLength));
@@ -1369,40 +1291,36 @@ BYTE* CBV::GetBuffer(size_t nMinBufLength)
    m_nBitLength = nMinBufLength;
    SafeDelete(pbtOldData);
  }
-// ASSERT(m_bVect != NULL);
  return m_bVect;
 }
 
 //--------------------------------------------------------- ReleaseBuffer(int nNewLength)
-void CBV::ReleaseBuffer(ptrdiff_t nNewLength)
-{ ptrdiff_t nNewByte;
- if (nNewLength == -1) nNewLength = m_nBitLength;
+void CBV::ReleaseBuffer(size_t nNewLength)
+{
+	size_t nNewByte;
+	if (nNewLength == -1)
+		nNewLength = m_nBitLength;
  nNewByte = LEN_BYTE(nNewLength);
  ASSERT(nNewByte <= m_nAllocLength);
- // memset(m_bVect+LEN_BYTE(nNewLength),i+1);      ??????????
- //HVect[i]=(HVect[i]>>(S_1-j))<<(S_1-j);
- //for (i=m_nBitLength-1; i>=nNewLength; i--)
  m_nByteLength = nNewByte;
  m_nBitLength = nNewLength;
 }
 
 //--------------------------------------------------------- GetBufferSetLength(int nNewLength)
-BYTE* CBV::SetSize(ptrdiff_t nNewLength,ptrdiff_t nNewAllocLength/*-1*/)
-{ ptrdiff_t i;
+BYTE* CBV::SetSize(size_t nNewLength,size_t nNewAllocLength/*-1*/)
+{
+	size_t i;
   ASSERT(nNewLength >= 0);
-  ptrdiff_t nLen=(nNewAllocLength > 0)?nNewAllocLength:nNewLength;
+	size_t nLen = (nNewAllocLength > 0) ? nNewAllocLength : nNewLength;
   ASSERT(nNewLength <=nLen);
-  ptrdiff_t nOldByte = m_nByteLength;    // 03.01.2002
+	size_t nOldByte = m_nByteLength;    // 03.01.2002
   GetBuffer(nLen);                      //nLen - in bits
   m_nByteLength = LEN_BYTE(nNewLength);
   m_nBitLength = nNewLength;
-//  new 03.04.2000
-  if (i=ADR_BIT(m_nBitLength)) {
+	if (i = ADR_BIT(m_nBitLength))
      m_bVect[m_nByteLength-1]=(m_bVect[m_nByteLength-1]>>(S_1-i))<<(S_1-i);
-   }
   if (nOldByte > m_nByteLength)
     memset(m_bVect+m_nByteLength,0,nOldByte-m_nByteLength);
-
   return m_bVect;
 }
 
@@ -1433,23 +1351,26 @@ NewMem:
 }
 
 //-------------------------------------------------------------------
-void CBV::AssignDiz(size_t nBitLength, int Num, BYTE* v1, ...)
+void CBV::AssignDiz(size_t nBitLength, size_t Num, BYTE* v1, ...)
 {
   size_t nLen = LEN_BYTE(nBitLength);
-  if (m_nByteLength == 0) { // new memory
-    if (nBitLength==0)  return;     // Result vector is empty
+	if (m_nByteLength == 0)
+	{ // new memory
+		if (nBitLength == 0)
+			return;     // Result vector is empty
 NewMem:
     m_bVect = new BYTE[nLen];       // may throw an exception
     m_nByteLength = nLen;
     m_nAllocLength = nLen;
     m_nBitLength = nBitLength;
   }
-  else 
-    if (nLen > m_nAllocLength) {
+	else if (nLen > m_nAllocLength)
+	{
       Empty();
       goto NewMem;
     }
-    else {
+	else
+	{
       m_nByteLength = nLen;
       m_nBitLength = nBitLength;
     }
@@ -1458,18 +1379,18 @@ NewMem:
   va_list marker;
   v[0] = v1;
   va_start( marker, v1);     /* Initialize variable arguments. */
-  for (int j=1; j< Num; j++) {
+	for (size_t j = 1; j < Num; j++)
     v[j] = va_arg( marker, BYTE* );
-  }
+
   va_end( marker );              /* Reset variable arguments.      */
 
-  for (size_t i=0; i<m_nByteLength; i++) {
+	for (size_t i = 0; i < m_nByteLength; i++)
+	{
     m_bVect[i] = v[0][i];
-    for (int j=1; j< Num; j++) {
+		for (size_t j = 1; j < Num; j++)
       m_bVect[i] |= v[j][i];     
     }
   }
-}
 
 //-------------------------------------------------------------------
 void CBV::AssignCon(size_t nBitLength, const BYTE* v1, const BYTE* v2)
@@ -1496,23 +1417,25 @@ NewMem:
 }
 
 //-------------------------------------------------------------------
-void CBV::AssignCon(size_t nBitLength, int Num, BYTE* v1, ...)
+void CBV::AssignCon(size_t nBitLength, size_t Num, BYTE* v1, ...)
 {
   size_t nLen = LEN_BYTE(nBitLength);
   if (m_nByteLength == 0) { // new memory
-    if (nBitLength==0)  return;     // Result vector is empty
+		if (nBitLength == 0)
+			return;     // Result vector is empty
 NewMem:
     m_bVect = new BYTE[nLen];       // may throw an exception
     m_nByteLength = nLen;
     m_nAllocLength = nLen;
     m_nBitLength = nBitLength;
   }
-  else 
-    if (nLen > m_nAllocLength) {
+	else if (nLen > m_nAllocLength)
+	{
       Empty();
       goto NewMem;
     }
-    else {
+	else
+	{
       m_nByteLength = nLen;
       m_nBitLength = nBitLength;
     }
@@ -1521,18 +1444,18 @@ NewMem:
   va_list marker;
   v[0] = v1;
   va_start( marker, v1);     /* Initialize variable arguments. */
-  for (int j=1; j< Num; j++) {
+	for (size_t j = 1; j < Num; j++) {
     v[j] = va_arg( marker, BYTE* );
   }
   va_end( marker );              /* Reset variable arguments.      */
 
-  for (size_t i=0; i<m_nByteLength; i++) {
+	for (size_t i = 0; i < m_nByteLength; i++)
+	{
     m_bVect[i] = v[0][i];
-    for (int j=1; j< Num; j++) {
+		for (size_t j = 1; j < Num; j++)
       m_bVect[i] &= v[j][i];     
     }
   }
-}
 
 //-------------------------------------------------------------------
 void CBV::AssignXor(size_t nBitLength, const BYTE* v1, const BYTE* v2)
@@ -1559,23 +1482,26 @@ NewMem:
 }
 
 //-------------------------------------------------------------------
-void CBV::AssignXor(size_t nBitLength, int Num, BYTE* v1, ...)
+void CBV::AssignXor(size_t nBitLength, size_t Num, BYTE* v1, ...)
 {
   size_t nLen = LEN_BYTE(nBitLength);
-  if (m_nByteLength == 0) { // new memory
-    if (nBitLength==0)  return;     // Result vector is empty
+	if (m_nByteLength == 0)
+	{ // new memory
+		if (nBitLength == 0)
+			return;     // Result vector is empty
 NewMem:
     m_bVect = new BYTE[nLen];       // may throw an exception
     m_nByteLength = nLen;
     m_nAllocLength = nLen;
     m_nBitLength = nBitLength;
   }
-  else 
-    if (nLen > m_nAllocLength) {
+	else if (nLen > m_nAllocLength)
+	{
       Empty();
       goto NewMem;
     }
-    else {
+	else
+	{
       m_nByteLength = nLen;
       m_nBitLength = nBitLength;
     }
@@ -1584,18 +1510,17 @@ NewMem:
   va_list marker;
   v[0] = v1;
   va_start( marker, v1);     /* Initialize variable arguments. */
-  for (int j=1; j< Num; j++) {
+	for (size_t j = 1; j < Num; j++)
     v[j] = va_arg( marker, BYTE* );
-  }
   va_end( marker );              /* Reset variable arguments.      */
 
-  for (size_t i=0; i<m_nByteLength; i++) {
+	for (size_t i = 0; i < m_nByteLength; i++)
+	{
     m_bVect[i] = v[0][i];
-    for (int j=1; j< Num; j++) {
+		for (size_t j = 1; j < Num; j++)
       m_bVect[i] ^= v[j][i];     
     }
   }
-}
 
 //-------------------------------------------------------------------
 void CBV::AssignDif(size_t nBitLength, const BYTE* v1, const BYTE* v2)
