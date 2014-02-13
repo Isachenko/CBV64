@@ -145,7 +145,7 @@ CBM CBM::RbmUndRow(int nRow, int nCol)
         bv^=BmC.GetRow(j);
     if(bv.IsZero()) {i--; continue;}
     BmC.SetRow(i,bv);
-    bvH.SetBitAt(k=bv.LeftOne(-1),1);
+    bvH.SetBitAt(k=(int)bv.LeftOne(-1),1);
     for(j=0; j<i; j++)
       if(BmC.GetBitAt(j,k)) BmC.SetRow(j,BmC.GetRow(j)^bv);
   }
@@ -302,8 +302,8 @@ CBM::~CBM()
 //********************************* Working with memory *********************************
 //-------------------------------- SetSize(int nRow, int nColumn, int nGrowBy /* = -1 */)
 void CBM::SetSize(int nRow, int nColumn, int nGrowBy /* = -1 */,int nColGrow/*=0*/)
-{ int i,nByte, nmaxRow, nBytemax;
-  int w;                           //new 02.02.99
+{ size_t i,nByte, nmaxRow, nBytemax;
+    size_t w;                           //new 02.02.99
 #ifdef _DEBUG
   ASSERT_VALID(this); 
   ASSERT(nRow >= 0);ASSERT(nColumn >= 0);
@@ -349,7 +349,7 @@ void CBM::SetSize(int nRow, int nColumn, int nGrowBy /* = -1 */,int nColGrow/*=0
    m_nAllocLength=nBytemax;
  }
  else {                //when(nByte < m_nAllocLength)  new 022.12.99!!!!!!!!!!
-   int nost;           // new 022.12.99!!!!!!!!!!
+     size_t nost;           // new 022.12.99!!!!!!!!!!
    if (nColumn < m_nBitLength) {
    w = S_1-ADR_BIT(nColumn);  nost=nByte;   }
    else   {
@@ -723,13 +723,13 @@ CBM CBM::Extract(int nFirstRow, int nFirstColumn, int nCountRow, int nCountColum
 CBM CBM::Minor(const CBV& Rows, const CBV& Columns) const
 {int i,j,LeftOneRow = -1,LeftOneColumn = -1;
  int  NewRowLen,NewColumnLen;
- NewRowLen = Rows.CountBit();
- NewColumnLen = Columns.CountBit();
+ NewRowLen = (int)Rows.CountBit();
+ NewColumnLen = (int)Columns.CountBit();
  CBM bm(NewRowLen,NewColumnLen);
  for (i=0;i<NewRowLen;i++)  {
-   LeftOneRow = Rows.LeftOne(LeftOneRow);
+   LeftOneRow = (int)Rows.LeftOne(LeftOneRow);
    for (j=0;j<NewColumnLen;j++)  {
-     LeftOneColumn = Columns.LeftOne(LeftOneColumn);
+     LeftOneColumn = (int)Columns.LeftOne(LeftOneColumn);
      bm.SetBitAt(i,j,GetBitAt(LeftOneRow,LeftOneColumn));
    }
    LeftOneColumn = -1;
@@ -786,7 +786,7 @@ void CBM::SetRowGrow(int nRow, const CBV& bv)
   if (m_nSize > 0)  ASSERT(m_nBitLength == bv.GetBitLength());
 #endif //_DEBUG
   if (nRow >= m_nSize) 
-    SetSize(nRow+1,bv.GetBitLength(),m_nGrowBy,m_nAllocLength*S_1-m_nBitLength);
+    SetSize(nRow+1,(int)bv.GetBitLength(),m_nGrowBy,m_nAllocLength*S_1-m_nBitLength);
   memcpy(m_pData[nRow],(const BYTE *)bv,m_nByteLength);
 }
 
@@ -1787,8 +1787,8 @@ void CBM::CharBit(const CStringArray& s)     //new 11.02
    i = s[k].GetLength();
    if (i > max) max = i;    // max - length of row
  }  
- if (m_pData == NULL) AllocMatrix(s.GetSize(),max);
- else { SetSize(s.GetSize(),max,m_nGrowBy); Zero(); }
+ if (m_pData == NULL) AllocMatrix((int)s.GetSize(),max);
+ else { SetSize((int)s.GetSize(),max,m_nGrowBy); Zero(); }
  for (k=0; k<s.GetSize(); k++) {
    max = s[k].GetLength();
    CString w(s[k]);
@@ -1807,7 +1807,7 @@ void CBM::CharBit(const string s)
   if (w.length() <= 2) { Init(); return;}
   if (w[w.length()-2] != '\r') w = w + "\r\n";
   while (!w.empty()) {
-    j = w.find('\n');
+    j = (int)w.find('\n');
     if (j > max + 1) max = j - 1;
     w.erase(0,j+1);    //w =     Right(w.GetLength() - j-1);
     i++;
@@ -1817,7 +1817,7 @@ void CBM::CharBit(const string s)
   w = s; j = 0;
   if (w[w.length()-2] != '\r') w = w + "\r\n";
   while (!w.empty()) {
-    max = w.find('\n');
+    max = (int)w.find('\n');
     for(i=0;i<max-1;i++)
       if (w[i] == '1') SetBitAt(j,i,TRUE);
       else             ASSERT(w[i] == '0'|| w[i] == '.' || w[i] == '-');    //new 11.02
@@ -1832,13 +1832,13 @@ void CBM::CharBit(const vector <string>& s)     //new 11.02
   if (s.size()==0) { Init(); return;}
 
   for (k=0; k<(int)s.size(); k++) {
-  i = s[k].length();
+  i = (int)s[k].length();
   if (i > max) max = i;    // max - length of row
   }  
-  if (m_pData == NULL) AllocMatrix(s.size(),max);
-  else { SetSize(s.size(),max,m_nGrowBy); Zero(); }
+  if (m_pData == NULL) AllocMatrix((int)s.size(),max);
+  else { SetSize((int)s.size(),max,m_nGrowBy); Zero(); }
   for (k=0; k<(int)s.size(); k++) {
-    max = s[k].length();
+    max = (int)s[k].length();
     string w = s[k];
     for(i=0;i<max;i++)
       if (w[i] == '1') SetBitAt(k,i,TRUE);
@@ -1878,7 +1878,7 @@ void CBM::CharBit(const char* s)
 {
   int j=0, i=0, max=0, len;
   char *w, *pdest;
-  len = strlen(s);
+  len = (int)strlen(s);
   w =(char*)malloc(len+2);
 #ifndef _MSVC9
   strcpy(w,s);
