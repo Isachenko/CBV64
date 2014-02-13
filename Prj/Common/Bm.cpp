@@ -1746,79 +1746,7 @@ int CBM::CoverRow(int nRow1, int nRow2, const BYTE * mask)
 #ifndef _LINUX
 
 /////////////////////////////////////////////////////////////////////////////
-// Serialization
-
-//---------------------------------------------------------------Serialize(CArchive& ar)
-void CBM::Serialize(CArchive& ar)
-{ 
-#ifdef _DEBUG
-  ASSERT_VALID(this); 
-#endif //_DEBUG
-  int i,j;
-  
-  if (ar.IsStoring()) {
-    ar << m_nSize;
-    ar << m_nBitLength;
-    ar << m_nByteLength; 
-    for (i=0; i<m_nSize; i++)  
-      for (j=0; j<m_nByteLength; j++)         
-        ar << m_pData[i][j];
-  }
-  else {
-    ar >> m_nSize;
-    ar >> m_nBitLength;
-    ar >> m_nByteLength;
-    SetSize(m_nSize, m_nBitLength,m_nGrowBy);
-    for (i=0; i<m_nSize; i++)  
-      for (j=0; j<m_nByteLength; j++)         
-        ar >> m_pData[i][j];
-  }
-}
-
-/////////////////////////////////////////////////////////////////////////////
 // Diagnostics
-
-//-----------------------------------------------------------Dump(CDumpContext& dc) const
-#ifdef _DEBUG
-void CBM::Dump(CDumpContext& dc) const
-{
-   ASSERT_VALID(this);
-#define MAKESTRING(x) #x
-    AFX_DUMP1(dc, "a " MAKESTRING(CBM) " with ", m_nSize);
-    AFX_DUMP0(dc, " elements");
-#undef MAKESTRING
-    if (dc.GetDepth() > 0) {
-      AFX_DUMP0(dc, "\n");
-      for (int i = 0; i < m_nSize; i++) {
-        AFX_DUMP1(dc, "\n\t[", i);
-        AFX_DUMP1(dc, "] = ",NULL);
-      }
-    }
-}
-
-//-----------------------------------------------------------AssertValid() const
-void CBM::AssertValid() const
-{
-  if (m_pData == NULL) {
-    ASSERT(m_nSize >= 0);
-    ASSERT(m_nMaxSize >= 0);
-    ASSERT(m_nBitLength >= 0);
-    ASSERT(m_nByteLength >= 0);
-    ASSERT(m_nAllocLength >= 0);
-  }
-  else {
-    ASSERT(m_nSize >= 0);
-    ASSERT(m_nMaxSize >= 0);
-    ASSERT(m_nSize <= m_nMaxSize);
-    ASSERT(AfxIsValidAddress(m_pData, m_nMaxSize * sizeof(BYTE*)));
-    ASSERT(m_nBitLength >= 0);
-    ASSERT(m_nByteLength == LEN_BYTE(m_nBitLength));
-    ASSERT(m_nAllocLength >= 0);
-    ASSERT(m_nGrowBy > 0);
-  }
-}
-#endif //_DEBUG
-
 
 
 /////////////////////////////////////////////////////////////////////////////
