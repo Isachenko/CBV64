@@ -566,14 +566,14 @@ char * CBM::BitChar(char One, char Zero, BOOL WithNum)
 //---------------------------------------------------------------GetRowBv(int nIndex)
 CBV CBM::GetRowBv(int nIndex) const
 { ASSERT(nIndex >= 0 && nIndex < m_nSize);
-  CBV bv(m_pData[nIndex],m_nBitLength);
+  CBV bv(m_pData[nIndex],(size_t)m_nBitLength);
   return bv;
 }
  
 //---------------------------------------------------------------GetRowBv(int nIndex)
 CBV CBM::GetRowBv(int nIndex,BYTE* mask) const
 { ASSERT(nIndex >= 0 && nIndex < m_nSize);
-  CBV bv(m_pData[nIndex],m_nBitLength);
+  CBV bv(m_pData[nIndex],(size_t)m_nBitLength);
   bv&=mask;
   return bv;
 }
@@ -582,9 +582,9 @@ CBV CBM::GetRowBv(int nIndex,BYTE* mask) const
 CBV CBM::GetColumnBv(int nColumn) const
 {ASSERT(nColumn >= 0);
  ASSERT(nColumn < m_nBitLength);
- CBV bv(0,m_nSize,TRUE);
+ CBV bv(0,(size_t)m_nSize,TRUE);
  int i;
- for (i=0;i<m_nSize;i++) bv.SetBitAt(i,GetBitAt(i,nColumn));
+ for (i=0;i<m_nSize;i++) bv.SetBitAt((size_t)i,GetBitAt(i,nColumn));
  return bv;
 }
   
@@ -592,9 +592,9 @@ CBV CBM::GetColumnBv(int nColumn) const
 CBV CBM::GetColumnBv(int nColumn,BYTE* mask) const
 {ASSERT(nColumn >= 0);
  ASSERT(nColumn < m_nBitLength);
- CBV bv(0,m_nSize,TRUE);
+ CBV bv(0,(size_t)m_nSize,TRUE);
  int i;
- for (i=0;i<m_nSize;i++) bv.SetBitAt(i,GetBitAt(i,nColumn));
+ for (i=0;i<m_nSize;i++) bv.SetBitAt((size_t)i,GetBitAt(i,nColumn));
  bv&=mask;
  return bv;
 }
