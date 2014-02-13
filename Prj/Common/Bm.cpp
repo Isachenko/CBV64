@@ -302,8 +302,8 @@ CBM::~CBM()
 //********************************* Working with memory *********************************
 //-------------------------------- SetSize(int nRow, int nColumn, int nGrowBy /* = -1 */)
 void CBM::SetSize(int nRow, int nColumn, int nGrowBy /* = -1 */,int nColGrow/*=0*/)
-{ size_t i,nByte, nmaxRow, nBytemax;
-    size_t w;                           //new 02.02.99
+{   int i,nByte, nmaxRow, nBytemax;
+    int w;                           //new 02.02.99
 #ifdef _DEBUG
   ASSERT_VALID(this); 
   ASSERT(nRow >= 0);ASSERT(nColumn >= 0);
