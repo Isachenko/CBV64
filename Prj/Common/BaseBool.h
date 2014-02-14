@@ -111,18 +111,17 @@ const BYTE TabC[256] = {
 4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8};
 
 
-inline BYTE COUNTBIT(BYTE a)
-{
+inline BYTE COUNTBIT(BYTE a) {
 BYTE w=a;
-	w = (w & 0x55) + ((w >> 1) & 0x55);
-	w = (w & 0x33) + ((w >> 2) & 0x33);
-	return ((w & 0x0f) + ((w >> 4) & 0x0f));
+ w=(w&0x55)+((w>>1)&0x55);  w=(w&0x33)+((w>>2)&0x33); return((w&0x0f)+((w>>4)&0x0f));
 }
 
 //----------- Внеклассовые функции для работы с датчиком случайных ------------
 extern void SetRgrain( unsigned long NewRgrain);
 extern unsigned long GetRgrain();
 extern size_t GetRandN();
+extern void SetRandMode(BOOL Fl = TRUE);
+extern BOOL GetRandMode();
 
 class CArch;
 
@@ -154,15 +153,15 @@ public:
   BYTE GetByteAt(size_t nIndex) const;
   BOOL GetBitAt(size_t nIndex) const;
 #ifndef _LINUX
-	CString BitChar(char One = '1',char Zero='0', size_t Max=0);
+  CString BitChar(char One = '1',char Zero='0', int Max=0);
 #else
   char* BitChar(char One = '1',char Zero='0', int Max=0);
 #endif
-	CBV Extract(size_t nFirst,size_t nCount);
+  CBV Extract(int nFirst,int nCount);
 
 //*************************************** Writing ***************************************
-	void SetByteAt(size_t nIndex, BYTE ch);
-	void SetBitAt(size_t nIndex, BOOL bit);
+  void SetByteAt(int nIndex, BYTE ch);
+  void SetBitAt(int nIndex, BOOL bit);
 
 //*********************** Operators and functions of assignment *************************
   const CBV& operator=(const CBV& bvSrc);
@@ -204,7 +203,7 @@ public:
   void LoopRightShift(size_t nShift);
 
 //******************** Operations of weighting, finding and casing **********************
-	size_t CountBit() const;
+  int CountBit() const;
   /*int LeftOne(int nNext = -1) const;
   int LeftOne(BYTE& bt) const;*/
   ptrdiff_t RightOne(ptrdiff_t nNext = -1) const;
@@ -243,18 +242,30 @@ public:
   FSTD(BOOL) operator<=(const CBV& bv1, const BYTE* pbt);
   FSTD(BOOL) operator<=(const BYTE* pbt, const CBV& bv2);
 
+#ifndef _LINUX
+
+//****************************** Input/Output operations ********************************
+#ifdef _DEBUG
+  friend CDumpContext& AFXAPI operator<<(CDumpContext& dc,const CBV& bv);
+#endif
+  friend CArchive& AFXAPI operator<<(CArchive& ar, const CBV& bv);
+  friend CArchive& AFXAPI operator>>(CArchive& ar, CBV& bv);
+#endif
+  FSTD(CArch&) operator<<(CArch& ar, const CBV& bv);
+  FSTD(CArch&) operator>>(CArch& ar, CBV& bv);
+
 //***************************** Advanced access to memory *******************************
   void Empty();
   BYTE* GetBuffer(size_t nMinBufLength);
-	void ReleaseBuffer(size_t nNewLength = -1);
-	BYTE* SetSize(size_t nNewLength,size_t nNewAllocLength = -1);
+  void ReleaseBuffer(ptrdiff_t nNewLength = -1);
+  BYTE* SetSize(ptrdiff_t nNewLength,ptrdiff_t nNewAllocLength=-1);
 
   void AssignDiz(size_t nBitLength, const BYTE* v1, const BYTE* v2);
-	void AssignDiz(size_t nBitLength, size_t Num, BYTE* v1, ...);
+  void AssignDiz(size_t nBitLength, int Num, BYTE* v1, ...);
   void AssignCon(size_t nBitLength, const BYTE* v1, const BYTE* v2);
-	void AssignCon(size_t nBitLength, size_t Num, BYTE* v1, ...);
+  void AssignCon(size_t nBitLength, int Num, BYTE* v1, ...);
   void AssignXor(size_t nBitLength, const BYTE* v1, const BYTE* v2);
-	void AssignXor(size_t nBitLength, size_t Num, BYTE* v1, ...);
+  void AssignXor(size_t nBitLength, int Num, BYTE* v1, ...);
   void AssignDif(size_t nBitLength, const BYTE* v1, const BYTE* v2);
 
 protected:
@@ -264,8 +275,8 @@ protected:
   size_t m_nAllocLength;
 
 //******************************** Protected functions **********************************
-	void AllocCopy(CBV& dest, size_t nCopyLen, size_t nCopyIndex, size_t nExtraLen) const;
-	void AllocBuffer(size_t nLen);
+  void AllocCopy(CBV& dest, int nCopyLen, int nCopyIndex, int nExtraLen) const;
+  void AllocBuffer(int nLen);
   void CharBit(size_t nLenByte,const char* pch);
   void AssignChar(size_t nLenBit, const char* pch);
   void AssignCopy(size_t nLenBit,size_t nLenByte, const BYTE* pbtSrcData);
@@ -282,7 +293,7 @@ protected:
   void Not(const BYTE* Vect1,size_t BitLen1);
   void ConNot(const BYTE* Vect1,size_t BitLen1,const BYTE* Vect2,size_t BitLen2);
   void ConNotInPlace(const BYTE* Vect1,size_t BitLen1);
-	void Extr(const BYTE* SrcVect, size_t SrcBitLen,size_t nFirst,size_t nCount);
+  void Extr(const BYTE* SrcVect, int SrcBitLen,int nFirst,int nCount);
   void Conc(const BYTE* SrcVect, size_t SrcBitLen);
   void Conc2(const BYTE* Vect1, size_t SrcBitLen1,const BYTE* Vect2, size_t SrcBitLen2);
   BOOL Equality(const BYTE* Vect2,size_t BitLen2) const;
@@ -469,6 +480,16 @@ public:
   int CoverRow(int nRow1, int nRow2, const BYTE * mask);
   int CoverRow(int nRow1, int nRow2);
 
+#ifndef _LINUX
+//****************************** Input/Output operations ********************************
+  void Serialize(CArchive&);
+#ifdef _DEBUG
+  void Dump(CDumpContext&) const;
+  void AssertValid() const;
+#endif
+#endif //_LINUX
+  void Serialize(CArch&);
+
   void SetRowDiz(int nRow, const BYTE* v1);
   void SetRowDiz(int nRow, const BYTE* v1, const BYTE* v2);
   void SetRowDiz(const BYTE* mask, int nRow, const BYTE* v1);
@@ -537,42 +558,34 @@ inline CBV::operator BYTE*() const                     //operator const BYTE*()
 { return ( BYTE*)m_bVect; }
 
 inline BYTE CBV::operator[](size_t nIndex) const                         //operator[]
-{ 
-	ASSERT(nIndex >= 0); ASSERT(nIndex < m_nByteLength);
+{ ASSERT(nIndex >= 0); ASSERT(nIndex < m_nByteLength);
   return m_bVect[nIndex];
 }
 
 inline BYTE CBV::GetByteAt(size_t nIndex) const                          //GetByteAt
-{ 
-	ASSERT(nIndex >= 0); ASSERT(nIndex < m_nByteLength);
+{ ASSERT(nIndex >= 0); ASSERT(nIndex < m_nByteLength);
   return m_bVect[nIndex];
 }
 
 inline BOOL CBV::GetBitAt(size_t nIndex) const                           //GetBitAt
-{ 
-	ASSERT(nIndex >= 0); ASSERT(nIndex < m_nBitLength);
+{ ASSERT(nIndex >= 0); ASSERT(nIndex < m_nBitLength);
   return ((m_bVect[BIT_BYTE(nIndex)] & OB[ADR_BIT(nIndex)])!=0);
 }
 
-inline void CBV::SetByteAt(size_t nIndex, BYTE ch)                       //SetByteAt
-{
-	ASSERT(nIndex >= 0); ASSERT(nIndex < m_nByteLength);
+inline void CBV::SetByteAt(int nIndex, BYTE ch)                       //SetByteAt
+{ ASSERT(nIndex >= 0); ASSERT(nIndex < m_nByteLength);
   m_bVect[nIndex] = ch;
 }
 
-inline void CBV::SetBitAt(size_t nIndex,  BOOL bit)                      //SetBitAt
-{ 
-	ASSERT(nIndex >= 0); ASSERT(nIndex < m_nBitLength);
+inline void CBV::SetBitAt(int nIndex,  BOOL bit)                      //SetBitAt
+{ ASSERT(nIndex >= 0); ASSERT(nIndex < m_nBitLength);
   if (bit) m_bVect[BIT_BYTE(nIndex)] |=OB[ADR_BIT(nIndex)];
   else     m_bVect[BIT_BYTE(nIndex)] &=~OB[ADR_BIT(nIndex)];
 }
 
 inline void CBV::Empty()                                              // Empty()
-{
-	SafeDelete(m_bVect);   
-	Init();
-	ASSERT(m_nBitLength == 0);
-	ASSERT(m_nByteLength == 0);
+{ SafeDelete(m_bVect);   Init();
+  ASSERT(m_nBitLength == 0); ASSERT(m_nByteLength == 0);
   ASSERT(m_nAllocLength == 0);
 }
 
@@ -580,41 +593,30 @@ inline BOOL CBV::IsEmpty() const                                      //IsEmpty
 { return m_nByteLength == 0; }
 
 inline const CBV& CBV::operator =(const CBV& bvSrc)              //operator =
-{ 
-	AssignCopy(bvSrc.m_nBitLength,bvSrc.m_nByteLength, bvSrc.m_bVect);
+{ AssignCopy(bvSrc.m_nBitLength,bvSrc.m_nByteLength, bvSrc.m_bVect);
   return *this;
 }
 
 inline const CBV& CBV::operator =(const char* pch)               // operator =
-{
-	AssignChar(SafeStrlen(pch), pch);
-	return *this;
-}
+{ AssignChar(SafeStrlen(pch), pch); return *this; }
 
 inline const CBV& CBV::operator =(const BYTE* pbt)                //operator =
-{
-	ASSERT(m_nBitLength > 0);
+{ ASSERT(m_nBitLength>0);
   AssignCopy(m_nBitLength,m_nByteLength, pbt);
   return *this;
 }
 
 inline void CBV::Zero()                                                // Zero
-{
-	ASSERT(m_nByteLength >= 0);         //new 24.01.00
-	memset(m_bVect,0,m_nByteLength);
-}
+{ ASSERT(m_nByteLength>=0);         //new 24.01.00
+  memset(m_bVect,0,m_nByteLength); }
 
 inline void CBV::Init()                                        // Init() (protect)
-{
-	m_nBitLength = m_nByteLength = m_nAllocLength = 0;
+{ m_nBitLength = m_nByteLength = m_nAllocLength = 0;
   m_bVect = NULL;
 }
 
 inline void CBV::SafeDelete(BYTE* pch)                        //SafeDelete (protect)
-{
-	if (pch != NULL)
-		delete [] pch;
-}
+{ if (pch != NULL) delete [] pch; }
 
 inline size_t CBV::SafeStrlen(const char* pch)                   //SafeStrlen (protect)
 { return (pch == NULL) ? 0 : strlen((char*)pch); }
@@ -640,30 +642,27 @@ inline BYTE* CBM::GetRow(int nIndex) const
 { ASSERT(nIndex >= 0 && nIndex < m_nSize); return m_pData[nIndex]; }
 
 inline void CBM::SetRow(int nIndex,const BYTE* newRow)
-{
-	ASSERT(nIndex >= 0 && nIndex < m_nSize);
+{ ASSERT(nIndex >= 0 && nIndex < m_nSize);
   memcpy(m_pData[nIndex],newRow,m_nByteLength);
 }
 
+//inline BYTE*& CBM::RowAt(int nIndex)
+//  { ASSERT(nIndex >= 0 && nIndex < m_nSize); return m_pData[nIndex]; }
+
 inline int CBM::Add(const BYTE* newRow)
-{
-	int nIndex = m_nSize;
-	SetRowGrow(nIndex, newRow);
-	return nIndex;
-}
+{ int nIndex = m_nSize; SetRowGrow(nIndex, newRow); return nIndex; }
 
 inline int CBM::Add(const CBV& bv)
-{
-	int nIndex = m_nSize;
-	SetRowGrow(nIndex, bv);
-	return nIndex;
-}
+{ int nIndex = m_nSize; SetRowGrow(nIndex, bv); return nIndex; }
 
 inline BOOL CBM::IsEmpty() const
 { return (m_pData==NULL && m_nSize==0); }
 
 inline BYTE* CBM::operator [](int nIndex) const
 {return GetRow(nIndex); }
+
+//inline BYTE*& CBM::operator [](int nIndex)
+//  { ASSERT(nIndex >= 0 && nIndex < m_nSize); return m_pData[nIndex]; }
 
 ////////////////////////////////////////////////////////////////////////////
 // Boolean matrix - new
@@ -678,31 +677,27 @@ inline int CBM::GetAllocLength() const
 { return m_nAllocLength; }
 
 inline BYTE CBM::GetByteAt(int nRow,int nIndex) const
-{ 
-	ASSERT(nIndex >= 0); ASSERT(nRow >= 0);
+{ ASSERT(nIndex >= 0); ASSERT(nRow >= 0);
   ASSERT(nIndex < m_nByteLength); ASSERT(nRow < m_nSize);
   return m_pData[nRow][nIndex];
 }
 
 inline BYTE CBM::GetByteAt(int nRow,int nIndex,BYTE * mask) const
-{
-	ASSERT(nIndex >= 0); ASSERT(nRow >= 0);
+{ ASSERT(nIndex >= 0); ASSERT(nRow >= 0);
   ASSERT(nIndex < m_nByteLength); ASSERT(nRow < m_nSize);
   return m_pData[nRow][nIndex] & mask[nIndex];
 }
 
 
 inline BOOL CBM::GetBitAt(int nRow,int nColumn) const
-{ 
-	ASSERT(nColumn >= 0); ASSERT(nRow >= 0);
+{ ASSERT(nColumn >= 0); ASSERT(nRow >= 0);
   ASSERT(nColumn < m_nBitLength); ASSERT(nRow < m_nSize);
   return ((m_pData[nRow][BIT_BYTE(nColumn)] & OB[ADR_BIT(nColumn)])!=0);
 }
 
 
 inline BOOL CBM::GetBitAt(int nRow,int nColumn, BYTE * mask) const
-{ 
-	ASSERT(nColumn >= 0); ASSERT(nRow >= 0);
+{ ASSERT(nColumn >= 0); ASSERT(nRow >= 0);
   ASSERT(nColumn < m_nBitLength); ASSERT(nRow < m_nSize);
   return ((m_pData[nRow][BIT_BYTE(nColumn)] &
            mask[BIT_BYTE(nColumn)] & OB[ADR_BIT(nColumn)])!=0);
@@ -710,15 +705,13 @@ inline BOOL CBM::GetBitAt(int nRow,int nColumn, BYTE * mask) const
 
 
 inline void CBM::SetByteAt(int nRow,int nIndex, BYTE ch)
-{
-	ASSERT(nIndex >= 0); ASSERT(nRow >= 0);
+{ ASSERT(nIndex >= 0); ASSERT(nRow >= 0);
   ASSERT(nIndex < m_nByteLength); ASSERT(nRow < m_nSize);
   m_pData[nRow][nIndex] = ch;
 }
 
 inline void CBM::SetBitAt(int nRow,int nColumn,  BOOL bit)
-{
-	ASSERT(nColumn >= 0); ASSERT(nRow >= 0);
+{ ASSERT(nColumn >= 0); ASSERT(nRow >= 0);
   ASSERT(nColumn < m_nBitLength); ASSERT(nRow < m_nSize);
   if (bit) m_pData[nRow][BIT_BYTE(nColumn)] |=OB[ADR_BIT(nColumn)];
   else     m_pData[nRow][BIT_BYTE(nColumn)] &=~OB[ADR_BIT(nColumn)];
