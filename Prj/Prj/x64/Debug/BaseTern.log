@@ -1,81 +1,10 @@
-﻿Построение начато 14.02.2014 12:59:38.
-     1>Проект "c:\Users\Леша\Documents\GitHub\CBV64\Prj\Prj\BaseTern.vcxproj" в узле 4 (целевые объекты Rebuild).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /I. /Zi /nologo /W3 /WX- /Od /D WIN32 /D _DEBUG /D _WINDOWS /D _MSVC9 /D _VC80_UPGRADE=0x0600 /D _AFXDLL /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\../../bin/Debug/BaseTern/" /Fd".\../../bin/Debug/BaseTern/vc110.pdb" /Gd /TP /errorReport:prompt ..\Common\Tm.cpp ..\Common\Tm_Degen.cpp ..\Common\Tm_Equiv.cpp ..\Common\Tm_Invers.cpp ..\Common\Tv.cpp
-         Tm.cpp
-         _WIN32_WINNT not defined. Defaulting to _WIN32_WINNT_MAXVER (see WinSDKVer.h)
-     1>c:\users\леша\documents\github\cbv64\prj\common\../Common/BaseTern.h(627): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-     1>c:\users\леша\documents\github\cbv64\prj\common\../Common/BaseTern.h(632): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tm.cpp(55): warning C4005: SIZE_T_MAX: изменение макроопределения
-                 C:\Program Files (x86)\Windows Kits\8.0\Include\shared\intsafe.h(208): см. предыдущее определение "SIZE_T_MAX"
-     1>..\Common\Tm.cpp(856): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tm.cpp(861): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-     1>..\Common\Tm.cpp(876): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tm.cpp(877): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tm.cpp(880): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-     1>..\Common\Tm.cpp(882): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-     1>..\Common\Tm.cpp(3345): warning C4244: аргумент: преобразование "INT_PTR" в "int", возможна потеря данных
-     1>..\Common\Tm.cpp(3346): warning C4244: аргумент: преобразование "INT_PTR" в "int", возможна потеря данных
-     1>..\Common\Tm.cpp(3362): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
-         Tm_Degen.cpp
-         _WIN32_WINNT not defined. Defaulting to _WIN32_WINNT_MAXVER (see WinSDKVer.h)
-     1>c:\users\леша\documents\github\cbv64\prj\common\../Common/BaseTern.h(627): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-     1>c:\users\леша\documents\github\cbv64\prj\common\../Common/BaseTern.h(632): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tm_Degen.cpp(70): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-     1>..\Common\Tm_Degen.cpp(107): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-     1>..\Common\Tm_Degen.cpp(131): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-     1>..\Common\Tm_Degen.cpp(178): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tm_Degen.cpp(179): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-         Tm_Equiv.cpp
-         _WIN32_WINNT not defined. Defaulting to _WIN32_WINNT_MAXVER (see WinSDKVer.h)
-     1>c:\users\леша\documents\github\cbv64\prj\common\../Common/BaseTern.h(627): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-     1>c:\users\леша\documents\github\cbv64\prj\common\../Common/BaseTern.h(632): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tm_Equiv.cpp(61): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-     1>..\Common\Tm_Equiv.cpp(74): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-     1>..\Common\Tm_Equiv.cpp(81): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-     1>..\Common\Tm_Equiv.cpp(129): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-     1>..\Common\Tm_Equiv.cpp(169): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tm_Equiv.cpp(176): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-         Tm_Invers.cpp
-         _WIN32_WINNT not defined. Defaulting to _WIN32_WINNT_MAXVER (see WinSDKVer.h)
-     1>c:\users\леша\documents\github\cbv64\prj\common\../Common/BaseTern.h(627): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-     1>c:\users\леша\documents\github\cbv64\prj\common\../Common/BaseTern.h(632): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tm_Invers.cpp(77): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-     1>..\Common\Tm_Invers.cpp(104): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-     1>..\Common\Tm_Invers.cpp(116): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-     1>..\Common\Tm_Invers.cpp(133): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-     1>..\Common\Tm_Invers.cpp(147): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-     1>..\Common\Tm_Invers.cpp(186): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-     1>..\Common\Tm_Invers.cpp(207): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-     1>..\Common\Tm_Invers.cpp(214): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-     1>..\Common\Tm_Invers.cpp(254): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-     1>..\Common\Tm_Invers.cpp(257): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-         Tv.cpp
-         _WIN32_WINNT not defined. Defaulting to _WIN32_WINNT_MAXVER (see WinSDKVer.h)
-     1>c:\users\леша\documents\github\cbv64\prj\common\../Common/BaseTern.h(627): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-     1>c:\users\леша\documents\github\cbv64\prj\common\../Common/BaseTern.h(632): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tv.cpp(131): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tv.cpp(138): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tv.cpp(182): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tv.cpp(302): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tv.cpp(307): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tv.cpp(1090): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tv.cpp(1094): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tv.cpp(1102): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tv.cpp(1106): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tv.cpp(1305): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
-     1>..\Common\Tv.cpp(1309): warning C4244: =: преобразование "ptrdiff_t" в "int", возможна потеря данных
-         Создание кода...
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(1299,5): warning MSB8012: TargetPath(C:\Users\Леша\Documents\GitHub\CBV64\Prj\Prj\x64\Debug\BaseTern.lib) does not match the Library's OutputFile property value (c:\Users\Леша\Documents\GitHub\CBV64\bin\Debug\BaseTern\BaseTern.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
-       Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\Lib.exe /OUT:".\../../bin/Debug/BaseTern\BaseTern.lib" /NOLOGO /MACHINE:X64 .\../../bin/Debug/BaseTern/Tm.obj
-         .\../../bin/Debug/BaseTern/Tm_Degen.obj
-         .\../../bin/Debug/BaseTern/Tm_Equiv.obj
-         .\../../bin/Debug/BaseTern/Tm_Invers.obj
-         .\../../bin/Debug/BaseTern/Tv.obj
-         BaseTern.vcxproj -> C:\Users\Леша\Documents\GitHub\CBV64\Prj\Prj\x64\Debug\BaseTern.lib
-     1>Построение проекта "c:\Users\Леша\Documents\GitHub\CBV64\Prj\Prj\BaseTern.vcxproj" завершено (целевые объекты Rebuild).
+﻿Построение начато 14.02.2014 17:00:17.
+     1>Проект "C:\Users\IsachenkoA\Documents\GitHub\CBV64\Prj\Prj\BaseTern.vcxproj" в узле 2 (целевые объекты Build).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(1299,5): warning MSB8012: TargetPath(C:\Users\IsachenkoA\Documents\GitHub\CBV64\Prj\Prj\x64\Debug\BaseTern.lib) does not match the Library's OutputFile property value (C:\Users\IsachenkoA\Documents\GitHub\CBV64\bin\Debug\BaseTern\BaseTern.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+     1>Lib:
+         BaseTern.vcxproj -> C:\Users\IsachenkoA\Documents\GitHub\CBV64\Prj\Prj\x64\Debug\BaseTern.lib
+     1>Построение проекта "C:\Users\IsachenkoA\Documents\GitHub\CBV64\Prj\Prj\BaseTern.vcxproj" завершено (целевые объекты Build).
 
 Построение успешно завершено.
 
-Затраченное время: 00:00:08.19
+Затраченное время: 00:00:00.05

@@ -51,6 +51,35 @@ namespace UnitTestCBV
 			CString c = a.BitChar();
 			Assert::IsTrue(L"00000010" == c);
 		}
+		
+		TEST_METHOD(TestMethod_Empty){
+			CBV a = CBV("101001");
+			Assert::IsFalse(a.IsEmpty());
+			a.Empty();
+			Assert::IsTrue(a.IsEmpty());
+
+		}
+
+		TEST_METHOD(TestMethod_GetBuffer){
+			CBV a = CBV("101010");
+			BYTE *z = a.GetBuffer(6);
+			Assert::IsFalse(a.IsEmpty());
+		}
+
+		TEST_METHOD(TestMethod_ReleaseBuffer){
+			CBV a = CBV("101010");
+			a.ReleaseBuffer(10);
+			Assert::IsTrue(a.GetBitLength() == 10);
+		}
+
+		TEST_METHOD(TestMethod_SetSize){
+			CBV a = CBV("101010");
+			a.SetSize(10,20);
+			Assert::IsTrue(a.GetBitLength() == 10);
+			Assert::IsTrue(a.GetAllocLength() == 3);
+		}
+
+
 
 	};
 }

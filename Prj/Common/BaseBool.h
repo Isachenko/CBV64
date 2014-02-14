@@ -253,7 +253,7 @@ public:
 #endif
   FSTD(CArch&) operator<<(CArch& ar, const CBV& bv);
   FSTD(CArch&) operator>>(CArch& ar, CBV& bv);
-
+  
 //***************************** Advanced access to memory *******************************
   void Empty();
   BYTE* GetBuffer(size_t nMinBufLength);

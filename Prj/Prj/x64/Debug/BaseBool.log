@@ -1,10 +1,48 @@
-﻿Построение начато 14.02.2014 13:00:42.
-     1>Проект "c:\Users\Леша\Documents\GitHub\CBV64\Prj\Prj\BaseBool.vcxproj" в узле 2 (целевые объекты Build).
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(1299,5): warning MSB8012: TargetPath(C:\Users\Леша\Documents\GitHub\CBV64\Prj\Prj\x64\Debug\BaseBool.lib) does not match the Library's OutputFile property value (c:\Users\Леша\Documents\GitHub\CBV64\bin\Debug\BaseBool\BaseBool.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
-     1>Lib:
-         BaseBool.vcxproj -> C:\Users\Леша\Documents\GitHub\CBV64\Prj\Prj\x64\Debug\BaseBool.lib
-     1>Построение проекта "c:\Users\Леша\Documents\GitHub\CBV64\Prj\Prj\BaseBool.vcxproj" завершено (целевые объекты Build).
+﻿Построение начато 14.02.2014 16:59:11.
+     1>Проект "C:\Users\IsachenkoA\Documents\GitHub\CBV64\Prj\Prj\BaseBool.vcxproj" в узле 2 (целевые объекты Build).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /I. /Zi /nologo /W3 /WX- /Od /D WIN32 /D _DEBUG /D _WINDOWS /D _MSVC9 /D _VC80_UPGRADE=0x0600 /D _AFXDLL /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\../../bin/Debug/BaseBool/" /Fd".\../../bin/Debug/BaseBool/vc110.pdb" /Gd /TP /errorReport:prompt ..\Common\Bv.cpp
+         Bv.cpp
+         _WIN32_WINNT not defined. Defaulting to _WIN32_WINNT_MAXVER (see WinSDKVer.h)
+     1>..\Common\Bv.cpp(95): warning C4244: =: преобразование "__int64" в "unsigned long", возможна потеря данных
+     1>..\Common\Bv.cpp(174): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(181): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+     1>..\Common\Bv.cpp(186): warning C4267: =: преобразование из "size_t" в "unsigned int"; возможна потеря данных
+     1>..\Common\Bv.cpp(210): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(213): warning C4267: =: преобразование из "size_t" в "unsigned long"; возможна потеря данных
+     1>..\Common\Bv.cpp(215): warning C4267: =: преобразование из "size_t" в "unsigned long"; возможна потеря данных
+     1>..\Common\Bv.cpp(307): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(320): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(331): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(343): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(353): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(372): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(425): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(457): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(509): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(539): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(543): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(593): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(780): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(804): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(827): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(838): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(849): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(860): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(870): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1091): warning C4018: <: несоответствие типов со знаком и без знака
+     1>..\Common\Bv.cpp(1106): warning C4018: <: несоответствие типов со знаком и без знака
+     1>..\Common\Bv.cpp(1217): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1397): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+     1>..\Common\Bv.cpp(1412): warning C4018: <=: несоответствие типов со знаком и без знака
+     1>..\Common\Bv.cpp(1434): warning C4018: >: несоответствие типов со знаком и без знака
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(1299,5): warning MSB8012: TargetPath(C:\Users\IsachenkoA\Documents\GitHub\CBV64\Prj\Prj\x64\Debug\BaseBool.lib) does not match the Library's OutputFile property value (C:\Users\IsachenkoA\Documents\GitHub\CBV64\bin\Debug\BaseBool\BaseBool.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\Lib.exe /OUT:".\../../bin/Debug/BaseBool\BaseBool.lib" /NOLOGO /MACHINE:X64 .\../../bin/Debug/BaseBool/Bm.obj
+         .\../../bin/Debug/BaseBool/Bv.obj
+         BaseBool.vcxproj -> C:\Users\IsachenkoA\Documents\GitHub\CBV64\Prj\Prj\x64\Debug\BaseBool.lib
+     1>Построение проекта "C:\Users\IsachenkoA\Documents\GitHub\CBV64\Prj\Prj\BaseBool.vcxproj" завершено (целевые объекты Build).
 
 Построение успешно завершено.
 
-Затраченное время: 00:00:00.01
+Затраченное время: 00:00:02.50
