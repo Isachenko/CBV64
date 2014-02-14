@@ -368,7 +368,7 @@ CBV::~CBV()       //  free any attached data
 #ifndef _LINUX
 //----------------------------------------------------------- BitChar(char One,char Zero)
 CString CBV::BitChar(char One,char Zero,int Max/*=0*/)
-{ int i,j=0;
+{ size_t i,j=0;
   CString res('\0',m_nBitLength);
   for (i=0; i<m_nBitLength; i++, j++)
   {
@@ -382,7 +382,7 @@ CString CBV::BitChar(char One,char Zero,int Max/*=0*/)
 }
 #else
 char* CBV::BitChar(char One,char Zero,int Max/*=0*/)
-{ int i,j=0;
+{ size_t i,j=0;
   if (Max!=0) j = m_nBitLength/Max +1;
   char* res = (char*)malloc(m_nBitLength + 1 + 2*j);
   memset(res,0,m_nBitLength + 1 + 2*j);
@@ -504,7 +504,7 @@ void CBV::One()
 }
 
 //-------------------------------------------------------- Extract(int nFirst,int nCount)
-CBV CBV::Extract(int nFirst,int nCount)
+CBV CBV::Extract(size_t nFirst,size_t nCount)
 { CBV s;
   s.Extr(m_bVect,m_nBitLength,nFirst,nCount);  return s;
 }

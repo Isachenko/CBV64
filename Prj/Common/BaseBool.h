@@ -157,11 +157,11 @@ public:
 #else
   char* BitChar(char One = '1',char Zero='0', int Max=0);
 #endif
-  CBV Extract(int nFirst,int nCount);
+  CBV Extract(size_t nFirst,size_t nCount);
 
 //*************************************** Writing ***************************************
-  void SetByteAt(int nIndex, BYTE ch);
-  void SetBitAt(int nIndex, BOOL bit);
+  void SetByteAt(size_t nIndex, BYTE ch);
+  void SetBitAt(size_t nIndex, BOOL bit);
 
 //*********************** Operators and functions of assignment *************************
   const CBV& operator=(const CBV& bvSrc);
@@ -572,12 +572,12 @@ inline BOOL CBV::GetBitAt(size_t nIndex) const                           //GetBi
   return ((m_bVect[BIT_BYTE(nIndex)] & OB[ADR_BIT(nIndex)])!=0);
 }
 
-inline void CBV::SetByteAt(int nIndex, BYTE ch)                       //SetByteAt
+inline void CBV::SetByteAt(size_t nIndex, BYTE ch)                       //SetByteAt
 { ASSERT(nIndex >= 0); ASSERT(nIndex < m_nByteLength);
   m_bVect[nIndex] = ch;
 }
 
-inline void CBV::SetBitAt(int nIndex,  BOOL bit)                      //SetBitAt
+inline void CBV::SetBitAt(size_t nIndex,  BOOL bit)                      //SetBitAt
 { ASSERT(nIndex >= 0); ASSERT(nIndex < m_nBitLength);
   if (bit) m_bVect[BIT_BYTE(nIndex)] |=OB[ADR_BIT(nIndex)];
   else     m_bVect[BIT_BYTE(nIndex)] &=~OB[ADR_BIT(nIndex)];
