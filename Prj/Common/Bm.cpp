@@ -349,7 +349,7 @@ void CBM::SetSize(int nRow, int nColumn, int nGrowBy /* = -1 */,int nColGrow/*=0
    m_nAllocLength=nBytemax;
  }
  else {                //when(nByte < m_nAllocLength)  new 022.12.99!!!!!!!!!!
-     size_t nost;           // new 022.12.99!!!!!!!!!!
+     int nost;           // new 022.12.99!!!!!!!!!!
    if (nColumn < m_nBitLength) {
    w = S_1-ADR_BIT(nColumn);  nost=nByte;   }
    else   {
