@@ -121,6 +121,173 @@ namespace UnitTestCBV
 			v1.ConNotInPlace(v2,8);
 			Assert::IsTrue(v1="00001100");
 		}
-		//-----------------------------------
+		
+        TEST_METHOD(TestMethod_IsZero)
+		{
+			CBV a = CBV("0");
+
+			Assert::IsTrue(a.IsZero() == TRUE);
+		}
+
+		TEST_METHOD(TestMethod_IsOne)
+		{
+			CBV a = CBV("1");
+
+			Assert::IsTrue(a.IsOne() == TRUE);
+		}
+
+		TEST_METHOD(TestMethod_EqualeCBVandCBV)
+		{
+			CBV a = CBV("10101");
+			CBV b = CBV("10101");
+			Assert::IsTrue(a == b);
+		}
+
+		TEST_METHOD(TestMethod_EqualeCBVandBYTE)
+		{
+			BYTE c[2] = {255,0};
+			const BYTE* a = c;
+
+			CBV b = CBV("1111111100");
+			Assert::IsTrue(b == a);
+		}
+
+
+		TEST_METHOD(TestMethod_EqualeBYTEandCBV)
+		{
+			BYTE c[2] = {255,0};
+			const BYTE* a = c;
+
+			CBV b = CBV("1111111100");
+			Assert::IsTrue(a == b);
+		}
+
+		TEST_METHOD(TestMethod_isNotEqualeCBVAndCBV)
+		{
+			CBV a = CBV("10100010");
+			CBV b = CBV("00000101");
+			Assert::IsTrue(a != b);
+		}
+
+		TEST_METHOD(TestMethod_isNotEqualeCBVandBYTE)
+		{
+
+			BYTE c[2] = {4,1};
+			const BYTE* a = c;
+
+			CBV b = CBV("00000101");
+			Assert::IsTrue(b != a);
+		}
+
+		TEST_METHOD(TestMethod_isNotEqualeBYTEandCBV)
+		{
+			BYTE c[2] = {4,1};
+			const BYTE* a = c;
+
+			CBV b = CBV("00000101");
+			Assert::IsTrue(a != b);
+		}
+
+
+		TEST_METHOD(TestMethod_GreaterCBVandCBV)
+		{
+			CBV a = CBV("1111111");
+			CBV b = CBV("0110110");
+			Assert::IsTrue(a > b);
+		}
+
+		TEST_METHOD(TestMethod_GreaterCBVandBYTE)
+		{			
+			BYTE c[2] = {4,24};
+			const BYTE* a = c;
+
+			CBV b = CBV("10001111");
+			Assert::IsTrue(b > a);
+		}
+
+		TEST_METHOD(TestMethod_GreaterBYTEandCBV)
+		{
+			BYTE c[2] = {255,1};
+			const BYTE* a = c;
+
+			CBV b = CBV("000011110");
+			Assert::IsTrue(a > b);
+		}
+
+		TEST_METHOD(TestMethod_LessCBVandCBV)
+		{
+			CBV a = CBV("101011");
+			CBV b = CBV("101010");
+			Assert::IsTrue(b < a);
+		}
+
+		TEST_METHOD(TestMethod_LessCBVandBYTE)
+		{
+			BYTE b[3] = {255, 31, 123};
+			const BYTE* a = b;
+
+			CBV c = CBV("11011");
+			Assert::IsTrue(c < a);
+		}
+
+		TEST_METHOD(TestMethod_LessBYTEandCBV)
+		{
+			BYTE c[2] = {0,1};
+			const BYTE* a = c;
+
+			CBV b = CBV("111110");
+			Assert::IsTrue(a < b);
+		}
+
+
+		TEST_METHOD(TestMethod_GreaterOrEqualeCBVandCBV)
+		{
+			CBV a = CBV("1111111");
+			CBV b = CBV("1111111");
+			Assert::IsTrue(a >= b);
+		}
+
+		TEST_METHOD(TestMethod_GreaterOrEqualeCBVandBYTE)
+		{
+			BYTE c[2] = {4,1};
+			const BYTE* a = c;
+
+			CBV b = CBV("11111111");
+			Assert::IsTrue(b >= a);
+		}
+
+		TEST_METHOD(TestMethod_GreaterOrEqualeBYTEandCBV)
+		{
+			BYTE c[2] = {255,1};
+			const BYTE* a = c;
+
+			CBV b = CBV("000110");
+			Assert::IsTrue(a >= b);
+		}
+
+		TEST_METHOD(TestMethod_LessOrEqualeCBVandCBV)
+		{
+			CBV a = CBV("0000010");
+			CBV b = CBV("0011010");
+			Assert::IsTrue(a <= b);
+		}
+
+		TEST_METHOD(TestMethod_LessOrEqualeCBVandBYTE)
+		{
+			BYTE c[2] = {255,13};
+			const BYTE* a = c;
+
+			CBV b = CBV("0011");
+			Assert::IsTrue(b <= a);
+		}
+
+		TEST_METHOD(TestMethod_LessOrEqualeBYTEandCBV)
+		{
+			BYTE c[2] = {4,1};
+			const BYTE* a = c;
+
+			CBV b = CBV("11111111");
+			Assert::IsTrue(a <= b);
+		}
 	};
 }
