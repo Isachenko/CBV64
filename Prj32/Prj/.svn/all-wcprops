@@ -1,0 +1,191 @@
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/182/trunk/_sys10/src/Prj
+END
+StdAfx.h
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/166/trunk/_sys10/src/Prj/StdAfx.h
+END
+BaseBool.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/182/trunk/_sys10/src/Prj/BaseBool.vcxproj
+END
+Common.sln
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/164/trunk/_sys10/src/Prj/Common.sln
+END
+UlongTern.vcxproj.user
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/164/trunk/_sys10/src/Prj/UlongTern.vcxproj.user
+END
+SOP.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/182/trunk/_sys10/src/Prj/SOP.vcxproj
+END
+BaseBool.vcxproj.user
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/164/trunk/_sys10/src/Prj/BaseBool.vcxproj.user
+END
+ComLib.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/182/trunk/_sys10/src/Prj/ComLib.vcxproj
+END
+ComLib.sln
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/168/trunk/_sys10/src/Prj/ComLib.sln
+END
+SBF.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/182/trunk/_sys10/src/Prj/SBF.vcxproj
+END
+UlongTern.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/182/trunk/_sys10/src/Prj/UlongTern.vcxproj
+END
+StdAfx.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/166/trunk/_sys10/src/Prj/StdAfx.cpp
+END
+BaseTern.vcxproj.user
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/164/trunk/_sys10/src/Prj/BaseTern.vcxproj.user
+END
+RareBool.vcxproj.user
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/164/trunk/_sys10/src/Prj/RareBool.vcxproj.user
+END
+SBF.vcxproj.user
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/164/trunk/_sys10/src/Prj/SBF.vcxproj.user
+END
+ShortTern.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/182/trunk/_sys10/src/Prj/ShortTern.vcxproj
+END
+ShortBool.vcxproj.user
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/164/trunk/_sys10/src/Prj/ShortBool.vcxproj.user
+END
+LongBool.vcxproj.user
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/164/trunk/_sys10/src/Prj/LongBool.vcxproj.user
+END
+ComBool.sln
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/164/trunk/_sys10/src/Prj/ComBool.sln
+END
+IterBool.vcxproj.user
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/164/trunk/_sys10/src/Prj/IterBool.vcxproj.user
+END
+ComLibW.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/166/trunk/_sys10/src/Prj/ComLibW.vcxproj
+END
+UlongBool.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/182/trunk/_sys10/src/Prj/UlongBool.vcxproj
+END
+BaseTern.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/182/trunk/_sys10/src/Prj/BaseTern.vcxproj
+END
+ShortTern.vcxproj.user
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/164/trunk/_sys10/src/Prj/ShortTern.vcxproj.user
+END
+RareBool.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/182/trunk/_sys10/src/Prj/RareBool.vcxproj
+END
+ComLibW.vcxproj.user
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/166/trunk/_sys10/src/Prj/ComLibW.vcxproj.user
+END
+LongBool.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/182/trunk/_sys10/src/Prj/LongBool.vcxproj
+END
+ShortBool.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/182/trunk/_sys10/src/Prj/ShortBool.vcxproj
+END
+UlongBool.vcxproj.user
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/164/trunk/_sys10/src/Prj/UlongBool.vcxproj.user
+END
+SOP.vcxproj.user
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/164/trunk/_sys10/src/Prj/SOP.vcxproj.user
+END
+IterBool.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/182/trunk/_sys10/src/Prj/IterBool.vcxproj
+END
+ComLib.vcxproj.user
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/166/trunk/_sys10/src/Prj/ComLib.vcxproj.user
+END
