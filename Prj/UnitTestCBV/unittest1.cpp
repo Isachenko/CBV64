@@ -79,5 +79,150 @@ namespace UnitTestCBV
 			Assert::IsTrue(a.GetAllocLength() == 3);
 		}
 
+<<<<<<< HEAD
+=======
+		//--------------GenRbv tests --------------
+		
+		TEST_METHOD(TestMethod_GenRbv) {
+			size_t n = 100;
+			CBV v = v.GenRbv(n);
+
+			size_t a = 0, b = 0;
+			for (size_t i = 0; i < n; i++) {
+				if (v[i] == 0)
+					a++;
+				if (v[i] == 1)
+					b++;
+			}
+			Assert::IsTrue((a+b) == 100);
+			Assert::IsTrue(a == b);
+		}
+
+		TEST_METHOD(TestMethod_GenRbvN) {
+			size_t n = 100;
+			CBV v = v.GenRbvN(n);
+
+			size_t a = 0, b = 0;
+			for (size_t i = 0; i < n; i++) {
+				if (v[i] == 0)
+					a++;
+				if (v[i] == 1)
+					b++;
+			}
+			Assert::IsTrue((a+b) == 100);
+			Assert::IsTrue(a == b);
+		}
+
+		TEST_METHOD(TestMethod_GenRbvMid) {
+			int n = 100;
+
+			CBV v = v.GenRbvMid(n, n+10);
+			size_t a = 0;
+			for (size_t i = 0; i < n; i++) {
+				if (v[i] == 1)
+					a++;
+			}
+			Assert::IsTrue(a == 100);
+
+			CBV v1 = v1.GenRbvMid(n, 0);
+			a = 0;
+			for (size_t i = 0; i < n; i++) {
+				if (v[i] == 0)
+					a++;
+			}
+			Assert::IsTrue(a == 100);
+
+			CBV v2 = v2.GenRbvMid(n, 30);
+			size_t b = 0;
+			a = 0;
+			for (size_t i = 0; i < n; i++) {
+				if (v[i] == 0)
+					a++;
+				if (v[i] == 1)
+					b++;
+			}
+			Assert::IsTrue((a+b) == 100);
+			Assert::IsTrue(b == 50);
+		}
+
+		TEST_METHOD(TestMethod_GenRbvFix) {
+			int n = 100;
+
+			CBV v = v.GenRbvFix(n, n+10);
+			size_t a = 0;
+			for (size_t i = 0; i < n; i++) {
+				if (v[i] == 1)
+					a++;
+			}
+			Assert::IsTrue(a == 100);
+
+			CBV v1 = v1.GenRbvMid(n, 0);
+			a = 0;
+			for (size_t i = 0; i < n; i++) {
+				if (v[i] == 0)
+					a++;
+			}
+			Assert::IsTrue(a == 100);
+
+			CBV v2 = v2.GenRbvMid(n, 30);
+			size_t b = 0;
+			a = 0;
+			for (size_t i = 0; i < n; i++) {
+				if (v[i] == 0)
+					a++;
+				if (v[i] == 1)
+					b++;
+			}
+			Assert::IsTrue((a+b) == 100);
+			Assert::IsTrue(b == 30);
+		}
+
+		TEST_METHOD(TestMethod_GetByteAt)
+        {
+            CBV cbv("010011101001110010");
+            Assert::IsTrue(0x4e == cbv.GetByteAt(0));
+            Assert::IsTrue(0x9c == cbv.GetByteAt(1));
+        }
+
+        TEST_METHOD(TestMethod_OperatorSquareBrackets)
+        {
+            CBV cbv("010011101001110010");
+            Assert::IsTrue(0x9c == cbv[1]);
+            Assert::IsTrue(0x80 == cbv[2]);
+        }
+
+        TEST_METHOD(TestMethod_GetBitAt)
+        {
+            CBV cbv("010011101001110010");
+            Assert::IsTrue(TRUE == cbv.GetBitAt(4));
+            Assert::IsTrue(FALSE == cbv.GetBitAt(10));
+        }
+
+        TEST_METHOD(TestMethod_BitChar)
+        {
+            CBV cbv("010011101001110010");
+            Assert::IsTrue(L"010011101001110010" == cbv.BitChar());
+        }
+
+        TEST_METHOD(TestMethod_Extract)
+        {
+            CBV src("010011101001110010");
+            CBV res("01110100111");
+            Assert::IsTrue(res == src.Extract(3, 11));
+        }
+
+        TEST_METHOD(TestMethod_GetBitLength)
+        {
+            CBV cbv("010011101001110010");
+            Assert::IsTrue(18 == cbv.GetBitLength());
+        }
+
+        TEST_METHOD(TestMethod_GetByteLength)
+        {
+            CBV cbv("010011101001110010");
+            Assert::IsTrue(3 == cbv.GetByteLength());
+        }
+
+>>>>>>> 225b30cb96f0dc685d11e060cbb3f8e00a67d345
 	};
 }
