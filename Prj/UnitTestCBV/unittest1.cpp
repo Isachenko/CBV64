@@ -89,7 +89,7 @@ namespace UnitTestCBV
 		TEST_METHOD(TestMethod_RightShiftInPlace)
 		{
 			CBV v1 = CBV("01110101");
-			size_t nshift = 8;
+			size_t nshift = 4;
 			v1>>=nshift;
 			Assert::IsTrue(v1=="00000111");
 		}
