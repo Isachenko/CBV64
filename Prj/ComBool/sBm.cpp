@@ -27,7 +27,7 @@
 #else
 #include "../ComBool/ShortBool.h"
 #include "../Common/BaseBool.h"
-#include "../Com_Lib/archive.h"
+#include "../Common/archive.h"
 #endif
 
 #define SIZE_T_MAX  UINT_MAX            /* max size for a size_t */

@@ -30,7 +30,7 @@
 #else
 #include "../ComBool/ShortBool.h"
 #include "../Common/BaseBool.h"
-//#include "../Com_Lib/archive.h"
+#include "../Common/archive.h"
 #endif
 
 #ifdef _LINUX
