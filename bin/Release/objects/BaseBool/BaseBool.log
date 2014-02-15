@@ -1,0 +1,115 @@
+﻿Build started 15.02.2014 14:03:35.
+     1>Project "C:\Users\Asus\Documents\GitHub\CBV64\Prj\Prj\BaseBool.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I. /Zi /nologo /W3 /WX- /O2 /Ob1 /Oy- /D WIN32 /D NDEBUG /D _WINDOWS /D _MSVC9 /D _VC80_UPGRADE=0x0600 /D _AFXDLL /GF /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\../../bin/Release/objects/BaseBool/" /Fd".\../../bin/Release/objects/BaseBool/vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\Common\Bm.cpp ..\Common\Bv.cpp
+         Bm.cpp
+         _WIN32_WINNT not defined. Defaulting to _WIN32_WINNT_MAXVER (see WinSDKVer.h)
+     1>c:\users\asus\documents\github\cbv64\prj\common\../Common/BaseBool.h(78): warning C4305: 'initializing' : truncation from 'unsigned __int64' to 'const size_t'
+     1>c:\users\asus\documents\github\cbv64\prj\common\../Common/BaseBool.h(78): warning C4309: 'initializing' : truncation of constant value
+     1>c:\users\asus\documents\github\cbv64\prj\common\../Common/BaseBool.h(78): warning C4305: 'initializing' : truncation from '__int64' to 'const size_t'
+     1>c:\users\asus\documents\github\cbv64\prj\common\../Common/BaseBool.h(79): warning C4305: 'initializing' : truncation from '__int64' to 'const size_t'
+     1>c:\users\asus\documents\github\cbv64\prj\common\../Common/BaseBool.h(79): warning C4309: 'initializing' : truncation of constant value
+     1>c:\users\asus\documents\github\cbv64\prj\common\../Common/BaseBool.h(80): warning C4305: 'initializing' : truncation from '__int64' to 'const size_t'
+     1>c:\users\asus\documents\github\cbv64\prj\common\../Common/BaseBool.h(80): warning C4309: 'initializing' : truncation of constant value
+     1>c:\users\asus\documents\github\cbv64\prj\common\../Common/BaseBool.h(81): warning C4305: 'initializing' : truncation from '__int64' to 'const size_t'
+     1>c:\users\asus\documents\github\cbv64\prj\common\../Common/BaseBool.h(81): warning C4309: 'initializing' : truncation of constant value
+     1>c:\users\asus\documents\github\cbv64\prj\common\../Common/BaseBool.h(82): warning C4305: 'initializing' : truncation from '__int64' to 'const size_t'
+     1>c:\users\asus\documents\github\cbv64\prj\common\../Common/BaseBool.h(82): warning C4309: 'initializing' : truncation of constant value
+     1>c:\users\asus\documents\github\cbv64\prj\common\../Common/BaseBool.h(83): warning C4305: 'initializing' : truncation from '__int64' to 'const size_t'
+     1>c:\users\asus\documents\github\cbv64\prj\common\../Common/BaseBool.h(83): warning C4309: 'initializing' : truncation of constant value
+     1>c:\users\asus\documents\github\cbv64\prj\common\../Common/BaseBool.h(84): warning C4305: 'initializing' : truncation from '__int64' to 'const size_t'
+     1>c:\users\asus\documents\github\cbv64\prj\common\../Common/BaseBool.h(84): warning C4309: 'initializing' : truncation of constant value
+     1>c:\users\asus\documents\github\cbv64\prj\common\../Common/BaseBool.h(85): warning C4305: 'initializing' : truncation from '__int64' to 'const size_t'
+     1>c:\users\asus\documents\github\cbv64\prj\common\../Common/BaseBool.h(85): warning C4309: 'initializing' : truncation of constant value
+     1>..\Common\Bm.cpp(1045): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1047): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1060): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1062): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1064): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1080): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1081): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1091): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1092): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1101): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1102): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1113): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1114): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1124): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1125): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1134): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1135): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1146): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1147): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1157): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1158): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1167): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1168): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1178): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1179): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1188): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1189): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1204): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1205): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1216): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1217): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1227): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1228): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1242): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1244): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1257): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1258): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1269): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1270): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1280): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1281): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1295): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1297): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1310): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1311): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1322): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1323): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1333): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1334): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1348): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1350): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1362): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1363): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1373): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1374): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1387): warning C4018: '<' : signed/unsigned mismatch
+     1>..\Common\Bm.cpp(1388): warning C4018: '<' : signed/unsigned mismatch
+         Bv.cpp
+         _WIN32_WINNT not defined. Defaulting to _WIN32_WINNT_MAXVER (see WinSDKVer.h)
+     1>c:\users\asus\documents\github\cbv64\prj\common\BaseBool.h(78): warning C4305: 'initializing' : truncation from 'unsigned __int64' to 'const size_t'
+     1>c:\users\asus\documents\github\cbv64\prj\common\BaseBool.h(78): warning C4309: 'initializing' : truncation of constant value
+     1>c:\users\asus\documents\github\cbv64\prj\common\BaseBool.h(78): warning C4305: 'initializing' : truncation from '__int64' to 'const size_t'
+     1>c:\users\asus\documents\github\cbv64\prj\common\BaseBool.h(79): warning C4305: 'initializing' : truncation from '__int64' to 'const size_t'
+     1>c:\users\asus\documents\github\cbv64\prj\common\BaseBool.h(79): warning C4309: 'initializing' : truncation of constant value
+     1>c:\users\asus\documents\github\cbv64\prj\common\BaseBool.h(80): warning C4305: 'initializing' : truncation from '__int64' to 'const size_t'
+     1>c:\users\asus\documents\github\cbv64\prj\common\BaseBool.h(80): warning C4309: 'initializing' : truncation of constant value
+     1>c:\users\asus\documents\github\cbv64\prj\common\BaseBool.h(81): warning C4305: 'initializing' : truncation from '__int64' to 'const size_t'
+     1>c:\users\asus\documents\github\cbv64\prj\common\BaseBool.h(81): warning C4309: 'initializing' : truncation of constant value
+     1>c:\users\asus\documents\github\cbv64\prj\common\BaseBool.h(82): warning C4305: 'initializing' : truncation from '__int64' to 'const size_t'
+     1>c:\users\asus\documents\github\cbv64\prj\common\BaseBool.h(82): warning C4309: 'initializing' : truncation of constant value
+     1>c:\users\asus\documents\github\cbv64\prj\common\BaseBool.h(83): warning C4305: 'initializing' : truncation from '__int64' to 'const size_t'
+     1>c:\users\asus\documents\github\cbv64\prj\common\BaseBool.h(83): warning C4309: 'initializing' : truncation of constant value
+     1>c:\users\asus\documents\github\cbv64\prj\common\BaseBool.h(84): warning C4305: 'initializing' : truncation from '__int64' to 'const size_t'
+     1>c:\users\asus\documents\github\cbv64\prj\common\BaseBool.h(84): warning C4309: 'initializing' : truncation of constant value
+     1>c:\users\asus\documents\github\cbv64\prj\common\BaseBool.h(85): warning C4305: 'initializing' : truncation from '__int64' to 'const size_t'
+     1>c:\users\asus\documents\github\cbv64\prj\common\BaseBool.h(85): warning C4309: 'initializing' : truncation of constant value
+     1>..\Common\Bv.cpp(87): warning C4305: 'initializing' : truncation from '__int64' to 'size_t'
+     1>..\Common\Bv.cpp(87): warning C4309: 'initializing' : truncation of constant value
+     1>..\Common\Bv.cpp(92): warning C4293: '>>' : shift count negative or too big, undefined behavior
+     1>..\Common\Bv.cpp(94): warning C4293: '<<' : shift count negative or too big, undefined behavior
+     1>..\Common\Bv.cpp(94): warning C4293: '>>' : shift count negative or too big, undefined behavior
+     1>..\Common\Bv.cpp(1011): warning C4018: '<' : signed/unsigned mismatch
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:".\../../bin/Release/Lib\BaseBool.lib" /NOLOGO .\../../bin/Release/objects/BaseBool/Bm.obj
+         .\../../bin/Release/objects/BaseBool/Bv.obj
+         BaseBool.vcxproj -> C:\Users\Asus\Documents\GitHub\CBV64\Prj\Prj\.\../../bin/Release/Lib\BaseBool.lib
+     1>Done Building Project "C:\Users\Asus\Documents\GitHub\CBV64\Prj\Prj\BaseBool.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:10.30

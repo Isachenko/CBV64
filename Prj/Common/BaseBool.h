@@ -111,9 +111,12 @@ const BYTE TabC[256] = {
 4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8};
 
 
-inline BYTE COUNTBIT(BYTE a) {
-BYTE w=a;
- w=(w&0x55)+((w>>1)&0x55);  w=(w&0x33)+((w>>2)&0x33); return((w&0x0f)+((w>>4)&0x0f));
+inline BYTE COUNTBIT(BYTE a)
+{
+	BYTE w = a;
+	w = (w & 0x55) + ((w >> 1) & 0x55);
+	w = (w & 0x33) + ((w >> 2) & 0x33);
+	return ((w & 0x0f) + ((w >> 4) & 0x0f));
 }
 
 //----------- Внеклассовые функции для работы с датчиком случайных ------------
@@ -143,8 +146,8 @@ public:
 
 //*********************** Functions for generation **************************************
   CBV GenRbv (size_t nCol);
-  CBV GenRbvMid(int nCol, int nRang);
-  CBV GenRbvFix (int nCol, int nRang);
+  CBV GenRbvMid(size_t nCol, size_t nRang);
+  CBV GenRbvFix (size_t nCol, size_t nRang);
 
   CBV GenRbvN(size_t n);   // 09.11.2007
 //*************************************** Reading ***************************************
@@ -153,7 +156,7 @@ public:
   BYTE GetByteAt(size_t nIndex) const;
   BOOL GetBitAt(size_t nIndex) const;
 #ifndef _LINUX
-  CString BitChar(char One = '1',char Zero='0', int Max=0);
+  CString BitChar(char One = '1',char Zero='0', size_t Max=0);
 #else
   char* BitChar(char One = '1',char Zero='0', int Max=0);
 #endif
@@ -257,15 +260,15 @@ public:
 //***************************** Advanced access to memory *******************************
   void Empty();
   BYTE* GetBuffer(size_t nMinBufLength);
-  void ReleaseBuffer(ptrdiff_t nNewLength = -1);
-  BYTE* SetSize(ptrdiff_t nNewLength,ptrdiff_t nNewAllocLength=-1);
+  void ReleaseBuffer(size_t nNewLength = -1);
+  BYTE* SetSize(size_t nNewLength,size_t nNewAllocLength=-1);
 
   void AssignDiz(size_t nBitLength, const BYTE* v1, const BYTE* v2);
-  void AssignDiz(size_t nBitLength, int Num, BYTE* v1, ...);
+  void AssignDiz(size_t nBitLength, size_t Num, BYTE* v1, ...);
   void AssignCon(size_t nBitLength, const BYTE* v1, const BYTE* v2);
-  void AssignCon(size_t nBitLength, int Num, BYTE* v1, ...);
+  void AssignCon(size_t nBitLength, size_t Num, BYTE* v1, ...);
   void AssignXor(size_t nBitLength, const BYTE* v1, const BYTE* v2);
-  void AssignXor(size_t nBitLength, int Num, BYTE* v1, ...);
+  void AssignXor(size_t nBitLength, size_t Num, BYTE* v1, ...);
   void AssignDif(size_t nBitLength, const BYTE* v1, const BYTE* v2);
 
 protected:
@@ -275,8 +278,8 @@ protected:
   size_t m_nAllocLength;
 
 //******************************** Protected functions **********************************
-  void AllocCopy(CBV& dest, int nCopyLen, int nCopyIndex, int nExtraLen) const;
-  void AllocBuffer(int nLen);
+  void AllocCopy(CBV& dest, size_t nCopyLen, size_t nCopyIndex, size_t nExtraLen) const;
+  void AllocBuffer(size_t nLen);
   void CharBit(size_t nLenByte,const char* pch);
   void AssignChar(size_t nLenBit, const char* pch);
   void AssignCopy(size_t nLenBit,size_t nLenByte, const BYTE* pbtSrcData);
@@ -293,7 +296,7 @@ protected:
   void Not(const BYTE* Vect1,size_t BitLen1);
   void ConNot(const BYTE* Vect1,size_t BitLen1,const BYTE* Vect2,size_t BitLen2);
   void ConNotInPlace(const BYTE* Vect1,size_t BitLen1);
-  void Extr(const BYTE* SrcVect, int SrcBitLen,int nFirst,int nCount);
+  void Extr(const BYTE* SrcVect, size_t SrcBitLen,size_t nFirst,size_t nCount);
   void Conc(const BYTE* SrcVect, size_t SrcBitLen);
   void Conc2(const BYTE* Vect1, size_t SrcBitLen1,const BYTE* Vect2, size_t SrcBitLen2);
   BOOL Equality(const BYTE* Vect2,size_t BitLen2) const;

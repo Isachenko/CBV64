@@ -54,16 +54,16 @@ namespace UnitTestCBV
 		
 		TEST_METHOD(TestMethod_Empty){
 			CBV a = CBV("101001");
-			Assert::IsFalse(a.IsEmpty());
+			Assert::IsFalse(a.IsEmpty() == TRUE);
 			a.Empty();
-			Assert::IsTrue(a.IsEmpty());
+			Assert::IsTrue(a.IsEmpty() == TRUE);
 
 		}
 
 		TEST_METHOD(TestMethod_GetBuffer){
 			CBV a = CBV("101010");
 			BYTE *z = a.GetBuffer(6);
-			Assert::IsFalse(a.IsEmpty());
+			Assert::IsFalse(a.IsEmpty() == TRUE);
 		}
 
 		TEST_METHOD(TestMethod_ReleaseBuffer){
