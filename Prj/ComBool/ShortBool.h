@@ -83,21 +83,31 @@ const BYTE sTabC[256] = {
 4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8};  
 
 
-const ULONG sOB[32]=
-        { 0x80000000, 0x40000000, 0x20000000, 0x10000000, 
-           0x8000000,  0x4000000,  0x2000000,  0x1000000, 
-            0x800000,   0x400000,   0x200000,   0x100000, 
-             0x80000,    0x40000,    0x20000,    0x10000, 
-              0x8000,     0x4000,     0x2000,     0x1000, 
-               0x800,      0x400,      0x200,      0x100, 
-                0x80,       0x40,       0x20,       0x10, 
-                 0x8,        0x4,        0x2,        0x1 };
+const size_t sOB[32]=
+{
+	0x8000000000000000, 0x4000000000000000, 0x2000000000000000, 0x1000000000000000,
+	0x800000000000000,  0x400000000000000,  0x200000000000000,  0x100000000000000,
+	0x80000000000000,   0x40000000000000,   0x20000000000000,   0x10000000000000,
+	0x8000000000000,    0x4000000000000,    0x2000000000000,    0x1000000000000,
+	0x800000000000,     0x400000000000,     0x200000000000,     0x100000000000,
+	0x80000000000,      0x40000000000,      0x20000000000,      0x10000000000,
+	0x8000000000,       0x4000000000,       0x2000000000,       0x1000000000,
+	0x800000000,        0x400000000,        0x200000000,        0x100000000,
+	0x80000000,         0x40000000,         0x20000000,         0x10000000, 
+	0x8000000,          0x4000000,          0x2000000,          0x1000000, 
+	0x800000,           0x400000,           0x200000,           0x100000, 
+	0x80000,            0x40000,            0x20000,            0x10000, 
+	0x8000,             0x4000,             0x2000,             0x1000, 
+	0x800,              0x400,              0x200,              0x100, 
+	0x80,               0x40,               0x20,               0x10, 
+	0x8,                0x4,                0x2,                0x1
+};
 
 
-inline int COUNTLONG(ULONG u)
+inline __int8 COUNTLONG(size_t u)
 { 
- BYTE* pB= (BYTE*)&u;
- return (sTabC[pB[0]] + sTabC[pB[1]] + sTabC[pB[2]] + sTabC[pB[3]]); 
+	BYTE* pB= (BYTE*)&u;
+	return (sTabC[pB[0]] + sTabC[pB[1]] + sTabC[pB[2]] + sTabC[pB[3]] + sTabC[pB[4]] + sTabC[pB[5]] + sTabC[pB[6]] + sTabC[pB[7]]); 
 }
 
 
@@ -109,7 +119,7 @@ public:
   CsBV();
   CsBV(const CsBV& bvSrc);
   CsBV(int nLength, BOOL Fl);
-  CsBV(const ULONG UintVal, int nLenBit);
+  CsBV(const size_t UintVal, int nLenBit);
   CsBV(const char* pch);
   ~CsBV();
 
@@ -119,7 +129,7 @@ public:
 //*********************** Functions for getting class's parametrs ***********************
   int GetBitLength() const;
 //*************************************** Reading ***************************************
-  operator ULONG () const;
+  operator size_t () const;
   BOOL GetBitAt(int nIndex) const;
 #ifndef _LINUX
   CString BitChar(char One = '1',char Zero='0');
@@ -132,36 +142,36 @@ public:
   void SetBitAt(int nIndex, BOOL bit);
 //*********************** Operators and functions of assignment *************************
   const CsBV& operator=(const CsBV& bvSrc);
-  const CsBV& operator=(const ULONG pbt);
+  const CsBV& operator=(const size_t pbt);
   const CsBV& operator=(const char* pch);
   void Zero();
   void One();
 //************************** Operators of advanced assignment ***************************
   const CsBV& operator |=(const CsBV& bv1);
-  const CsBV& operator |=(const ULONG Vect);
+  const CsBV& operator |=(const size_t Vect);
   const CsBV& operator &=(const CsBV& bv1);
-  const CsBV& operator &=(const ULONG Vect);
+  const CsBV& operator &=(const size_t Vect);
   const CsBV& operator ^=(const CsBV& bv1);
-  const CsBV& operator ^=(const ULONG Vect);
+  const CsBV& operator ^=(const size_t Vect);
   const CsBV& operator -=(const CsBV& bv1);
-  const CsBV& operator -=(const ULONG Vect);
+  const CsBV& operator -=(const size_t Vect);
   const CsBV& operator <<=(int nShift);
   const CsBV& operator >>=(int nShift);
 //********************************** Logic operations ***********************************
   FSTD(CsBV) operator|(const CsBV& bv1,const CsBV& bv2);
-  FSTD(CsBV) operator|(const CsBV& bv1,const ULONG Vect);
-  FSTD(CsBV) operator|(const ULONG Vect,const CsBV& bv2);
+  FSTD(CsBV) operator|(const CsBV& bv1,const size_t Vect);
+  FSTD(CsBV) operator|(const size_t Vect,const CsBV& bv2);
   FSTD(CsBV) operator&(const CsBV& bv1,const CsBV& bv2);
-  FSTD(CsBV) operator&(const ULONG Vect,const CsBV& bv2);
-  FSTD(CsBV) operator&(const CsBV& bv1,const ULONG Vect);
+  FSTD(CsBV) operator&(const size_t Vect,const CsBV& bv2);
+  FSTD(CsBV) operator&(const CsBV& bv1,const size_t Vect);
   FSTD(CsBV) operator^(const CsBV& bv1,const CsBV& bv2);
-  FSTD(CsBV) operator^(const ULONG Vect,const CsBV& bv2);
-  FSTD(CsBV) operator^(const CsBV& bv1,const ULONG Vect);
+  FSTD(CsBV) operator^(const size_t Vect,const CsBV& bv2);
+  FSTD(CsBV) operator^(const CsBV& bv1,const size_t Vect);
   FSTD(CsBV) operator-(const CsBV& bv1,const CsBV& bv2);
-  FSTD(CsBV) operator-(const ULONG Vect,const CsBV& bv2);
-  FSTD(CsBV) operator-(const CsBV& bv1,const ULONG Vect);
+  FSTD(CsBV) operator-(const size_t Vect,const CsBV& bv2);
+  FSTD(CsBV) operator-(const CsBV& bv1,const size_t Vect);
   FSTD(CsBV) operator~(const CsBV& bv2);
-  void Invert(const ULONG Vect);
+  void Invert(const size_t Vect);
   FSTD(CsBV) operator<<(const CsBV& bv1, int nShift);
   FSTD(CsBV) operator>>(const CsBV& bv1, int nShift);
   void LoopLeftShift(int nShift);
@@ -172,7 +182,7 @@ public:
   int RightOne(int nNext = -1) const;
 //**************************** Operations of concatinations *****************************
   void Concat(const CsBV& bv);
-  void Concat(const ULONG Vect, int nLength);
+  void Concat(const size_t Vect, int nLength);
   void Concat(const CsBV& bv1,const CsBV& bv2);
   void Concat(BOOL Bit=FALSE);
 //******************************* Compareing operations *********************************
@@ -180,23 +190,23 @@ public:
   BOOL IsZero() const;
   BOOL IsOne() const;
   FSTD(BOOL) operator==(const CsBV& bv1, const CsBV& bv2);
-  FSTD(BOOL) operator==(const CsBV& bv1, const ULONG Vect);
-  FSTD(BOOL) operator==(const ULONG Vect, const CsBV& bv2);
+  FSTD(BOOL) operator==(const CsBV& bv1, const size_t Vect);
+  FSTD(BOOL) operator==(const size_t Vect, const CsBV& bv2);
   FSTD(BOOL) operator!=(const CsBV& bv1, const CsBV& bv2);
-  FSTD(BOOL) operator!=(const CsBV& bv1, const ULONG Vect);
-  FSTD(BOOL) operator!=(const ULONG Vect, const CsBV& bv2);
+  FSTD(BOOL) operator!=(const CsBV& bv1, const size_t Vect);
+  FSTD(BOOL) operator!=(const size_t Vect, const CsBV& bv2);
   FSTD(BOOL) operator>(const CsBV& bv1, const CsBV& bv2);
-  FSTD(BOOL) operator>(const CsBV& bv1, const ULONG Vect);
-  FSTD(BOOL) operator>(const ULONG Vect, const CsBV& bv2);
+  FSTD(BOOL) operator>(const CsBV& bv1, const size_t Vect);
+  FSTD(BOOL) operator>(const size_t Vect, const CsBV& bv2);
   FSTD(BOOL) operator<(const CsBV& bv1, const CsBV& bv2);
-  FSTD(BOOL) operator<(const CsBV& bv1, const ULONG Vect);
-  FSTD(BOOL) operator<(const ULONG Vect, const CsBV& bv2);
+  FSTD(BOOL) operator<(const CsBV& bv1, const size_t Vect);
+  FSTD(BOOL) operator<(const size_t Vect, const CsBV& bv2);
   FSTD(BOOL) operator>=(const CsBV& bv1, const CsBV& bv2);
-  FSTD(BOOL) operator>=(const CsBV& bv1, const ULONG Vect);
-  FSTD(BOOL) operator>=(const ULONG Vect, const CsBV& bv2);
+  FSTD(BOOL) operator>=(const CsBV& bv1, const size_t Vect);
+  FSTD(BOOL) operator>=(const size_t Vect, const CsBV& bv2);
   FSTD(BOOL) operator<=(const CsBV& bv1, const CsBV& bv2);
-  FSTD(BOOL) operator<=(const CsBV& bv1, const ULONG Vect);
-  FSTD(BOOL) operator<=(const ULONG Vect, const CsBV& bv2);
+  FSTD(BOOL) operator<=(const CsBV& bv1, const size_t Vect);
+  FSTD(BOOL) operator<=(const size_t Vect, const CsBV& bv2);
 #ifndef _LINUX
 //****************************** Input/Output operations ********************************
 #ifdef _DEBUG
@@ -214,9 +224,9 @@ protected:
   int m_nBitLength;
 //******************************** Protected functions **********************************
   void CharBit(int nLenByte, const char* pch);
-  void LeftShiftVect(const ULONG Vect, int Len, int nShift);
+  void LeftShiftVect(const size_t Vect, int Len, int nShift);
   void LeftShiftInPlace(int nShift);
-  void RightShiftVect(const ULONG Vect, int Len, int nShift);
+  void RightShiftVect(const size_t Vect, int Len, int nShift);
   void RightShiftInPlace(int nShift);
 
 
@@ -231,11 +241,11 @@ protected:
   void ConNotInPlace(const size_t Vect, int Len1);
   
   
-  void Conc(const ULONG Vect, int Len);
-  void Conc2(const ULONG Vect1, int Len1, const ULONG Vect2, int Len2);
-  BOOL Equality(const ULONG Vect,int Len) const;
-  BOOL Pogl(const ULONG Vect, int Len, BOOL Dist) const;
-  BOOL PoglEq(const ULONG Vect, int Len, BOOL Dist) const;
+nst size_t Vect, int Len);
+  void Conc2(const size_t Vect1, int Len1, const size_t Vect2, int Len2);
+  BOOL Equality(const size_t Vect,int Len) const;
+  BOOL Pogl(const size_t Vect, int Len, BOOL Dist) const;
+  BOOL PoglEq(const size_t Vect, int Len, BOOL Dist) const;
   static int SafeStrlen(const char* pch);
 };
 
@@ -250,7 +260,7 @@ inline void CsBV::Empty() { m_nBitLength = m_bVect = 0; }
 inline void CsBV::Zero()  { m_bVect = 0; }
 inline BOOL CsBV::IsEmpty() const   { return m_nBitLength == 0; }
 
-inline CsBV::operator ULONG() const { return m_bVect; }
+inline CsBV::operator size_t() const { return m_bVect; }
 
 inline BOOL CsBV::GetBitAt(int nIndex) const
 { ASSERT(nIndex >= 0); ASSERT(nIndex < m_nBitLength);
@@ -272,7 +282,7 @@ inline const CsBV& CsBV::operator =(const char* pch)
   return *this; 
 }
 
-inline const CsBV& CsBV::operator =(const ULONG IntVal)
+inline const CsBV& CsBV::operator =(const size_t IntVal)
 { if (m_nBitLength > 0)  m_bVect =IntVal >> (32 - m_nBitLength) << (32 - m_nBitLength);
   return *this;
 }
@@ -289,7 +299,7 @@ inline void CsBV::Add2InPlace(const size_t Vect1, int Len1)
 inline void CsBV::ConNotInPlace(const size_t Vect1, int Len1)
 { ASSERT(Len1 == m_nBitLength);   m_bVect &= ~Vect1; }
 
-inline void CsBV:: Invert(const ULONG Vect)
+inline void CsBV:: Invert(const size_t Vect)
 {
   m_bVect = ~Vect >> (32 - m_nBitLength) << (32 - m_nBitLength);
 }
@@ -325,7 +335,7 @@ public:
    CsBM();
    CsBM(const CsBM& bm, BOOL Fl = TRUE );
    CsBM(int nRow, int nColumn,BOOL Fl = FALSE);
-   CsBM(const ULONG pbt, int nRow,int nColumn);
+   CsBM(const size_t pbt, int nRow,int nColumn);
    CsBM(const char* pch);
 #ifndef _LINUX
    CsBM(const CStringArray& StrAr);
@@ -349,13 +359,13 @@ public:
 //********************************** Reading the data ***********************************
 
    BOOL GetBitAt(int nRow,int nColumn) const;
-   BOOL GetBitAt(int nRow,int nColumn, ULONG mask) const;
-   ULONG GetRow(int nIndex) const;
+   BOOL GetBitAt(int nRow,int nColumn, size_t mask) const;
+   size_t GetRow(int nIndex) const;
    CsBV GetRowBv(int nRow) const;
-   CsBV GetRowBv(int nIndex,ULONG mask) const;
+   CsBV GetRowBv(int nIndex,size_t mask) const;
    CsBV GetColumnBv(int nColomn) const;
-   CsBV GetColumnBv(int nColumn,ULONG mask) const;
-   ULONG operator[](int nIndex) const;
+   CsBV GetColumnBv(int nColumn,size_t mask) const;
+   size_t operator[](int nIndex) const;
 #ifndef _LINUX
    CString BitChar(char One = '1',char Zero = '0');
    void BitChar(CStringArray & StrRes, char One = '1',char Zero = '0');
@@ -372,19 +382,19 @@ public:
 
 //********************************** Writing the data ***********************************
    void SetBitAt(int nRow,int nColumn, BOOL bit);
-   void SetRow(int nRow,const ULONG newRow);
+   void SetRow(int nRow,const size_t newRow);
    void SetRow(int nRow, const CsBV& newRow);
    void SetRow(int nRow, const CsBM& bm, int nbmRow);
 
 //********************************** Working with row ***********************************
-   void SetRowGrow(int nIndex, const ULONG newRow);
+   void SetRowGrow(int nIndex, const size_t newRow);
    void SetRowGrow(int nIndex, const CsBV& newRow);
    void SetRowGrow(int nRow, const CsBM& bm, int nbmRow);
-   int Add(const ULONG newRow);
+   int Add(const size_t newRow);
    int Add(const CsBV& bv);
    int Add(const CsBM& bm, int nbmRow=-1);
    int Add(BOOL bit=FALSE,int nCount=1);
-   void InsertRow(int nRow,const ULONG newRow, int nCount = 1);
+   void InsertRow(int nRow,const size_t newRow, int nCount = 1);
    void InsertRow(int nRow, const CsBV& newRow, int nCount = 1);
    void InsertRow(int nRow,int nStartIndex, const CsBM& NewBM,int nCount = 1);
    void RemoveRow(int nIndex, int nCount = 1);
@@ -411,58 +421,58 @@ public:
 //************************** Operators of advanced assignment ***************************
    const CsBM& operator|=(const CsBM& bm);
    const CsBM& operator|=(const CsBV& bv);
-   const CsBM& operator|=(const ULONG pt);
+   const CsBM& operator|=(const size_t pt);
    const CsBM& operator&=(const CsBM& bm);
    const CsBM& operator&=(const CsBV& bv);
-   const CsBM& operator&=(const ULONG pt);
+   const CsBM& operator&=(const size_t pt);
    const CsBM& operator^=(const CsBM& bm);
    const CsBM& operator^=(const CsBV& bv);
-   const CsBM& operator^=(const ULONG pt);
+   const CsBM& operator^=(const size_t pt);
    const CsBM& operator-=(const CsBV& bv);
-   const CsBM& operator-=(const ULONG pt);
+   const CsBM& operator-=(const size_t pt);
 
 //********************************** Logic operations ***********************************
    FSTD(CsBM) operator|(const CsBM& bm1,const CsBM& bm2);
    FSTD(CsBM) operator|(const CsBM& bm1,const CsBV& bv2);
-   FSTD(CsBM) operator|(const CsBM& bm, const ULONG pt);
+   FSTD(CsBM) operator|(const CsBM& bm, const size_t pt);
    CsBV Disjunction();
    FSTD(CsBM) operator&(const CsBM& bm1,const CsBM& bm2);
    FSTD(CsBM) operator&(const CsBM& bm1,const CsBV& bv2);
-   FSTD(CsBM) operator&(const CsBM& bm, const ULONG pt);
+   FSTD(CsBM) operator&(const CsBM& bm, const size_t pt);
    CsBV Conjunction();
    FSTD(CsBM) operator^(const CsBM& bm1,const CsBM& bm2);
    FSTD(CsBM) operator^(const CsBM& bm1,const CsBV& bv2);
-   FSTD(CsBM) operator^(const CsBM& bm, const ULONG pt);
+   FSTD(CsBM) operator^(const CsBM& bm, const size_t pt);
    CsBV BitwiseExclusive();
    FSTD(CsBM) operator-(const CsBM& bm1,const CsBV& bv2);
-   FSTD(CsBM) operator-(const CsBM& bm, const ULONG pt);
+   FSTD(CsBM) operator-(const CsBM& bm, const size_t pt);
    FSTD(CsBM) operator~(const CsBM& bm);
 
 //******************** Operations of weighting, finding and casing **********************
    int CountBit(int nRow = -1) const;
-   int CountBit(const ULONG mask,int nRow= -1) const;
+   int CountBit(const size_t mask,int nRow= -1) const;
    int LeftOne(int nRow, int nNext = -1) const;
-   int LeftOne(int nRow, int nNext, ULONG mask) const;
+   int LeftOne(int nRow, int nNext, size_t mask) const;
    int RightOne(int nRow, int nPrev = -1) const;
-   int RightOne(int nRow, int nPrev,ULONG mask) const;
+   int RightOne(int nRow, int nPrev,size_t mask) const;
    int FindRow (BOOL Empty, int nFRow=-1) const;
-   int FindRow (BOOL Empty, ULONG mask, int nFRow=-1) const;
+   int FindRow (BOOL Empty, size_t mask, int nFRow=-1) const;
    int FindRow (const CsBV& bv, int nFRow=-1) const;
-   int FindRow(const ULONG pt, int nFRow=-1) const;
+   int FindRow(const size_t pt, int nFRow=-1) const;
 
 //******************************* Compareing operations *********************************
    BOOL IsEmpty() const;
    BOOL IsZero(int nRow = -1) const;
-   BOOL IsZero(const ULONG mask,int nRow) const;
+   BOOL IsZero(const size_t mask,int nRow) const;
    BOOL IsOne(int nRow = -1) const;
-   BOOL IsOne(const ULONG mask,int nRow) const;
+   BOOL IsOne(const size_t mask,int nRow) const;
    FSTD(BOOL) operator==(const CsBM& bm1,const CsBM& bm2);
    FSTD(BOOL) operator!=(const CsBM& bm1,const CsBM& bm2);
    FSTD(BOOL) operator>(const CsBM& bm1,const CsBM& bm2);
    FSTD(BOOL) operator<(const CsBM& bm1,const CsBM& bm2);
    FSTD(BOOL) operator>=(const CsBM& bm1,const CsBM& bm2);
    FSTD(BOOL) operator<=(const CsBM& bm1,const CsBM& bm2);
-   int CoverRow(int nRow1, int nRow2, const ULONG mask);
+   int CoverRow(int nRow1, int nRow2, const size_t mask);
    int CoverRow(int nRow1, int nRow2);
 
 #ifndef _LINUX
@@ -476,7 +486,7 @@ public:
     void Serialize(CArch&);
 
 protected:
-   ULONG* m_pData;
+   size_t* m_pData;
    int m_nSize;
    int m_nMaxSize;
    int m_nGrowBy;
@@ -505,13 +515,13 @@ inline void CsBM::RemoveAll() { SetSize(0,0); }
 
 inline void CsBM::RemoveAllRows() { SetSize(0,m_nBitLength); }
 
-inline ULONG CsBM::GetRow(int nIndex) const
+inline ULOsize_tNG CsBM::GetRow(int nIndex) const
 { ASSERT(nIndex >= 0 && nIndex < m_nSize); return m_pData[nIndex]; }
 
-inline void CsBM::SetRow(int nIndex,const ULONG newRow)
+inline void CsBM::SetRow(int nIndex,const size_t newRow)
 { ASSERT(nIndex >= 0 && nIndex < m_nSize);  m_pData[nIndex] = newRow; }
 
-inline int CsBM::Add(const ULONG newRow)
+inline int CsBM::Add(const size_t newRow)
 { SetRowGrow(m_nSize, newRow); return (m_nSize-1); }
 
 inline int CsBM::Add(const CsBV& bv)
@@ -520,7 +530,7 @@ inline int CsBM::Add(const CsBV& bv)
 inline BOOL CsBM::IsEmpty() const
 { return (m_pData==NULL && m_nSize==0); }
 
-inline ULONG CsBM::operator [](int nIndex) const
+inline size_t CsBM::operator [](int nIndex) const
 { return GetRow(nIndex); }
 
 inline BOOL CsBM::GetBitAt(int nRow,int nColumn) const
@@ -529,7 +539,7 @@ inline BOOL CsBM::GetBitAt(int nRow,int nColumn) const
   return ((m_pData[nRow] & sOB[nColumn])!=0);
 }
 
-inline BOOL CsBM::GetBitAt(int nRow,int nColumn, ULONG mask) const
+inline BOOL CsBM::GetBitAt(int nRow,int nColumn, size_t mask) const
 { ASSERT(nColumn >= 0); ASSERT(nRow >= 0);
   ASSERT(nColumn < m_nBitLength); ASSERT(nRow < m_nSize);
   return ((m_pData[nRow] & mask & sOB[nColumn])!=0);
