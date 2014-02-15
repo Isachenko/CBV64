@@ -38,10 +38,10 @@
 
 #ifdef _JOINT
 #include "BaseBool.h"
-//#include "archive.h"
+#include "archive.h"
 #else
 #include "../Common/BaseBool.h"
-//#include "../Com_Lib/archive.h"
+#include "../Common/archive.h"
 #endif
 
 #ifndef _LINUX
@@ -1331,7 +1331,7 @@ CArchive& AFXAPI operator>>(CArchive& ar, CBV& bv)
 
 //------------------------------------- operator<<(CArchive& ar, const CBV& bv)
 
-/*STD(CArch&) operator<<(CArch& ar, const CBV& bv)
+STD(CArch&) operator<<(CArch& ar, const CBV& bv)
 {
   ar << bv.m_nByteLength;
   ar << bv.m_nBitLength;
@@ -1350,7 +1350,7 @@ STD(CArch&) operator>>(CArch& ar, CBV& bv)
     ar.Read(bv.m_bVect, bv.m_nByteLength);
   }
   return ar;
-}*/
+}
 
 
 

@@ -115,7 +115,7 @@ extern unsigned int GetRandN();
 extern void SetRandMode(BOOL Fl = TRUE);
 extern BOOL GetRandMode();
 
-//class CArch;
+class CArch;
 
 class CBV
 {
@@ -239,8 +239,8 @@ public:
   friend CArchive& AFXAPI operator<<(CArchive& ar, const CBV& bv);
   friend CArchive& AFXAPI operator>>(CArchive& ar, CBV& bv);
 #endif
-  //FSTD(CArch&) operator<<(CArch& ar, const CBV& bv);
-  //FSTD(CArch&) operator>>(CArch& ar, CBV& bv);
+  FSTD(CArch&) operator<<(CArch& ar, const CBV& bv);
+  FSTD(CArch&) operator>>(CArch& ar, CBV& bv);
 
 //***************************** Advanced access to memory *******************************
   void Empty();
@@ -478,7 +478,7 @@ public:
   void AssertValid() const;
 #endif
 #endif //_LINUX
-  //void Serialize(CArch&);
+  void Serialize(CArch&);
 
   void SetRowDiz(int nRow, const BYTE* v1);
   void SetRowDiz(int nRow, const BYTE* v1, const BYTE* v2);

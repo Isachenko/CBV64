@@ -51,7 +51,7 @@
 #include "archive.h"
 #else
 #include "../Common/BaseBool.h"
-#include "../Com_Lib/archive.h"
+#include "../Common/archive.h"
 #endif
 
 
@@ -1916,7 +1916,7 @@ void CBM::CharBit(const vector <string>& s)     //new 11.02
 
 
 //---------------------------------------------------------------Serialize(CArchive& ar)
-/*void CBM::Serialize(CArch& ar)
+void CBM::Serialize(CArch& ar)
 { 
   int i,j;
 
@@ -1937,7 +1937,7 @@ void CBM::CharBit(const vector <string>& s)     //new 11.02
       for (j=0; j<m_nByteLength; j++)         
         ar >> m_pData[i][j];
   }
-}*/
+}
 
 
 //----------------------------------------------------------------------- CharBit(CString s)
