@@ -30,7 +30,7 @@
 #else
 #include "../ComBool/ShortBool.h"
 #include "../Common/BaseBool.h"
-#include "../Com_Lib/archive.h"
+//#include "../Com_Lib/archive.h"
 #endif
 
 #ifdef _LINUX
@@ -210,7 +210,7 @@ public:
   void Empty();
   void SetSize(int nNewLength);
 protected:
-  ULONG m_bVect;
+  size_t m_bVect;
   int m_nBitLength;
 //******************************** Protected functions **********************************
   void CharBit(int nLenByte, const char* pch);

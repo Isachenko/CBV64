@@ -43,29 +43,30 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 //  *** ћодификаци€ “омашева - 27 €нвар€ 1999
 //---------------------------------------------------------
 CuBV GetRandVu()
-{ CuBV Vect(32,0);
-  BYTE Work[4];
-  unsigned long   f13 = 1220703125;  // f13 = 5**13
-  unsigned long  d, m = 0x7fffffff;  //  m  = 2**31-1
-  d= GetRgrain();
-#ifndef _LINUX
- __asm mov eax,d           //      
- __asm mul f13             //  Rgrain=(Rgrain*f13)[mod(2**31-1)]
- __asm div m               //  (непосредсвенно на ассемблере)
- __asm mov d,edx           //                              V.T.
-    
+{ //CuBV Vect(32,0);
+//  BYTE Work[4];
+//  unsigned long   f13 = 1220703125;  // f13 = 5**13
+//  unsigned long  d, m = 0x7fffffff;  //  m  = 2**31-1
+//  d= GetRgrain();
+//#ifndef _LINUX
+// __asm mov eax,d           //      
+// __asm mul f13             //  Rgrain=(Rgrain*f13)[mod(2**31-1)]
+// __asm div m               //  (непосредсвенно на ассемблере)
+// __asm mov d,edx           //                              V.T.
+//    
+////  SetRgrain(d);     // Rgrain - глобальна€ перем.= тек.сост.генератора 
+//  Work[0] = (BYTE)( d >> 16); Work[1] = (BYTE)( d >> 8); 
+// __asm mov eax,d           //      
+// __asm mul f13             //  Rgrain=(Rgrain*f13)[mod(2**31-1)]
+// __asm div m               //  (непосредсвенно на ассемблере)
+// __asm mov d,edx           //                              V.T.
+//  
 //  SetRgrain(d);     // Rgrain - глобальна€ перем.= тек.сост.генератора 
-  Work[0] = (BYTE)( d >> 16); Work[1] = (BYTE)( d >> 8); 
- __asm mov eax,d           //      
- __asm mul f13             //  Rgrain=(Rgrain*f13)[mod(2**31-1)]
- __asm div m               //  (непосредсвенно на ассемблере)
- __asm mov d,edx           //                              V.T.
-  
-  SetRgrain(d);     // Rgrain - глобальна€ перем.= тек.сост.генератора 
-  Work[2] = (BYTE)( d >> 16); Work[3] = (BYTE)( d >> 8); 
-  Vect = (const ULONG*) Work;
-#endif
-  return Vect;
+//  Work[2] = (BYTE)( d >> 16); Work[3] = (BYTE)( d >> 8); 
+//  Vect = (const ULONG*) Work;
+//#endif
+//  return Vect;
+return NULL;
 }
 
 //********************************************************   GenRbv
