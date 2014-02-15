@@ -284,35 +284,35 @@ void CsBV::RightShiftVect(const ULONG Vect, int Len, int nShift)
 }
 
 //-------------------------------------------------------------------
-void CsBV::Diz(const ULONG Vect1, int Len1, const ULONG Vect2, int Len2)
+void CsBV::Diz(const size_t Vect1, int Len1, const size_t Vect2, int Len2)
 { ASSERT(Len1 == Len2);
   m_bVect = Vect1 | Vect2;
   m_nBitLength = Len1;
 }
 
 //-------------------------------------------------------------------
-void CsBV::Con(const ULONG Vect1, int Len1, const ULONG Vect2, int Len2)
+void CsBV::Con(const size_t Vect1, int Len1, const size_t Vect2, int Len2)
 { ASSERT(Len1 == Len2);
   m_bVect = Vect1 & Vect2;
   m_nBitLength = Len1;
 }
 
 //-------------------------------------------------------------------
-void CsBV::Add2(const ULONG Vect1, int Len1, const ULONG Vect2, int Len2)
+void CsBV::Add2(const size_t Vect1, int Len1, const size_t Vect2, int Len2)
 { ASSERT(Len1 == Len2);
   m_bVect = Vect1 ^ Vect2;
   m_nBitLength = Len1;
 }
 
 //-------------------------------------------------------------------
-void CsBV::ConNot(const ULONG Vect1, int Len1, const ULONG Vect2, int Len2)
+void CsBV::ConNot(const size_t Vect1, int Len1, const size_t Vect2, int Len2)
 { ASSERT(Len1 == Len2);
   m_bVect = Vect1 & ~Vect2;
   m_nBitLength = Len1;
 }
 
 //-------------------------------------------------------------------
-void CsBV::Not(const ULONG Vect, int Len)
+void CsBV::Not(const size_t Vect, int Len)
 { m_nBitLength = Len;
   m_bVect = ~Vect >> (32 - Len) << (32 - Len);
 }

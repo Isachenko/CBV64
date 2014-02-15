@@ -218,15 +218,19 @@ protected:
   void LeftShiftInPlace(int nShift);
   void RightShiftVect(const ULONG Vect, int Len, int nShift);
   void RightShiftInPlace(int nShift);
-  void Diz(const ULONG Vect1, int Len1, const ULONG Vect2, int Len2);
-  void DizInPlace(const ULONG Vect, int Len);
-  void Con(const ULONG Vect1, int Len1, const ULONG Vect2, int Len2);
-  void ConInPlace(const ULONG Vect1, int Len);
-  void Add2(const ULONG Vect1, int Len1, const ULONG Vect2, int Len2);
-  void Add2InPlace(const ULONG Vect, int Len);
-  void Not(const ULONG Vect, int Len1);
-  void ConNot(const ULONG Vect1, int Len1, const ULONG Vect2, int Len2);
-  void ConNotInPlace(const ULONG Vect, int Len1);
+
+
+  void Diz(const size_t Vect1, int Len1, const size_t Vect2, int Len2);
+  void DizInPlace(const size_t Vect, int Len);
+  void Con(const size_t Vect1, int Len1, const size_t Vect2, int Len2);
+  void ConInPlace(const size_t Vect1, int Len);
+  void Add2(const size_t Vect1, int Len1, const size_t Vect2, int Len2);
+  void Add2InPlace(const size_t Vect, int Len);
+  void Not(const size_t Vect, int Len1);
+  void ConNot(const size_t Vect1, int Len1, const size_t Vect2, int Len2);
+  void ConNotInPlace(const size_t Vect, int Len1);
+  
+  
   void Conc(const ULONG Vect, int Len);
   void Conc2(const ULONG Vect1, int Len1, const ULONG Vect2, int Len2);
   BOOL Equality(const ULONG Vect,int Len) const;
@@ -273,16 +277,16 @@ inline const CsBV& CsBV::operator =(const ULONG IntVal)
   return *this;
 }
 
-inline void CsBV::DizInPlace(const ULONG Vect1, int Len1)
+inline void CsBV::DizInPlace(const size_t Vect1, int Len1)
 { ASSERT(Len1 == m_nBitLength);   m_bVect |= Vect1; }
 
-inline void CsBV::ConInPlace(const ULONG Vect1, int Len1)
+inline void CsBV::ConInPlace(const size_t Vect1, int Len1)
 { ASSERT(Len1 == m_nBitLength);   m_bVect &= Vect1; }
 
-inline void CsBV::Add2InPlace(const ULONG Vect1, int Len1)
+inline void CsBV::Add2InPlace(const size_t Vect1, int Len1)
 { ASSERT(Len1 == m_nBitLength);   m_bVect ^= Vect1; }
 
-inline void CsBV::ConNotInPlace(const ULONG Vect1, int Len1)
+inline void CsBV::ConNotInPlace(const size_t Vect1, int Len1)
 { ASSERT(Len1 == m_nBitLength);   m_bVect &= ~Vect1; }
 
 inline void CsBV:: Invert(const ULONG Vect)
