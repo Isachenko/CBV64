@@ -160,10 +160,10 @@ CsBV CsBV::Extract(int nFirst, int nCount)
 void CsBV::Conc2(const ULONG Vect1, int Len1, const ULONG Vect2, int Len2)
 { 
   m_nBitLength = Len1 + Len2;
-  ASSERT(m_nBitLength <= 32);
+  ASSERT(m_nBitLength <= 64);
   if (m_nBitLength == 0) 
     { m_bVect = 0; return;}
-  m_bVect = Vect1 | (Vect2 >> (32 - Len2) << (32 - m_nBitLength));
+  m_bVect = Vect1 | (Vect2 >> (64 - Len2) << (64 - m_nBitLength));
 }
 
 //-------------------------------------------------------------------
@@ -342,7 +342,7 @@ STD(CsBV) operator |(const CsBV& bv1, const CsBV& bv2)
 STD(CsBV) operator |(const CsBV& bv, const ULONG Vect)
 { CsBV s;
   s.Diz(bv.m_bVect, bv.m_nBitLength, 
-        Vect >> (32 - bv.m_nBitLength) << (32 - bv.m_nBitLength), 
+        Vect >> (64 - bv.m_nBitLength) << (64 - bv.m_nBitLength), 
         bv.m_nBitLength);
   return s;
 }
@@ -350,7 +350,7 @@ STD(CsBV) operator |(const CsBV& bv, const ULONG Vect)
 //-------------------------------------------------------------------
 STD(CsBV) operator |(const ULONG Vect, const CsBV& bv)
 { CsBV s;
-  s.Diz(Vect >> (32 - bv.m_nBitLength) << (32 - bv.m_nBitLength), 
+  s.Diz(Vect >> (64 - bv.m_nBitLength) << (64 - bv.m_nBitLength), 
         bv.m_nBitLength, bv.m_bVect, bv.m_nBitLength);
   return s;
 }
@@ -365,7 +365,7 @@ STD(CsBV) operator &(const CsBV& bv1, const CsBV& bv2)
 //-------------------------------------------------------------------
 STD(CsBV) operator &(const ULONG Vect, const CsBV& bv)
 { CsBV s;
-  s.Con(Vect >> (32 - bv.m_nBitLength) << (32 - bv.m_nBitLength), 
+  s.Con(Vect >> (64 - bv.m_nBitLength) << (64 - bv.m_nBitLength), 
         bv.m_nBitLength, bv.m_bVect, bv.m_nBitLength);
   return s;
 }
@@ -374,7 +374,7 @@ STD(CsBV) operator &(const ULONG Vect, const CsBV& bv)
 STD(CsBV) operator &(const CsBV& bv, const ULONG Vect)
 { CsBV s;
   s.Con(bv.m_bVect, bv.m_nBitLength, 
-        Vect >> (32 - bv.m_nBitLength) << (32 - bv.m_nBitLength), 
+        Vect >> (64 - bv.m_nBitLength) << (64 - bv.m_nBitLength), 
         bv.m_nBitLength);
   return s;
 }
@@ -389,7 +389,7 @@ STD(CsBV) operator ^(const CsBV& bv1, const CsBV& bv2)
 //-------------------------------------------------------------------
 STD(CsBV) operator ^(const ULONG Vect, const CsBV& bv)
 { CsBV s;
-  s.Add2(Vect >> (32 - bv.m_nBitLength) << (32 - bv.m_nBitLength), 
+  s.Add2(Vect >> (64 - bv.m_nBitLength) << (64 - bv.m_nBitLength), 
          bv.m_nBitLength, bv.m_bVect, bv.m_nBitLength);
   return s;
 }
@@ -398,7 +398,7 @@ STD(CsBV) operator ^(const ULONG Vect, const CsBV& bv)
 STD(CsBV) operator ^(const CsBV& bv, const ULONG Vect)
 { CsBV s;
   s.Add2(bv.m_bVect, bv.m_nBitLength, 
-         Vect >> (32 - bv.m_nBitLength) << (32 - bv.m_nBitLength), 
+         Vect >> (64 - bv.m_nBitLength) << (64 - bv.m_nBitLength), 
          bv.m_nBitLength);
   return s;
 }
@@ -413,7 +413,7 @@ STD(CsBV) operator -(const CsBV& bv1, const CsBV& bv2)
 //-------------------------------------------------------------------
 STD(CsBV) operator -(const ULONG Vect, const CsBV& bv)
 { CsBV s;
-  s.ConNot(Vect >> (32 - bv.m_nBitLength) << (32 - bv.m_nBitLength), 
+  s.ConNot(Vect >> (64 - bv.m_nBitLength) << (64 - bv.m_nBitLength), 
            bv.m_nBitLength, bv.m_bVect, bv.m_nBitLength);
   return s;
 }
@@ -422,7 +422,7 @@ STD(CsBV) operator -(const ULONG Vect, const CsBV& bv)
 STD(CsBV) operator -(const CsBV& bv, const ULONG Vect)
 { CsBV s;
   s.ConNot(bv.m_bVect, bv.m_nBitLength, 
-           Vect >> (32 - bv.m_nBitLength) << (32 - bv.m_nBitLength), 
+           Vect >> (64 - bv.m_nBitLength) << (64 - bv.m_nBitLength), 
            bv.m_nBitLength);
   return s;
 }
@@ -484,14 +484,14 @@ int CsBV::RightOne(int nPrev) const
 //-------------------------------------------------------------------
 BOOL CsBV::Equality(const ULONG Vect, int Len) const
 { if (m_nBitLength != Len)  return FALSE;
-  if (m_bVect != (Vect >>(32-m_nBitLength)<<(32-m_nBitLength))) return FALSE;
+  if (m_bVect != (Vect >>(64-m_nBitLength)<<(64-m_nBitLength))) return FALSE;
  return TRUE;
 }
 
 //-------------------------------------------------------------------
 BOOL CsBV::Pogl(const ULONG Vect, int Len, BOOL Dist) const
 { ASSERT(m_nBitLength == Len);
-  ULONG V = Vect >> (32 - m_nBitLength) << (32 - m_nBitLength);
+  ULONG V = Vect >> (64 - m_nBitLength) << (64 - m_nBitLength);
   if (Dist) { 
     if ((m_bVect & V) != V)   return FALSE; 
   }
@@ -505,7 +505,7 @@ BOOL CsBV::Pogl(const ULONG Vect, int Len, BOOL Dist) const
 //-------------------------------------------------------------------
 BOOL CsBV::PoglEq(const ULONG Vect, int Len, BOOL Dist) const
 { ASSERT(m_nBitLength == Len);
-  ULONG V = Vect >> (32 - m_nBitLength) << (32 - m_nBitLength);
+  ULONG V = Vect >> (64 - m_nBitLength) << (64 - m_nBitLength);
   if (Dist) { 
     if ((m_bVect & V) != V)   return FALSE; 
   }

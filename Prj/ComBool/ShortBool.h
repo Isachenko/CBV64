@@ -287,7 +287,7 @@ inline void CsBV::ConNotInPlace(const ULONG Vect1, int Len1)
 
 inline void CsBV:: Invert(const ULONG Vect)
 {
-  m_bVect = ~Vect >> (32 - m_nBitLength) << (32 - m_nBitLength);
+  m_bVect = ~Vect >> (64 - m_nBitLength) << (64 - m_nBitLength);
 }
 
 inline int CsBV::SafeStrlen(const char* pch)
