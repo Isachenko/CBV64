@@ -65,6 +65,7 @@ CsBV::CsBV(int nLength, BOOL Fl)
     if (Fl) {   // Bits
       m_bVect = 0xffffffff >> (32 - nLength) << (32 - nLength);
     }
+
     else m_bVect = 0;
     m_nBitLength = nLength;
   }
