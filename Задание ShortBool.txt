@@ -1,0 +1,269 @@
+/////////////////////////////////////////////////////////////////
+// Short Boolean vector
+#ifndef _SBOOLEAN_
+#define _SBOOLEAN_
+
+#include <string.h>
+#include <stdlib.h>
+
+#ifndef FO_
+#define FO_
+#define FSTD(_x) friend _x AFXAPI 
+#define STD(_x) _x AFXAPI 
+
+const BYTE sTabC[256] = {
+0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 
+1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
+1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
+2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
+1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
+2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
+2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
+3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 
+1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
+2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
+2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
+3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 
+2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
+3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 
+3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 
+4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8};  
+
+
+const ULONG sOB[32]=
+        { 0x80000000, 0x40000000, 0x20000000, 0x10000000, 
+           0x8000000,  0x4000000,  0x2000000,  0x1000000, 
+            0x800000,   0x400000,   0x200000,   0x100000, 
+             0x80000,    0x40000,    0x20000,    0x10000, 
+              0x8000,     0x4000,     0x2000,     0x1000, 
+               0x800,      0x400,      0x200,      0x100, 
+                0x80,       0x40,       0x20,       0x10, 
+                 0x8,        0x4,        0x2,        0x1 };
+
+
+inline int COUNTLONG(ULONG u)
+{ 
+ BYTE* pB= (BYTE*)&u;
+ return (sTabC[pB[0]] + sTabC[pB[1]] + sTabC[pB[2]] + sTabC[pB[3]]); 
+}
+
+// ******************************************* 1 Копылов
+
+
+class CsBV
+{
+public:
+  friend class CBV;
+//******************************* Constructors\Destructor *******************************
+  CsBV();
+  CsBV(const CsBV& bvSrc);
+  CsBV(int nLength, BOOL Fl);
+  CsBV(const ULONG UintVal, int nLenBit);
+  CsBV(const char* pch);
+  ~CsBV();
+
+
+
+// ******************************************* 2 Камалов
+
+//*********************** Functions for getting class's parametrs ***********************
+  int GetBitLength() const;
+//*************************************** Reading ***************************************
+  operator ULONG () const;
+  BOOL GetBitAt(int nIndex) const;
+
+  char* BitChar(char One = '1',char Zero='0');
+  CsBV Extract(int nFirst,int nCount);
+
+
+//*************************************** Writing ***************************************
+  void SetBitAt(int nIndex, BOOL bit);
+
+
+
+// ******************************************* 3   Голубев
+//*********************** Operators and functions of assignment *************************
+  const CsBV& operator=(const CsBV& bvSrc);
+  const CsBV& operator=(const ULONG pbt);
+  const CsBV& operator=(const char* pch);
+  void Zero();
+  void One();
+//************************** Operators of advanced assignment ***************************
+  const CsBV& operator |=(const CsBV& bv1);
+  const CsBV& operator |=(const ULONG Vect);
+  const CsBV& operator &=(const CsBV& bv1);
+  const CsBV& operator &=(const ULONG Vect);
+  const CsBV& operator ^=(const CsBV& bv1);
+  const CsBV& operator ^=(const ULONG Vect);
+  const CsBV& operator -=(const CsBV& bv1);
+  const CsBV& operator -=(const ULONG Vect);
+  const CsBV& operator <<=(int nShift);
+  const CsBV& operator >>=(int nShift);
+
+
+
+// ******************************************* 4 Петрович
+
+//********************************** Logic operations ***********************************
+  FSTD(CsBV) operator|(const CsBV& bv1,const CsBV& bv2);
+  FSTD(CsBV) operator|(const CsBV& bv1,const ULONG Vect);
+  FSTD(CsBV) operator|(const ULONG Vect,const CsBV& bv2);
+  FSTD(CsBV) operator&(const CsBV& bv1,const CsBV& bv2);
+  FSTD(CsBV) operator&(const ULONG Vect,const CsBV& bv2);
+  FSTD(CsBV) operator&(const CsBV& bv1,const ULONG Vect);
+  FSTD(CsBV) operator^(const CsBV& bv1,const CsBV& bv2);
+  FSTD(CsBV) operator^(const ULONG Vect,const CsBV& bv2);
+  FSTD(CsBV) operator^(const CsBV& bv1,const ULONG Vect);
+  FSTD(CsBV) operator-(const CsBV& bv1,const CsBV& bv2);
+  FSTD(CsBV) operator-(const ULONG Vect,const CsBV& bv2);
+  FSTD(CsBV) operator-(const CsBV& bv1,const ULONG Vect);
+  FSTD(CsBV) operator~(const CsBV& bv2);
+  void Invert(const ULONG Vect);
+
+
+// ******************************************* 5 Шпаковский
+
+  FSTD(CsBV) operator<<(const CsBV& bv1, int nShift);
+  FSTD(CsBV) operator>>(const CsBV& bv1, int nShift);
+  void LoopLeftShift(int nShift);
+  void LoopRightShift(int nShift);
+
+
+
+// ******************************************* 6 Пансевич
+
+//******************** Operations of weighting, finding and casing **********************
+  int  CountBit() const;
+  int LeftOne(int nNext = -1) const;
+  int RightOne(int nNext = -1) const;
+
+// ******************************************* 7 Гаврильчик
+
+//**************************** Operations of concatinations *****************************
+  void Concat(const CsBV& bv);
+  void Concat(const ULONG Vect, int nLength);
+  void Concat(const CsBV& bv1,const CsBV& bv2);
+  void Concat(BOOL Bit=FALSE);
+//******************************* Compareing operations *********************************
+  BOOL IsEmpty() const;
+  BOOL IsZero() const;
+  BOOL IsOne() const;
+  FSTD(BOOL) operator==(const CsBV& bv1, const CsBV& bv2);
+  FSTD(BOOL) operator==(const CsBV& bv1, const ULONG Vect);
+  FSTD(BOOL) operator==(const ULONG Vect, const CsBV& bv2);
+  FSTD(BOOL) operator!=(const CsBV& bv1, const CsBV& bv2);
+  FSTD(BOOL) operator!=(const CsBV& bv1, const ULONG Vect);
+  FSTD(BOOL) operator!=(const ULONG Vect, const CsBV& bv2);
+  FSTD(BOOL) operator>(const CsBV& bv1, const CsBV& bv2);
+  FSTD(BOOL) operator>(const CsBV& bv1, const ULONG Vect);
+  FSTD(BOOL) operator>(const ULONG Vect, const CsBV& bv2);
+  FSTD(BOOL) operator<(const CsBV& bv1, const CsBV& bv2);
+  FSTD(BOOL) operator<(const CsBV& bv1, const ULONG Vect);
+  FSTD(BOOL) operator<(const ULONG Vect, const CsBV& bv2);
+  FSTD(BOOL) operator>=(const CsBV& bv1, const CsBV& bv2);
+  FSTD(BOOL) operator>=(const CsBV& bv1, const ULONG Vect);
+  FSTD(BOOL) operator>=(const ULONG Vect, const CsBV& bv2);
+  FSTD(BOOL) operator<=(const CsBV& bv1, const CsBV& bv2);
+  FSTD(BOOL) operator<=(const CsBV& bv1, const ULONG Vect);
+  FSTD(BOOL) operator<=(const ULONG Vect, const CsBV& bv2);
+
+
+// ******************************************* 8 Кирючок
+
+//***************************** Advanced access to memory *******************************
+  void Empty();
+  void SetSize(int nNewLength);
+protected:
+  ULONG m_bVect;
+  int m_nBitLength;
+
+
+//******************************** Protected functions **********************************
+  void CharBit(int nLenByte, const char* pch);
+  void LeftShiftVect(const ULONG Vect, int Len, int nShift);
+  void LeftShiftInPlace(int nShift);
+  void RightShiftVect(const ULONG Vect, int Len, int nShift);
+  void RightShiftInPlace(int nShift);
+
+
+// ******************************************* 9  Бородавкин
+  void Diz(const ULONG Vect1, int Len1, const ULONG Vect2, int Len2);
+  void DizInPlace(const ULONG Vect, int Len);
+  void Con(const ULONG Vect1, int Len1, const ULONG Vect2, int Len2);
+  void ConInPlace(const ULONG Vect1, int Len);
+  void Add2(const ULONG Vect1, int Len1, const ULONG Vect2, int Len2);
+  void Add2InPlace(const ULONG Vect, int Len);
+  void Not(const ULONG Vect, int Len1);
+  void ConNot(const ULONG Vect1, int Len1, const ULONG Vect2, int Len2);
+  void ConNotInPlace(const ULONG Vect, int Len1);
+
+
+// ******************************************* 10 Исаченко
+  void Conc(const ULONG Vect, int Len);
+  void Conc2(const ULONG Vect1, int Len1, const ULONG Vect2, int Len2);
+  BOOL Equality(const ULONG Vect,int Len) const;
+  BOOL Pogl(const ULONG Vect, int Len, BOOL Dist) const;
+  BOOL PoglEq(const ULONG Vect, int Len, BOOL Dist) const;
+  static int SafeStrlen(const char* pch);
+};
+
+////////////////////////////////////////////////////////////////////////////////////////
+// Inlines for CsBV class
+////////////////////////////////////////////////////////////////////////////////////////
+//                           CsBV class
+////////////////////////////////////////////////////////////////////////////////////////
+inline int CsBV::GetBitLength() const  { return m_nBitLength; }
+
+inline void CsBV::Empty() { m_nBitLength = m_bVect = 0; }
+inline void CsBV::Zero()  { m_bVect = 0; }
+inline BOOL CsBV::IsEmpty() const   { return m_nBitLength == 0; }
+
+inline CsBV::operator ULONG() const { return m_bVect; }
+
+inline BOOL CsBV::GetBitAt(int nIndex) const
+{ ASSERT(nIndex >= 0); ASSERT(nIndex < m_nBitLength);
+  return ((m_bVect & sOB[nIndex])!=0);
+}
+
+inline void CsBV::SetBitAt(int nIndex,  BOOL bit)
+{ ASSERT(nIndex >= 0); ASSERT(nIndex < m_nBitLength);
+  if (bit) m_bVect |=sOB[nIndex];
+  else     m_bVect &=~sOB[nIndex];
+}
+
+inline const CsBV& CsBV::operator =(const CsBV& bvSrc)
+{ m_nBitLength = bvSrc.m_nBitLength;  m_bVect = bvSrc.m_bVect;   return *this; }
+
+inline const CsBV& CsBV::operator =(const char* pch)
+{ m_nBitLength = SafeStrlen(pch);
+  if (m_nBitLength > 0) CharBit(m_nBitLength, pch);
+  return *this; 
+}
+
+inline const CsBV& CsBV::operator =(const ULONG IntVal)
+{ if (m_nBitLength > 0)  m_bVect =IntVal >> (32 - m_nBitLength) << (32 - m_nBitLength);
+  return *this;
+}
+
+inline void CsBV::DizInPlace(const ULONG Vect1, int Len1)
+{ ASSERT(Len1 == m_nBitLength);   m_bVect |= Vect1; }
+
+inline void CsBV::ConInPlace(const ULONG Vect1, int Len1)
+{ ASSERT(Len1 == m_nBitLength);   m_bVect &= Vect1; }
+
+inline void CsBV::Add2InPlace(const ULONG Vect1, int Len1)
+{ ASSERT(Len1 == m_nBitLength);   m_bVect ^= Vect1; }
+
+inline void CsBV::ConNotInPlace(const ULONG Vect1, int Len1)
+{ ASSERT(Len1 == m_nBitLength);   m_bVect &= ~Vect1; }
+
+inline void CsBV:: Invert(const ULONG Vect)
+{
+  m_bVect = ~Vect >> (32 - m_nBitLength) << (32 - m_nBitLength);
+}
+
+inline int CsBV::SafeStrlen(const char* pch)
+{ return (pch == NULL || strlen((char*)pch) == 0) ? 0 : strlen((char*)pch); }
+
+
+#endif
