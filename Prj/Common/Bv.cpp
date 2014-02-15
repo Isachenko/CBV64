@@ -82,18 +82,18 @@ BOOL GetRandMode() { return NewRand; }
 ////////////////////////////////////////////////////////////
 size_t GetRandN()
 
-{ unsigned long  f13 = 1220703125;  // f13 = 5**13
-  unsigned long   m  = 0x7fffffff;  //  m  = 2**31-1
-  unsigned long   w; 
+{
+	unsigned long	f13	= 1220703125;  // f13 = 5**13
+	size_t	m	= 0x7fffffffffffffff;  //  m  = 2**31-1
+	size_t  w;
 
-  _int64 x1 = Rgrain;
-  x1 = (x1*f13)%m;
-  w = (x1<<40)>>48;
-  
-  x1 = (x1*f13)%m;
-  w = (w<<16)|((x1<<40)>>48);
-  Rgrain = x1;
-  return (w);
+	size_t x1 = (size_t)Rgrain;
+	x1 = (x1*f13)%m;
+	w = (x1 << 24) >> 32;
+	x1 = (x1*f13)%m;
+	w = (w << 32) | ((x1 << 24) >> 32);
+	Rgrain = (unsigned long)x1;
+	return (w);
 }
 
 //---------------------------------------------------------GetRandV
@@ -104,59 +104,10 @@ size_t GetRandN()
 //  *** Модификация Томашева - 27 января 1999
 //---------------------------------------------------------
 CBV GetRandV()
-{ 
-  CBV Vect(0,GetRandMode()?32:16,TRUE);
+{
+	size_t data = GetRandN();
+	return *(new CBV((BYTE *)&data, 64));
 
-  BYTE Work[4];
-  unsigned long   f13 = 1220703125;  // f13 = 5**13
-  unsigned long  d, m = 0x7fffffff;  //  m  = 2**31-1
-#ifdef _LINUX
- __asm mov eax,Rgrain         //      
- __asm mul f13                //  Rgrain=(Rgrain*f13)[mod(2**31-1)]
- __asm div m                  //  (непосредсвенно на ассемблере)
- __asm mov d,edx              //                              V.T.
-  
-  Rgrain = d;     // Rgrain - глобальная перем.= тек.сост.генератора 
-  Work[0] = (BYTE)( d >> 16); Work[1] = (BYTE)( d >> 8);
-  
-  if (GetRandMode())
-  {
-    __asm mov eax,Rgrain         //      
-    __asm mul f13                //  Rgrain=(Rgrain*f13)[mod(2**31-1)]
-    __asm div m                  //  (непосредсвенно на ассемблере)
-    __asm mov d,edx              //                              V.T.
-  
-    Rgrain = d;     // Rgrain - глобальная перем.= тек.сост.генератора 
-    Work[2] = (BYTE)( d >> 16); Work[3] = (BYTE)( d >> 8);
-  }
-#else
- /*asm(
-        "movl Rgrain, %eax\n"
-        "mull -32(%ebp)\n"
-        "divl -40(%ebp)\n"
-        "movl %edx, -36(%ebp)"
- );*/
-  d = (Rgrain*f13)%m;
- 
-  Rgrain = d;     // Rgrain - глобальная перем.= тек.сост.генератора 
-  Work[0] = (BYTE)( d >> 16); Work[1] = (BYTE)( d >> 8);
-  
-  if (GetRandMode())
-  {
-/* asm(
-        "movl Rgrain, %eax\n"
-        "mull -32(%ebp)\n"
-        "divl -40(%ebp)\n"
-        "movl %edx, -36(%ebp)"
- );*/
-    d = (Rgrain*f13)%m;  
-    Rgrain = d;     // Rgrain - глобальная перем.= тек.сост.генератора 
-    Work[2] = (BYTE)( d >> 16); Work[3] = (BYTE)( d >> 8);
-    }
-#endif
-  Vect = (const BYTE*) Work;
-
-  return Vect;
 }
 
 
@@ -168,11 +119,11 @@ CBV GetRandV()
 CBV CBV::GenRbv (size_t nCol)
 { 
   Empty();
-  int a, b, hh, h, i, j, n; 
-  a=(GetRandMode())?32:16;
+  size_t a, b, hh, h, i, j, n; 
+  a = 32;
   b=a/8;  hh=a-8;  
   n=(nCol/a)+((nCol%a)?1:0);
-  unsigned int nn;
+  size_t nn;
   m_nBitLength = n*a;
   m_nByteLength = m_nAllocLength = LEN_BYTE(n*a);
   m_bVect = new unsigned char[m_nByteLength];
@@ -187,11 +138,10 @@ CBV CBV::GenRbv (size_t nCol)
   for(h=hh, j=0; j<b; j++, h-=8)
     m_bVect[b*i+j] =  (nn>>h & 255); 
   
-  if (m_nBitLength != nCol) {
+  	if (m_nBitLength != nCol)
+	{
     m_nBitLength = nCol;
     m_nByteLength = LEN_BYTE(nCol);
-//    if ((i = ADR_BIT(m_nBitLength)) > 0 ) i = S_1 - i;
-//    m_bVect[m_nByteLength-1] = (m_bVect[m_nByteLength-1] >>i) <<i;
   }
   return *this;
 }
@@ -201,14 +151,15 @@ CBV CBV::GenRbv (size_t nCol)
 // булева вектора с равновероятным распределением нулей и единиц 
 //---------------------------------------------------------
 CBV CBV::GenRbvN(size_t n)
-{ int i, k,m;
-  unsigned long *Syn;
+{ 
+	size_t i, k,m;
+	size_t *Syn;
   Empty();
   m_nBitLength = n;
   m_nByteLength = m_nAllocLength = LEN_BYTE(n);
   m_bVect = new unsigned char[m_nByteLength];
   k = LEN_LONG(n);
-  Syn = (unsigned long *) (m_bVect);
+  Syn = (size_t *) (m_bVect);
   for(i=0; i<k-1; i++)
     Syn[i] = GetRandN();
   m = S_4 - ADR_BITLONG(n);
@@ -232,16 +183,6 @@ CBV CBV::GenRbvMid(int nCol, int nRang)
   CBV bvM((BYTE)0,nCol), bv;
   if(rr) 
   {
-/*    bvM.One();
-    if(rr<32)
-      for(i=1; i<32; i=i<<1)
-      {
-        bv.GenRbv(nCol);
-        if(i & rr) bvM|= bv;
-        else bvM&= bv;
-      }
-  }
-*/
     CBV bvP(bvM);  
     for(i=1; i<6; i++)
     {
