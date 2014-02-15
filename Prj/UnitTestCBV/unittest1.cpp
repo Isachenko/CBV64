@@ -78,5 +78,49 @@ namespace UnitTestCBV
 			Assert::IsTrue(a.GetBitLength() == 10);
 			Assert::IsTrue(a.GetAllocLength() == 3);
 		}
+		//Advanced assignment functions
+		TEST_METHOD(TestMethod_LeftShiftInPlace)
+		{
+			CBV v1 = CBV("01110101");
+			size_t nshift = 4;
+			v1.LeftShiftInPlace(nshift);
+			Assert::IsTrue(v1="01010000");
+		}
+		TEST_METHOD(TestMethod_RightShiftInPlace)
+		{
+			CBV v1 = CBV("01110101");
+			size_t nshift = 8;
+			v1.RightShiftInPlace(nshift);
+			Assert::IsTrue(v1="00000111");
+		}
+		TEST_METHOD(TestMethod_DizInPlace)
+		{
+			CBV v1 = CBV("11001100");
+			CBV v2 = CBV("11110000");
+			v1.DizInPlace(v2,8);
+			Assert::IsTrue(v1="11111100");
+		}
+		TEST_METHOD(TestMethod_ConInPlace)
+		{
+			CBV v1 = CBV("11001100");
+			CBV v2 = CBV("11110000");
+			v1.ConInPlace(v2,8);
+			Assert::IsTrue(v1="11000000");
+		}
+		TEST_METHOD(TestMethod_Add2InPlace)
+		{
+			CBV v1 = CBV("11001100");
+			CBV v2 = CBV("11110000");
+			v1.Add2InPlace(v2,8);
+			Assert::IsTrue(v1="00111100");
+		}
+		TEST_METHOD(TestMethod_ConNotInPlace)
+		{
+			CBV v1 = CBV("11001100");
+			CBV v2 = CBV("11110000");
+			v1.ConNotInPlace(v2,8);
+			Assert::IsTrue(v1="00001100");
+		}
+		//-----------------------------------
 	};
 }
