@@ -83,43 +83,43 @@ namespace UnitTestCBV
 		{
 			CBV v1 = CBV("01110101");
 			size_t nshift = 4;
-			v1.LeftShiftInPlace(nshift);
-			Assert::IsTrue(v1="01010000");
+			v1<<=nshift;
+			Assert::IsTrue(v1=="01010000");
 		}
 		TEST_METHOD(TestMethod_RightShiftInPlace)
 		{
 			CBV v1 = CBV("01110101");
 			size_t nshift = 8;
-			v1.RightShiftInPlace(nshift);
-			Assert::IsTrue(v1="00000111");
+			v1>>=nshift;
+			Assert::IsTrue(v1=="00000111");
 		}
 		TEST_METHOD(TestMethod_DizInPlace)
 		{
 			CBV v1 = CBV("11001100");
 			CBV v2 = CBV("11110000");
-			v1.DizInPlace(v2,8);
-			Assert::IsTrue(v1="11111100");
+			v1|=v2;
+			Assert::IsTrue(v1=="11111100");
 		}
 		TEST_METHOD(TestMethod_ConInPlace)
 		{
 			CBV v1 = CBV("11001100");
 			CBV v2 = CBV("11110000");
-			v1.ConInPlace(v2,8);
-			Assert::IsTrue(v1="11000000");
+			v1&=v2;
+			Assert::IsTrue(v1=="11000000");
 		}
 		TEST_METHOD(TestMethod_Add2InPlace)
 		{
 			CBV v1 = CBV("11001100");
 			CBV v2 = CBV("11110000");
-			v1.Add2InPlace(v2,8);
-			Assert::IsTrue(v1="00111100");
+			v1^=v2;
+			Assert::IsTrue(v1=="00111100");
 		}
 		TEST_METHOD(TestMethod_ConNotInPlace)
 		{
 			CBV v1 = CBV("11001100");
 			CBV v2 = CBV("11110000");
-			v1.ConNotInPlace(v2,8);
-			Assert::IsTrue(v1="00001100");
+			v1-=v2;
+			Assert::IsTrue(v1=="00001100");
 		}
 		
         TEST_METHOD(TestMethod_IsZero)
@@ -289,5 +289,52 @@ namespace UnitTestCBV
 			CBV b = CBV("11111111");
 			Assert::IsTrue(a <= b);
 		}
+        
+        TEST_METHOD(TestMethod_GetByteAt)
+        {
+            CBV cbv("010011101001110010");
+            Assert::IsTrue(0x4e == cbv.GetByteAt(0));
+            Assert::IsTrue(0x9c == cbv.GetByteAt(1));
+        }
+
+        TEST_METHOD(TestMethod_OperatorSquareBrackets)
+        {
+            CBV cbv("010011101001110010");
+            Assert::IsTrue(0x9c == cbv[1]);
+            Assert::IsTrue(0x80 == cbv[2]);
+        }
+
+        TEST_METHOD(TestMethod_GetBitAt)
+        {
+            CBV cbv("010011101001110010");
+            Assert::IsTrue(TRUE == cbv.GetBitAt(4));
+            Assert::IsTrue(FALSE == cbv.GetBitAt(10));
+        }
+
+        TEST_METHOD(TestMethod_BitChar)
+        {
+            CBV cbv("010011101001110010");
+            Assert::IsTrue(L"010011101001110010" == cbv.BitChar());
+        }
+
+        TEST_METHOD(TestMethod_Extract)
+        {
+            CBV src("010011101001110010");
+            CBV res("01110100111");
+            Assert::IsTrue(res == src.Extract(3, 11));
+        }
+
+        TEST_METHOD(TestMethod_GetBitLength)
+        {
+            CBV cbv("010011101001110010");
+            Assert::IsTrue(18 == cbv.GetBitLength());
+        }
+
+        TEST_METHOD(TestMethod_GetByteLength)
+        {
+            CBV cbv("010011101001110010");
+            Assert::IsTrue(3 == cbv.GetByteLength());
+        }
+
 	};
 }
