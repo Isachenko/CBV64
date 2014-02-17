@@ -393,7 +393,7 @@ public:
 
 
 protected:
-    ULONG** m_pData;
+    ptrdiff_t** m_pData;
     int m_nSize;
     int m_nMaxSize;
     int m_nGrowBy;
