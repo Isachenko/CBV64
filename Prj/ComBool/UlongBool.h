@@ -317,18 +317,18 @@ public:
 //********************************** Logic operations ***********************************
     friend CuBM operator|(const CuBM& bm1, const CuBM& bm2);
     friend CuBM operator|(const CuBM& bm1, const CuBV& bv2);
-    friend CuBM operator|(const CuBM& bm,  const ULONG* pV);
+    friend CuBM operator|(const CuBM& bm,  const ptrdiff_t* pV);
     CuBV Disjunction();
     friend CuBM operator&(const CuBM& bm1, const CuBM& bm2);
     friend CuBM operator&(const CuBM& bm1, const CuBV& bv2);
-    friend CuBM operator&(const CuBM& bm, const ULONG* pV);
+    friend CuBM operator&(const CuBM& bm, const ptrdiff_t* pV);
     CuBV Conjunction();
     friend CuBM operator^(const CuBM& bm1, const CuBM& bm2);
     friend CuBM operator^(const CuBM& bm1, const CuBV& bv2);
-    friend CuBM operator^(const CuBM& bm, const ULONG* pV);
+    friend CuBM operator^(const CuBM& bm, const ptrdiff_t* pV);
     CuBV BitwiseExclusive();
     friend CuBM operator-(const CuBM& bm1, const CuBV& bv2);
-    friend CuBM operator-(const CuBM& bm, const ULONG* pV);
+    friend CuBM operator-(const CuBM& bm, const ptrdiff_t* pV);
     friend CuBM operator~(const CuBM& bm);
 
 //******************** Operations of weighting, finding and casing **********************

@@ -203,7 +203,7 @@ CuBM::CuBM(const ptrdiff_t* pV, int nRow, int nColumn)
 {
   if (nRow==0 && nColumn==0) { Init(); return; }
   ASSERT((nRow > 0) && (nColumn > 0));
-  int i, nLong = LEN_LONG(nColumn), w = S_4 - ADR_BITLONG(nColumn);
+  int i, nLong = LEN_LONG(nColumn), w = BITS_IN_WORD - ADR_BITLONG(nColumn);
   AllocMatrix(nRow, nColumn);
   for (i=0; i<nRow; i++) {
     memcpy(m_pData[i], pV, nLong*sizeof(ptrdiff_t));  /* one's fill*/
@@ -282,9 +282,9 @@ void CuBM::SetSize(int nRow, int nColumn, int nGrowBy /* = -1 */, int nColGrow/*
   }
   else {                //when(nLong < m_nAllocLength)
     int nost;
-    if (nColumn < m_nBitLength) { w = S_4 - ADR_BITLONG(nColumn);  nost=nLong; }
-    else   { w = S_4 - ADR_BITLONG(m_nBitLength);  nost=m_nLongLength; }
-    if (w == S_4) w = 0;
+    if (nColumn < m_nBitLength) { w = BITS_IN_WORD - ADR_BITLONG(nColumn);  nost=nLong; }
+    else   { w = BITS_IN_WORD - ADR_BITLONG(m_nBitLength);  nost=m_nLongLength; }
+    if (w == BITS_IN_WORD) w = 0;
     for (i=0; i < m_nSize; i++) {
       memset(m_pData[i] + nost, 0, (m_nAllocLength-nost)*sizeof(ptrdiff_t));
       m_pData[i][nost-1] = (m_pData[i][nost-1] >> w) << w;
@@ -566,7 +566,7 @@ void CuBM::SetRowGrow(int nRow, const ptrdiff_t* newRow)
   ASSERT(nRow >= 0);
 #endif
   if (nRow >= m_nSize)
-    SetSize(nRow + 1, m_nBitLength, m_nGrowBy, m_nAllocLength*S_8 - m_nBitLength);
+    SetSize(nRow + 1, m_nBitLength, m_nGrowBy, m_nAllocLength*BITS_IN_WORD - m_nBitLength);
   memcpy(m_pData[nRow], newRow, m_nLongLength*sizeof(ptrdiff_t));
 }
 
@@ -580,7 +580,7 @@ void CuBM::SetRowGrow(int nRow, const CuBV& bv)
 #endif
   if (nRow >= m_nSize) 
     SetSize(nRow + 1, bv.GetBitLength(), m_nGrowBy, 
-                      bv.GetAllocLength()*S_8 - m_nBitLength);
+                      bv.GetAllocLength()*BITS_IN_WORD - m_nBitLength);
   memcpy(m_pData[nRow], bv, m_nLongLength*sizeof(ptrdiff_t));
 }
 
@@ -593,7 +593,7 @@ void CuBM::SetRowGrow(int nRow, const CuBM& bm, int nbmRow)
   if (m_nSize > 0) ASSERT(m_nBitLength == bm.m_nBitLength);
 #endif
   if (nRow >= m_nSize)
-    SetSize(nRow+1, m_nBitLength, m_nGrowBy, m_nAllocLength*S_8 - m_nBitLength);
+    SetSize(nRow+1, m_nBitLength, m_nGrowBy, m_nAllocLength*BITS_IN_WORD - m_nBitLength);
   memcpy(m_pData[nRow], bm.m_pData[nbmRow], m_nLongLength*sizeof(ptrdiff_t));
 }
 
@@ -609,10 +609,10 @@ int CuBM::Add(BOOL bit/*=FALSE*/, int nCount/*=1*/)
     }
   }
   else 
-    SetSize(m_nSize + nCount, m_nBitLength, m_nGrowBy, m_nAllocLength*S_8 - m_nBitLength);
+    SetSize(m_nSize + nCount, m_nBitLength, m_nGrowBy, m_nAllocLength*BITS_IN_WORD - m_nBitLength);
   if (bit == TRUE) {
     ULONG maska=((i = ADR_BITLONG(m_nBitLength)) > 0 ) ?
-                (LONG_1 << (S_8 - i)) : LONG_1;
+                (LONG_1 << (BITS_IN_WORD - i)) : LONG_1;
     for (; first < m_nSize; first++) {
       memset(m_pData[first], BYTE_1, (m_nLongLength-1)*sizeof(ptrdiff_t));
       m_pData[first][m_nLongLength-1] = maska;
@@ -638,10 +638,10 @@ void CuBM::InsertRow(int nRow, const ptrdiff_t* newRow, int nCount /*=1*/)
 #endif
   ptrdiff_t* pV;
   if (nRow >= m_nSize) {   // adding after the end of the array
-    SetSize(nRow + nCount, m_nBitLength, m_nGrowBy, m_nAllocLength*S_8 - m_nBitLength);
+    SetSize(nRow + nCount, m_nBitLength, m_nGrowBy, m_nAllocLength*BITS_IN_WORD - m_nBitLength);
   }
   else {                   // inserting in the middle of the array
-    SetSize(m_nSize + nCount, m_nBitLength, m_nGrowBy, m_nAllocLength*S_8 - m_nBitLength);
+    SetSize(m_nSize + nCount, m_nBitLength, m_nGrowBy, m_nAllocLength*BITS_IN_WORD - m_nBitLength);
     for (int i=0; i < nCount; i++) {
       pV = m_pData[m_nSize-1];
       memmove(&m_pData[nRow+1], &m_pData[nRow],(m_nSize - nRow-1)*sizeof(ptrdiff_t*));
@@ -804,10 +804,10 @@ void CuBM::One(int nRow)
   ASSERT (nRow>=-1);
   if (nRow == -1) { first=0; last = m_nSize-1; }
   else { first = nRow; last = nRow; }
-  i = S_8 - ADR_BITLONG(m_nBitLength);
+  i = BITS_IN_WORD - ADR_BITLONG(m_nBitLength);
   for (; first <= last; first++) {
     memset(m_pData[first], BYTE_1, m_nLongLength*sizeof(ptrdiff_t));
-    if (i != S_8)
+    if (i != BITS_IN_WORD)
       m_pData[first][m_nLongLength-1] = (m_pData[first][m_nLongLength-1] >> i) << i;
   }
 }
@@ -831,7 +831,7 @@ void CuBM::Concat(const CuBM& bm)
 {
   ASSERT(m_nSize == bm.m_nSize);
   int i, j, OldLen = BIT_LONG(m_nBitLength), l_bit, r_bit;
-  l_bit = ADR_BITLONG(m_nBitLength);  r_bit = S_8 - l_bit;
+  l_bit = ADR_BITLONG(m_nBitLength);  r_bit = BITS_IN_WORD - l_bit;
   SetSize(m_nSize, m_nBitLength + bm.m_nBitLength, m_nGrowBy);
   for (i=0; i < m_nSize; i++)  {
     m_pData[i][OldLen] |= (bm.m_pData[i][0] >> l_bit);
@@ -847,7 +847,7 @@ void CuBM::Concat(const CuBM& bm1, const CuBM& bm2)
   ASSERT(bm1.m_nSize == bm2.m_nSize);
   SetSize(bm1.m_nSize, bm1.m_nBitLength + bm2.m_nBitLength, m_nGrowBy);
   int i, j, OldLen = BIT_LONG(bm1.m_nBitLength), l_bit, r_bit;
-  l_bit = ADR_BITLONG(bm1.m_nBitLength);  r_bit = S_8 - l_bit;
+  l_bit = ADR_BITLONG(bm1.m_nBitLength);  r_bit = BITS_IN_WORD - l_bit;
   for (i=0; i < m_nSize; i++)
     memcpy(m_pData[i], bm1.m_pData[i], bm1.m_nLongLength*sizeof(ULONG));
   for (i=0; i < m_nSize; i++)  {
@@ -994,7 +994,7 @@ CuBM operator|(const CuBM& bm1, const CuBV& bv)
 }
 
 //--------------------------------------- operator|(const CuBM& bm1, const ULONG *pb)
-CuBM operator|(const CuBM& bm1, const ULONG *pV)
+CuBM operator|(const CuBM& bm1, const ptrdiff_t *pV)
 {
   CuBM bm(bm1.m_nSize, bm1.m_nBitLength);
   for (int i=0; i < bm1.m_nSize; i++)
@@ -1042,7 +1042,7 @@ CuBM operator&(const CuBM& bm1, const CuBV& bv)
 }
 
 //--------------------------------------- operator&(const CuBM& bm1, const ULONG *pb)
-CuBM operator&(const CuBM& bm1, const ULONG *pV)
+CuBM operator&(const CuBM& bm1, const ptrdiff_t *pV)
 {
   CuBM bm(bm1.m_nSize, bm1.m_nBitLength);
   for (int i=0; i < bm1.m_nSize; i++)
@@ -1090,7 +1090,7 @@ CuBM operator^(const CuBM& bm1, const CuBV& bv)
 }
 
 //--------------------------------------- operator^(const CuBM& bm1, const ULONG *pb)
-CuBM operator^(const CuBM& bm1, const ULONG *pV)
+CuBM operator^(const CuBM& bm1, const ptrdiff_t *pV)
 {
   CuBM bm(bm1.m_nSize, bm1.m_nBitLength);
   for (int i=0; i < bm1.m_nSize; i++)
@@ -1127,7 +1127,7 @@ CuBM operator-(const CuBM& bm1, const CuBV& bv)
 }
 
 //--------------------------------------- operator-(const CuBM& bm1, const ULONG *pb)
-CuBM operator-(const CuBM& bm1, const ULONG *pV)
+CuBM operator-(const CuBM& bm1, const ptrdiff_t *pV)
 {
   CuBM bm(bm1.m_nSize, bm1.m_nBitLength);
   for (int i=0; i < bm1.m_nSize; i++)
