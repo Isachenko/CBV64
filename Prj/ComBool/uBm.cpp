@@ -545,14 +545,14 @@ CuBM CuBM::Trans() const { CuBM bm(*this, FALSE);  return bm; }
 void CuBM::SetRow(int nRow, const CuBV& bv)
 {
   ASSERT(nRow >= 0 && nRow < m_nSize);  ASSERT(m_nBitLength == bv.GetBitLength());
-  memcpy(m_pData[nRow], bv, m_nLongLength*sizeof(ULONG));
+  memcpy(m_pData[nRow], bv, m_nLongLength*sizeof(ptrdiff_t));
 }
 
 //--------------------------------------------SetRow(int nRow, const CuBM& bm, int nbmRow)
 void CuBM::SetRow(int nRow, const CuBM& bm, int nbmRow)
 { 
   ASSERT(nRow >= 0 && nRow < m_nSize);  ASSERT(m_nBitLength == bm.GetCountC());
-  memcpy(m_pData[nRow], bm.m_pData[nbmRow], m_nLongLength*sizeof(ULONG));
+  memcpy(m_pData[nRow], bm.m_pData[nbmRow], m_nLongLength*sizeof(ptrdiff_t));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -566,8 +566,8 @@ void CuBM::SetRowGrow(int nRow, const ULONG* newRow)
   ASSERT(nRow >= 0);
 #endif
   if (nRow >= m_nSize)
-    SetSize(nRow + 1, m_nBitLength, m_nGrowBy, m_nAllocLength*S_4 - m_nBitLength);
-  memcpy(m_pData[nRow], newRow, m_nLongLength*sizeof(ULONG));
+    SetSize(nRow + 1, m_nBitLength, m_nGrowBy, m_nAllocLength*S_8 - m_nBitLength);
+  memcpy(m_pData[nRow], newRow, m_nLongLength*sizeof(ptrdiff_t));
 }
 
 //----------------------------------------------SetRowGrow(int nRow, const CuBV& bv)
@@ -580,8 +580,8 @@ void CuBM::SetRowGrow(int nRow, const CuBV& bv)
 #endif
   if (nRow >= m_nSize) 
     SetSize(nRow + 1, bv.GetBitLength(), m_nGrowBy, 
-                      bv.GetAllocLength()*S_4 - m_nBitLength);
-  memcpy(m_pData[nRow], bv, m_nLongLength*sizeof(ULONG));
+                      bv.GetAllocLength()*S_8 - m_nBitLength);
+  memcpy(m_pData[nRow], bv, m_nLongLength*sizeof(ptrdiff_t));
 }
 
 //---------------------------------------------SetRowGrow(int nRow, const CuBM& bm, int nbmRow)
@@ -593,8 +593,8 @@ void CuBM::SetRowGrow(int nRow, const CuBM& bm, int nbmRow)
   if (m_nSize > 0) ASSERT(m_nBitLength == bm.m_nBitLength);
 #endif
   if (nRow >= m_nSize)
-    SetSize(nRow+1, m_nBitLength, m_nGrowBy, m_nAllocLength*S_4 - m_nBitLength);
-  memcpy(m_pData[nRow], bm.m_pData[nbmRow], m_nLongLength*sizeof(ULONG));
+    SetSize(nRow+1, m_nBitLength, m_nGrowBy, m_nAllocLength*S_8 - m_nBitLength);
+  memcpy(m_pData[nRow], bm.m_pData[nbmRow], m_nLongLength*sizeof(ptrdiff_t));
 }
 
 //-------------------------------------------- Add -------------------------
@@ -604,17 +604,17 @@ int CuBM::Add(BOOL bit/*=FALSE*/, int nCount/*=1*/)
   if(m_nSize + nCount < m_nMaxSize) {
     m_nSize += nCount;
     for(i = first; i < m_nSize; i++) {
-      m_pData[i] = (ULONG*) new ULONG[m_nAllocLength];
-      memset(m_pData[i], 0, m_nAllocLength*sizeof(ULONG));
+      m_pData[i] = (ptrdiff_t*) new ptrdiff_t[m_nAllocLength];
+      memset(m_pData[i], 0, m_nAllocLength*sizeof(ptrdiff_t));
     }
   }
   else 
-    SetSize(m_nSize + nCount, m_nBitLength, m_nGrowBy, m_nAllocLength*S_4 - m_nBitLength);
+    SetSize(m_nSize + nCount, m_nBitLength, m_nGrowBy, m_nAllocLength*S_8 - m_nBitLength);
   if (bit == TRUE) {
     ULONG maska=((i = ADR_BITLONG(m_nBitLength)) > 0 ) ?
-                (LONG_1 << (S_4 - i)) : LONG_1;
+                (LONG_1 << (S_8 - i)) : LONG_1;
     for (; first < m_nSize; first++) {
-      memset(m_pData[first], BYTE_1, (m_nLongLength-1)*sizeof(ULONG));
+      memset(m_pData[first], BYTE_1, (m_nLongLength-1)*sizeof(ptrdiff_t));
       m_pData[first][m_nLongLength-1] = maska;
     }
   }
@@ -636,21 +636,21 @@ void CuBM::InsertRow(int nRow, const ULONG* newRow, int nCount /*=1*/)
   ASSERT_VALID(this);
   ASSERT((nRow >= 0) && (nCount > 0));
 #endif
-  ULONG* pV;
+  ptrdiff_t* pV;
   if (nRow >= m_nSize) {   // adding after the end of the array
-    SetSize(nRow + nCount, m_nBitLength, m_nGrowBy, m_nAllocLength*S_4 - m_nBitLength);
+    SetSize(nRow + nCount, m_nBitLength, m_nGrowBy, m_nAllocLength*S_8 - m_nBitLength);
   }
   else {                   // inserting in the middle of the array
-    SetSize(m_nSize + nCount, m_nBitLength, m_nGrowBy, m_nAllocLength*S_4 - m_nBitLength);
+    SetSize(m_nSize + nCount, m_nBitLength, m_nGrowBy, m_nAllocLength*S_8 - m_nBitLength);
     for (int i=0; i < nCount; i++) {
       pV = m_pData[m_nSize-1];
-      memmove(&m_pData[nRow+1], &m_pData[nRow],(m_nSize - nRow-1)*sizeof(ULONG*));
+      memmove(&m_pData[nRow+1], &m_pData[nRow],(m_nSize - nRow-1)*sizeof(ptrdiff_t*));
       m_pData[nRow] = pV;
     }
   }
   // insert new value in the gap
   for (int i = nRow; i < nRow+nCount; i++)
-    memcpy(m_pData[i], newRow, m_nLongLength*sizeof(ULONG));
+    memcpy(m_pData[i], newRow, m_nLongLength*sizeof(ptrdiff_t));
 }
 
 //---------------------------------InsertRow(int nRow, const CuBV& newRow, int nCount)
@@ -661,7 +661,7 @@ void CuBM::InsertRow(int nRow, const CuBV& newRow, int nCount)
   ASSERT((newRow != NULL) && (nRow >= 0));
   ASSERT(newRow.GetLongLength() == m_nLongLength);
 #endif
-  InsertRow(nRow, (const ULONG*)newRow, nCount);
+  InsertRow(nRow, (const ptrdiff_t*)newRow, nCount);
 }
 
 //---------------------InsertRow(int nRow, int nStartRow, const CuBM& pNewBM, int nCount)
@@ -692,7 +692,7 @@ void CuBM::RemoveRow(int nIndex, int nCount /* = 1 */)
   for (int i=0; i < nCount; i++) 
     if (m_pData[i+nIndex] != NULL) delete [] m_pData[i + nIndex];
   if (nMoveCount) {
-      memcpy(&m_pData[nIndex], &m_pData[nIndex + nCount], nMoveCount*sizeof(ULONG*));
+      memcpy(&m_pData[nIndex], &m_pData[nIndex + nCount], nMoveCount*sizeof(ptrdiff_t*));
   }
   m_nSize -= nCount;
 }
@@ -705,7 +705,7 @@ void CuBM::ExchangeRow(int nRow1, int nRow2, int nCount/*=1*/)
   ASSERT((nCount > 0) && (nRow1 + nCount <= m_nSize) && 
          (nRow2 + nCount <= m_nSize));
 #endif
-  ULONG *pV;
+  ptrdiff_t *pV;
   while(nCount >0) {
     pV = m_pData[nRow1]; m_pData[nRow1++] = m_pData[nRow2];
     m_pData[nRow2++] = pV; nCount--; 
@@ -759,11 +759,11 @@ int CuBM::AddCol(int numCol/*=1*/) //numCol columns adding to the matrix
   nLong = LEN_LONG(m_nBitLength);
   //------------------ Set columns size
   if (nLong > m_nAllocLength) {
-    ULONG * pV;
+    ptrdiff_t * pV;
     for (i=0; i < m_nSize; i++) {
-      pV = (ULONG*) new ULONG[nLong];
-      memset(pV, 0, nLong*sizeof(ULONG));  // zero fill
-      memcpy(pV, m_pData[i], m_nLongLength*sizeof(ULONG)); // copy new data from old
+      pV = (ptrdiff_t*) new ptrdiff_t[nLong];
+      memset(pV, 0, nLong*sizeof(ptrdiff_t));  // zero fill
+      memcpy(pV, m_pData[i], m_nLongLength*sizeof(ptrdiff_t)); // copy new data from old
       delete [] m_pData[i];
       m_pData[i] = pV; 
     }
@@ -804,10 +804,10 @@ void CuBM::One(int nRow)
   ASSERT (nRow>=-1);
   if (nRow == -1) { first=0; last = m_nSize-1; }
   else { first = nRow; last = nRow; }
-  i = S_4 - ADR_BITLONG(m_nBitLength);
+  i = S_8 - ADR_BITLONG(m_nBitLength);
   for (; first <= last; first++) {
-    memset(m_pData[first], BYTE_1, m_nLongLength*sizeof(ULONG));
-    if (i != S_4)
+    memset(m_pData[first], BYTE_1, m_nLongLength*sizeof(ptrdiff_t));
+    if (i != S_8)
       m_pData[first][m_nLongLength-1] = (m_pData[first][m_nLongLength-1] >> i) << i;
   }
 }
@@ -820,7 +820,7 @@ void CuBM::Zero(int nRow)
   if (nRow == -1) { first=0; last = m_nSize-1; }
   else { first = nRow; last = nRow; }
   for (; first <= last; first++)
-    memset(m_pData[first], 0, m_nLongLength*sizeof(ULONG));
+    memset(m_pData[first], 0, m_nLongLength*sizeof(ptrdiff_t));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
