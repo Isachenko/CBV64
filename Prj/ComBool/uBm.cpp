@@ -882,7 +882,7 @@ const CuBM& CuBM::operator|=(const CuBV& bv)
 }
 
 //------------------------------------------------------- operator|=(const ULONG * pb)
-const CuBM& CuBM::operator|=(const ULONG* pV)
+const CuBM& CuBM::operator|=(const ptrdiff_t* pV)
 {
   for (int i=0; i < m_nSize; i++)
     for (int j=0; j < m_nLongLength; j++)
@@ -911,7 +911,7 @@ const CuBM& CuBM::operator&=(const CuBV& bv)
 }
 
 //------------------------------------------------------- operator&=(const ULONG *pb)
-const CuBM& CuBM::operator&=(const ULONG *pV)
+const CuBM& CuBM::operator&=(const ptrdiff_t *pV)
 {
   for (int i=0; i < m_nSize; i++)
     for (int j=0; j < m_nLongLength; j++)
@@ -940,7 +940,7 @@ const CuBM& CuBM::operator^=(const CuBV& bv)
 }
 
 //------------------------------------------------------- operator^=(const ULONG *pb)
-const CuBM& CuBM::operator^=(const ULONG *pV)
+const CuBM& CuBM::operator^=(const ptrdiff_t *pV)
 {                                              // may be new '1' on the end in last long
   for (int i=0; i < m_nSize; i++)
     for (int j=0; j < m_nLongLength; j++)
@@ -959,7 +959,7 @@ const CuBM& CuBM::operator-=(const CuBV& bv)
 }
 
 //------------------------------------------------------- operator-=(const ULONG *pb)
-const CuBM& CuBM::operator-=(const ULONG *pV)
+const CuBM& CuBM::operator-=(const ptrdiff_t *pV)
 {
   for (int i=0; i < m_nSize; i++)
     for (int j=0; j < m_nLongLength; j++)

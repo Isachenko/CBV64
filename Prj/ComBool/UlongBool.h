@@ -11,7 +11,6 @@
 //  Boolean vector
 #ifndef _ULONGBOOLEAN_
 #define _ULONGBOOLEAN_
-
 #include "../Common/BaseBool.h"
 #include <string>
 using namespace std;
@@ -305,15 +304,15 @@ public:
 //************************** Operators of advanced assignment ***************************
     const CuBM& operator|=(const CuBM& bm);
     const CuBM& operator|=(const CuBV& bv);
-    const CuBM& operator|=(const ULONG* pV);
+    const CuBM& operator|=(const ptrdiff_t* pV);
     const CuBM& operator&=(const CuBM& bm);
     const CuBM& operator&=(const CuBV& bv);
-    const CuBM& operator&=(const ULONG* pV);
+    const CuBM& operator&=(const ptrdiff_t* pV);
     const CuBM& operator^=(const CuBM& bm);
     const CuBM& operator^=(const CuBV& bv);
-    const CuBM& operator^=(const ULONG* pV);
+    const CuBM& operator^=(const ptrdiff_t* pV);
     const CuBM& operator-=(const CuBV& bv);
-    const CuBM& operator-=(const ULONG* pV);
+    const CuBM& operator-=(const ptrdiff_t* pV);
 
 //********************************** Logic operations ***********************************
     friend CuBM operator|(const CuBM& bm1, const CuBM& bm2);
