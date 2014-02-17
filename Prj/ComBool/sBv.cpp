@@ -77,7 +77,7 @@ CsBV::CsBV(__int8 nLength, BOOL Fl)
 //-------------------------------------------------------------------
 CsBV::CsBV(const size_t UintVal, __int8 Len)
 {
-	if (Len == 0)
+	if (Len < 1 || Len > SIZE_SHORTBOOL) 
 		m_bVect = m_nBitLength = 0;
 	else
 	{
@@ -727,7 +727,7 @@ STD(BOOL) operator <= (const size_t Vect, const CsBV& bv)
 // представления в "короткое"(bvS)  
 
 //void CsBV::ToShort(CBV &bv)
-void CsBV::ToShort(CBV bv)
+/*void CsBV::ToShort(CBV bv)
 {
 	ASSERT(bv.GetBitLength() <= SIZE_SHORTBOOL);
 	Empty();
@@ -736,11 +736,13 @@ void CsBV::ToShort(CBV bv)
 		m_bVect |= (size_t)(bv.GetByteAt(i)) << (SIZE_SHORTBOOL - (i * SIZE_BYTE));
 	return;
 }
+*/
 
 //-------------------------------------------------------------------
 // Конвертирование булева вектора из "короткого"
 // представления (bvS) в стандартное (bv)  
 
+/*
 void  CsBV::FromShort(CBV &bv)
 {
 	bv.SetSize(m_nBitLength);
@@ -748,6 +750,7 @@ void  CsBV::FromShort(CBV &bv)
 		bv.SetByteAt(i, (BYTE)((m_bVect << (i * SIZE_BYTE)) >> (SIZE_SHORTBOOL - SIZE_BYTE)));
 	return;
 }
+*/
 
 
 void  CsBV::SetSize(__int8 nNewLength)

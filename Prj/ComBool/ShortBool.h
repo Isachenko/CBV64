@@ -127,8 +127,8 @@ public:
   ~CsBV();
 
 //  void ToShort(CBV &bv);
-  void ToShort(CBV bv);
-  void FromShort(CBV &bv);
+  //void ToShort(CBV bv);
+  //void FromShort(CBV &bv);
 //*********************** Functions for getting class's parametrs ***********************
   __int8 GetBitLength() const;
 //*************************************** Reading ***************************************
@@ -370,8 +370,8 @@ public:
    CsBM(const vector <string>& StrAr);
 #endif
    ~CsBM();
-   void ToShort(CBM &Bm);
-   void FromShort(CBM &Bm);
+   //void ToShort(CBM &Bm);
+   //void FromShort(CBM &Bm);
 //*********************** Functions for getting class's parametrs ***********************
    __int8 GetCountC() const;
    unsigned int GetCountR() const;
