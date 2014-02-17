@@ -11,6 +11,7 @@
 //  Boolean vector
 #ifndef _ULONGBOOLEAN_
 #define _ULONGBOOLEAN_
+
 #include "../Common/BaseBool.h"
 #include <string>
 using namespace std;
@@ -25,7 +26,7 @@ public:
   CuBV();
   CuBV(const CuBV& bv);
   CuBV(int nLen, BOOL Fl = FALSE);
-  CuBV(const ULONG* pV, int nLenBit);
+  CuBV(const ptrdiff_t* pV, int nLenBit);
   CuBV(const char* pch);
   ~CuBV() { SafeDelete(m_bVect); };   // free any attached data
 
@@ -40,9 +41,9 @@ public:
   CuBV GenRbvFix (int nCol, int nRang);
 
 //*************************************** Reading ***************************************
-  operator ULONG*() const;                   //inline
-  ULONG operator[](int nIndex) const;        //inline
-  ULONG  GetLongAt(int nIndex) const;        //inline
+  operator ptrdiff_t*() const;                   //inline
+  ptrdiff_t operator[](int nIndex) const;        //inline
+  ptrdiff_t  GetLongAt(int nIndex) const;        //inline
   BOOL GetBitAt(int nIndex) const;           //inline
 #ifndef _LINUX
   CString BitChar(char One = '1', char Zero='0', int Max=0) const;
@@ -52,43 +53,43 @@ public:
   CuBV Extract(int nFirst, int nCount);
 
 //*************************************** Writing ***************************************
-  void SetLongAt(int nIndex, ULONG value);   //inline
+  void SetLongAt(int nIndex, ptrdiff_t value);   //inline
   void SetBitAt(int nIndex, BOOL bit);       //inline
 
 //*********************** Operators and functions of assignment *************************
   const CuBV& operator=(const CuBV& bvSrc);    //inline
-  const CuBV& operator=(const ULONG* pV);     //inline
+  const CuBV& operator=(const ptrdiff_t* pV);     //inline
   const CuBV& operator=(const char* pch);     //inline
   void Zero();                               //inline
   void One();
 
 //************************** Operators of advanced assignment ***************************
   const CuBV& operator |=(const CuBV& bv1);   //inline
-  const CuBV& operator |=(const ULONG* pV);  //inline
+  const CuBV& operator |=(const ptrdiff_t* pV);  //inline
   const CuBV& operator &=(const CuBV& bv1);   //inline
-  const CuBV& operator &=(const ULONG* pV);  //inline
+  const CuBV& operator &=(const ptrdiff_t* pV);  //inline
   const CuBV& operator ^=(const CuBV& bv1);   //inline
-  const CuBV& operator ^=(const ULONG* pV);  //inline
+  const CuBV& operator ^=(const ptrdiff_t* pV);  //inline
   const CuBV& operator -=(const CuBV& bv1);   //inline
-  const CuBV& operator -=(const ULONG* pV);  //inline
+  const CuBV& operator -=(const ptrdiff_t* pV);  //inline
   const CuBV& operator <<=(int nShift);      //inline
   const CuBV& operator >>=(int nShift);      //inline
 
 //********************************** Logic operations ***********************************
   friend CuBV operator|(const CuBV& bv1, const CuBV& bv2);
-  friend CuBV operator|(const CuBV& bv1, const ULONG* pV);
-  friend CuBV operator|(const ULONG* pV, const CuBV& bv2);
+  friend CuBV operator|(const CuBV& bv1, const ptrdiff_t* pV);
+  friend CuBV operator|(const ptrdiff_t* pV, const CuBV& bv2);
   friend CuBV operator&(const CuBV& bv1, const CuBV& bv2);
-  friend CuBV operator&(const ULONG* pV, const CuBV& bv2);
-  friend CuBV operator&(const CuBV& bv1, const ULONG* pV);
+  friend CuBV operator&(const ptrdiff_t* pV, const CuBV& bv2);
+  friend CuBV operator&(const CuBV& bv1, const ptrdiff_t* pV);
   friend CuBV operator^(const CuBV& bv1, const CuBV& bv2);
-  friend CuBV operator^(const ULONG* pV, const CuBV& bv2);
-  friend CuBV operator^(const CuBV& bv1, const ULONG* pV);
+  friend CuBV operator^(const ptrdiff_t* pV, const CuBV& bv2);
+  friend CuBV operator^(const CuBV& bv1, const ptrdiff_t* pV);
   friend CuBV operator-(const CuBV& bv1, const CuBV& bv2);
-  friend CuBV operator-(const ULONG* pV, const CuBV& bv2);
-  friend CuBV operator-(const CuBV& bv1, const ULONG* pV);
+  friend CuBV operator-(const ptrdiff_t* pV, const CuBV& bv2);
+  friend CuBV operator-(const CuBV& bv1, const ptrdiff_t* pV);
   friend CuBV operator~(const CuBV& bv2);
-  void Invert(const ULONG* pV);
+  void Invert(const ptrdiff_t* pV);
   friend CuBV operator<<(const CuBV& bv1, int nShift);
   friend CuBV operator>>(const CuBV& bv1, int nShift);
   void LoopLeftShift(int nShift);
@@ -103,7 +104,7 @@ public:
 //**************************** Operations of concatinations *****************************
   void Concat(const CuBV& bv);                  //inline
   void Concat(const CuBV& bv1, const CuBV& bv2); //inline
-  void Concat(const ULONG* pV, int nLen);      //inline
+  void Concat(const ptrdiff_t* pV, int nLen);      //inline
   void Concat(BOOL Bit = FALSE);
 
 //******************************* Compareing operations *********************************
@@ -111,23 +112,23 @@ public:
   BOOL IsZero() const;
   BOOL IsOne() const;
   friend BOOL operator==(const CuBV& bv1, const CuBV& bv2);    //inline
-  friend BOOL operator==(const CuBV& bv1, const ULONG* pV);   //inline
-  friend BOOL operator==(const ULONG* pV, const CuBV& bv2);   //inline
+  friend BOOL operator==(const CuBV& bv1, const ptrdiff_t* pV);   //inline
+  friend BOOL operator==(const ptrdiff_t* pV, const CuBV& bv2);   //inline
   friend BOOL operator!=(const CuBV& bv1, const CuBV& bv2);    //inline
-  friend BOOL operator!=(const CuBV& bv1, const ULONG* pV);   //inline
-  friend BOOL operator!=(const ULONG* pV, const CuBV& bv2);   //inline
+  friend BOOL operator!=(const CuBV& bv1, const ptrdiff_t* pV);   //inline
+  friend BOOL operator!=(const ptrdiff_t* pV, const CuBV& bv2);   //inline
   friend BOOL operator>(const CuBV& bv1, const CuBV& bv2);     //inline
-  friend BOOL operator>(const CuBV& bv1, const ULONG* pV);    //inline
-  friend BOOL operator>(const ULONG* pV, const CuBV& bv2);    //inline
+  friend BOOL operator>(const CuBV& bv1, const ptrdiff_t* pV);    //inline
+  friend BOOL operator>(const ptrdiff_t* pV, const CuBV& bv2);    //inline
   friend BOOL operator<(const CuBV& bv1, const CuBV& bv2);     //inline
-  friend BOOL operator<(const CuBV& bv1, const ULONG* pV);    //inline
-  friend BOOL operator<(const ULONG* pV, const CuBV& bv2);    //inline
+  friend BOOL operator<(const CuBV& bv1, const ptrdiff_t* pV);    //inline
+  friend BOOL operator<(const ptrdiff_t* pV, const CuBV& bv2);    //inline
   friend BOOL operator>=(const CuBV& bv1, const CuBV& bv2);    //inline
-  friend BOOL operator>=(const CuBV& bv1, const ULONG* pV);   //inline
-  friend BOOL operator>=(const ULONG* pV, const CuBV& bv2);   //inline
+  friend BOOL operator>=(const CuBV& bv1, const ptrdiff_t* pV);   //inline
+  friend BOOL operator>=(const ptrdiff_t* pV, const CuBV& bv2);   //inline
   friend BOOL operator<=(const CuBV& bv1, const CuBV& bv2);    //inline
-  friend BOOL operator<=(const CuBV& bv1, const ULONG* pV);   //inline
-  friend BOOL operator<=(const ULONG* pV, const CuBV& bv2);   //inline
+  friend BOOL operator<=(const CuBV& bv1, const ptrdiff_t* pV);   //inline
+  friend BOOL operator<=(const ptrdiff_t* pV, const CuBV& bv2);   //inline
 
 #ifndef _LINUX
 //****************************** Input/Output operations ********************************
@@ -140,17 +141,17 @@ public:
 
 //***************************** Advanced access to memory *******************************
   void Empty();             //inline
-  ULONG* GetBuffer(int nMinBufLength);
+  ptrdiff_t* GetBuffer(int nMinBufLength);
   void ReleaseBuffer(int nNewLength = -1);
-  ULONG* SetSize(int nNewLength, int nNewAllocLength = -1);
+  ptrdiff_t* SetSize(int nNewLength, int nNewAllocLength = -1);
 
-  void AssignDiz(int nBitLength, const ULONG* v1, const ULONG* v2);
-  void AssignDiz(int nBitLength, int Num, ULONG* v1, ...);
-  void AssignCon(int nBitLength, const ULONG* v1, const ULONG* v2);
-  void AssignCon(int nBitLength, int Num, ULONG* v1, ...);
-  void AssignXor(int nBitLength, const ULONG* v1, const ULONG* v2);
-  void AssignXor(int nBitLength, int Num, ULONG* v1, ...);
-  void AssignDif(int nBitLength, const ULONG* v1, const ULONG* v2);
+  void AssignDiz(int nBitLength, const ptrdiff_t* v1, const ptrdiff_t* v2);
+  void AssignDiz(int nBitLength, int Num, ptrdiff_t* v1, ...);
+  void AssignCon(int nBitLength, const ptrdiff_t* v1, const ptrdiff_t* v2);
+  void AssignCon(int nBitLength, int Num, ptrdiff_t* v1, ...);
+  void AssignXor(int nBitLength, const ptrdiff_t* v1, const ptrdiff_t* v2);
+  void AssignXor(int nBitLength, int Num, ptrdiff_t* v1, ...);
+  void AssignDif(int nBitLength, const ptrdiff_t* v1, const ptrdiff_t* v2);
 
 protected:
     ptrdiff_t* m_bVect;
@@ -163,31 +164,31 @@ protected:
   void AllocBuffer(int nLenLong);
   void CharBit(const char* pch);
   void AssignChar(int nLen, const char* pch);
-  void AssignCopy(int nLen, int nLenLong, const ULONG* pV);
+  void AssignCopy(int nLen, int nLenLong, const ptrdiff_t* pV);
 
-  void LeftShiftVect(const ULONG* pV, int nLen, int nShift);
+  void LeftShiftVect(const ptrdiff_t* pV, int nLen, int nShift);
   void LeftShiftInPlace(int nShift);
-  void RightShiftVect(const ULONG* pV, int nLen, int nShift);
+  void RightShiftVect(const ptrdiff_t* pV, int nLen, int nShift);
   void RightShiftInPlace(int nShift);
 
-  void Diz(const ULONG* pV1, int nLen1, const ULONG* pV2, int nLen2);
-  void DizInPlace(const ULONG* pV, int nLen);
-  void Con(const ULONG* pV1, int nLen1, const ULONG* pV2, int nLen2);
-  void ConInPlace(const ULONG* pV, int nLen);
-  void Add2(const ULONG* pV1, int nLen1, const ULONG* pV2, int nLen2);
-  void Add2InPlace(const ULONG* pV, int nLen);
-  void Not(const ULONG* pV, int nLen);
-  void ConNot(const ULONG* pV1, int nLen1, const ULONG* pV2, int nLen2);
-  void ConNotInPlace(const ULONG* pV, int nLen);
+  void Diz(const ptrdiff_t* pV1, int nLen1, const ptrdiff_t* pV2, int nLen2);
+  void DizInPlace(const ptrdiff_t* pV, int nLen);
+  void Con(const ptrdiff_t* pV1, int nLen1, const ptrdiff_t* pV2, int nLen2);
+  void ConInPlace(const ptrdiff_t* pV, int nLen);
+  void Add2(const ptrdiff_t* pV1, int nLen1, const ptrdiff_t* pV2, int nLen2);
+  void Add2InPlace(const ptrdiff_t* pV, int nLen);
+  void Not(const ptrdiff_t* pV, int nLen);
+  void ConNot(const ptrdiff_t* pV1, int nLen1, const ptrdiff_t* pV2, int nLen2);
+  void ConNotInPlace(const ptrdiff_t* pV, int nLen);
 
-  void Extr(const ULONG* pV, int nLen, int nFirst, int nCount);
+  void Extr(const ptrdiff_t* pV, int nLen, int nFirst, int nCount);
 
-  void Conc2(const ULONG* pV1, int nLen1, const ULONG* pV2, int nLen2);
+  void Conc2(const ptrdiff_t* pV1, int nLen1, const ptrdiff_t* pV2, int nLen2);
 
-  BOOL Equality(const ULONG* pV, int nLen) const;
-  BOOL Pogl(const ULONG* pV, int nLen, BOOL Dist) const;
-  BOOL PoglEq(const ULONG* pV, int nLen, BOOL Dist) const;
-  static void SafeDelete(ULONG* pV);             //inline
+  BOOL Equality(const ptrdiff_t* pV, int nLen) const;
+  BOOL Pogl(const ptrdiff_t* pV, int nLen, BOOL Dist) const;
+  BOOL PoglEq(const ptrdiff_t* pV, int nLen, BOOL Dist) const;
+  static void SafeDelete(ptrdiff_t* pV);             //inline
   static int SafeStrlen(const char* pch);        //inline
   void Init();                                   //inline
 };
@@ -423,14 +424,14 @@ protected:
 inline int CuBV::GetLongLength() const { return m_nLongLength; }
 inline int CuBV::GetBitLength() const { return m_nBitLength; }
 inline int CuBV::GetAllocLength() const { return m_nAllocLength; }
-inline CuBV::operator ULONG*() const { return (ULONG*)m_bVect; }
+inline CuBV::operator ptrdiff_t*() const { return (ptrdiff_t*)m_bVect; }
 
-inline ULONG CuBV::operator[](int nIndex) const
+inline ptrdiff_t CuBV::operator[](int nIndex) const
 { ASSERT(nIndex >= 0); ASSERT(nIndex < m_nLongLength);
   return m_bVect[nIndex]; 
 }
 
-inline ULONG CuBV::GetLongAt(int nIndex) const 
+inline ptrdiff_t CuBV::GetLongAt(int nIndex) const 
 { ASSERT(nIndex >= 0); ASSERT(nIndex < m_nLongLength);
   return m_bVect[nIndex]; 
 }
@@ -440,7 +441,7 @@ inline BOOL CuBV::GetBitAt(int nIndex) const
   return ((m_bVect[BIT_LONG(nIndex)] & OB4[ADR_BITLONG(nIndex)])!=0);
 }
 
-inline void CuBV::SetLongAt(int nIndex, ULONG val)
+inline void CuBV::SetLongAt(int nIndex, ptrdiff_t val)
 { ASSERT(nIndex >= 0); ASSERT(nIndex < m_nLongLength);
   m_bVect[nIndex] = val;
 }
@@ -459,14 +460,14 @@ inline const CuBV& CuBV::operator =(const CuBV& bv)
 inline const CuBV& CuBV::operator =(const char* pch)
 { AssignChar(SafeStrlen(pch), pch); return *this; }
 
-inline const CuBV& CuBV::operator =(const ULONG* pV)
+inline const CuBV& CuBV::operator =(const ptrdiff_t* pV)
 { ASSERT(m_nBitLength > 0);
   AssignCopy(m_nBitLength, m_nLongLength, pV);  return *this;
 }
 
 inline void CuBV::Zero()
 { ASSERT(m_nLongLength >= 0);
-  memset(m_bVect, 0, m_nLongLength*sizeof(ULONG)); 
+  memset(m_bVect, 0, m_nLongLength*sizeof(ptrdiff_t)); 
 }
 
 inline void CuBV::Concat(const CuBV& bv) 
@@ -478,25 +479,25 @@ inline void CuBV::Concat(const CuBV& bv1, const CuBV& bv2)
 inline const CuBV& CuBV::operator |=(const CuBV& bv)
 { DizInPlace(bv.m_bVect, bv.m_nBitLength); return *this;}
 
-inline const CuBV& CuBV::operator |=(const ULONG* pV)
+inline const CuBV& CuBV::operator |=(const ptrdiff_t* pV)
 { DizInPlace(pV, m_nBitLength); return *this;}
 
 inline const CuBV& CuBV::operator &=(const CuBV& bv)
 { ConInPlace(bv.m_bVect, bv.m_nBitLength); return *this;}
 
-inline const CuBV& CuBV::operator &=(const ULONG* pV)
+inline const CuBV& CuBV::operator &=(const ptrdiff_t* pV)
 { ConInPlace(pV, m_nBitLength); return *this;}
 
 inline const CuBV& CuBV::operator ^=(const CuBV& bv)
 { Add2InPlace(bv.m_bVect, bv.m_nBitLength);    return *this;}
 
-inline const CuBV& CuBV::operator ^=(const ULONG* pV)
+inline const CuBV& CuBV::operator ^=(const ptrdiff_t* pV)
 { Add2InPlace(pV, m_nBitLength); return *this;}
 
 inline const CuBV& CuBV::operator -=(const CuBV& bv)
 { ConNotInPlace(bv.m_bVect, bv.m_nBitLength); return *this;}
 
-inline const CuBV& CuBV::operator -=(const ULONG* pV)
+inline const CuBV& CuBV::operator -=(const ptrdiff_t* pV)
 { ConNotInPlace(pV,m_nBitLength); return *this;}
 
 inline const CuBV&  CuBV::operator <<=(int nShift)
@@ -510,55 +511,55 @@ inline void CuBV::Empty() { SafeDelete(m_bVect); Init(); }
 inline BOOL operator ==(const CuBV& bv1, const CuBV& bv2)
 { return bv1.Equality(bv2.m_bVect, bv2.m_nBitLength); }
 
-inline BOOL operator ==(const CuBV& bv, const ULONG* pV)
+inline BOOL operator ==(const CuBV& bv, const ptrdiff_t* pV)
 { return bv.Equality(pV, bv.m_nBitLength); }
 
-inline BOOL operator ==(const ULONG* pV, const CuBV& bv)
+inline BOOL operator ==(const ptrdiff_t* pV, const CuBV& bv)
 { return bv.Equality(pV, bv.m_nBitLength); }
 
 inline BOOL operator !=(const CuBV& bv1, const CuBV& bv2)
 { return !(bv1.Equality(bv2.m_bVect, bv2.m_nBitLength)); }
 
-inline BOOL operator !=(const CuBV& bv, const ULONG* pV)
+inline BOOL operator !=(const CuBV& bv, const ptrdiff_t* pV)
 { return !(bv.Equality(pV, bv.m_nBitLength)); }
 
-inline BOOL operator !=(const ULONG* pV, const CuBV& bv)
+inline BOOL operator !=(const ptrdiff_t* pV, const CuBV& bv)
 { return !(bv.Equality(pV, bv.m_nBitLength)); }
 
 inline BOOL operator >(const CuBV& bv1, const CuBV& bv2)
 { return (bv1.Pogl(bv2.m_bVect, bv2.m_nBitLength, TRUE)); }
 
-inline BOOL operator >(const CuBV& bv, const ULONG* pV)
+inline BOOL operator >(const CuBV& bv, const ptrdiff_t* pV)
 { return (bv.Pogl(pV, bv.m_nBitLength, TRUE)); }
 
-inline BOOL operator >(const ULONG* pV, const CuBV& bv)
+inline BOOL operator >(const ptrdiff_t* pV, const CuBV& bv)
 { return (bv.Pogl(pV, bv.m_nBitLength, FALSE)); }
 
 inline BOOL operator <(const CuBV& bv1, const CuBV& bv2)
 { return (bv2.Pogl(bv1.m_bVect, bv1.m_nBitLength, TRUE)); }
 
-inline BOOL operator <(const CuBV& bv, const ULONG* pV)
+inline BOOL operator <(const CuBV& bv, const ptrdiff_t* pV)
 { return (bv.Pogl(pV, bv.m_nBitLength, FALSE)); }
 
-inline BOOL operator <(const ULONG* pV, const CuBV& bv)
+inline BOOL operator <(const ptrdiff_t* pV, const CuBV& bv)
 { return (bv.Pogl(pV, bv.m_nBitLength, TRUE)); }
 
 inline BOOL operator>=(const CuBV& bv1, const CuBV& bv2)
 { return (bv1.PoglEq(bv2.m_bVect, bv2.m_nBitLength,TRUE)); }
 
-inline BOOL operator>=(const CuBV& bv, const ULONG* pV)
+inline BOOL operator>=(const CuBV& bv, const ptrdiff_t* pV)
 { return (bv.PoglEq(pV, bv.m_nBitLength, TRUE)); }
 
-inline BOOL operator>=(const ULONG* pV, const CuBV& bv)
+inline BOOL operator>=(const ptrdiff_t* pV, const CuBV& bv)
 { return (bv.PoglEq(pV, bv.m_nBitLength, FALSE)); }
 
 inline BOOL operator <=(const CuBV& bv1, const CuBV& bv2)
 { return (bv2.PoglEq(bv1.m_bVect, bv1.m_nBitLength, TRUE)); }
 
-inline BOOL operator <=(const CuBV& bv, const ULONG* pV)
+inline BOOL operator <=(const CuBV& bv, const ptrdiff_t* pV)
 { return (bv.PoglEq(pV, bv.m_nBitLength, FALSE)); }
 
-inline BOOL operator<=(const ULONG* pV, const CuBV& bv)
+inline BOOL operator<=(const ptrdiff_t* pV, const CuBV& bv)
 { return (bv.PoglEq(pV, bv.m_nBitLength, TRUE)); }
 
 
@@ -567,7 +568,7 @@ inline BOOL operator<=(const ULONG* pV, const CuBV& bv)
 inline void CuBV::Init()
 { m_nBitLength = m_nLongLength = m_nAllocLength = 0;  m_bVect = NULL; }
 
-inline void CuBV::SafeDelete(ULONG* pV)
+inline void CuBV::SafeDelete(ptrdiff_t* pV)
 { if (pV != NULL) delete [] pV; }
 
 inline int CuBV::SafeStrlen(const char* pch)
