@@ -16,6 +16,9 @@
 #include <string>
 using namespace std;
 
+#define BITS_IN_BYTE 8
+#define BITS_IN_WORD (sizeof(ptrdiff_t) * BITS_IN_BYTE)
+
 class CuBV
 {
 public:
