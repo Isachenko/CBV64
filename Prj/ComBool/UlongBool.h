@@ -209,7 +209,7 @@ public:
     CuBM();
     CuBM(const CuBM& bm, BOOL Fl = TRUE );
     CuBM(int nRow, int nColumn, BOOL Fl = FALSE);
-    CuBM(const ULONG* pV, int nRow, int nColumn);
+    CuBM(const ptrdiff_t* pV, int nRow, int nColumn);
     CuBM(const char* pch);
 #ifndef _LINUX
     CuBM(const CStringArray& StrAr);
@@ -243,9 +243,9 @@ public:
     ULONG GetLongAt(int nRow, int nIndex, ULONG* mask) const;    //inline
     ULONG* GetRow(int nIndex) const;                             //inline
     CuBV GetRowBv(int nRow) const;
-    CuBV GetRowBv(int nIndex, ULONG* mask) const;
+    CuBV GetRowBv(int nIndex, ptrdiff_t* mask) const;
     CuBV GetColumnBv(int nColomn) const;
-    CuBV GetColumnBv(int nColumn, ULONG* mask) const;
+    CuBV GetColumnBv(int nColumn, ptrdiff_t* mask) const;
     ULONG* operator[](int nIndex) const;                         //inline
 #ifndef _LINUX
     CString BitChar(char One = '1',char Zero = '0',BOOL WithNum=FALSE);
@@ -269,10 +269,10 @@ public:
     void SetRow(int nRow, const CuBM& bm, int nbmRow);
 
 //********************************** Working with row ***********************************
-    void SetRowGrow(int nIndex, const ULONG* newRow);
+    void SetRowGrow(int nIndex, const ptrdiff_t* newRow);
     void SetRowGrow(int nIndex, const CuBV& newRow);
     void SetRowGrow(int nRow, const CuBM& bm, int nbmRow);
-    int Add(const ULONG* newRow);                                //inline
+    int Add(const ptrdiff_t* newRow);                                //inline
     int Add(const CuBV& bv);                                      //inline
     int Add(const CuBM& bm, int nbmRow);                          //inline
     int Add(BOOL bit = FALSE, int nCount = 1);

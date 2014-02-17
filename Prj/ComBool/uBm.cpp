@@ -254,7 +254,7 @@ void CuBM::SetSize(int nRow, int nColumn, int nGrowBy /* = -1 */, int nColGrow/*
   }
   //------------------ create one with exact size
   if (m_pData == NULL) { // create one with exact size
-    ASSERT((long)nmaxRow*sizeof(ptrdiff_t*) <= ULONG_MAX);  // no overflow
+    ASSERT((long)nmaxRow*sizeof(ptrdiff_t*) <= ULLONG_MAX);  // no overflow
     //AllocMatrix(nRow, nColumn);
     m_pData = (ptrdiff_t**) new ptrdiff_t*[nmaxRow];
     for (i=0; i < nRow; i++) {
@@ -445,7 +445,7 @@ CuBV CuBM::GetRowBv(int nIndex) const
 }
  
 //---------------------------------------------------------------GetRowBv(int nIndex)
-CuBV CuBM::GetRowBv(int nIndex, ULONG* mask) const
+CuBV CuBM::GetRowBv(int nIndex, ptrdiff_t* mask) const
 { 
   ASSERT(nIndex >= 0 && nIndex < m_nSize);
   CuBV bv(m_pData[nIndex], m_nBitLength);
@@ -463,7 +463,7 @@ CuBV CuBM::GetColumnBv(int nColumn) const
 }
 
 //---------------------------------------------------------------GetColumnBv(int nColumn)
-CuBV CuBM::GetColumnBv(int nColumn, ULONG* mask) const
+CuBV CuBM::GetColumnBv(int nColumn, ptrdiff_t* mask) const
 {
   ASSERT((nColumn >= 0) && (nColumn < m_nBitLength));
   CuBV bv(m_nSize, FALSE);
@@ -559,7 +559,7 @@ void CuBM::SetRow(int nRow, const CuBM& bm, int nbmRow)
 
 //********************************** Working with row ***********************************
 //----------------------------------------------SetRowGrow(int nRow, const ULONG* newRow)
-void CuBM::SetRowGrow(int nRow, const ULONG* newRow)
+void CuBM::SetRowGrow(int nRow, const ptrdiff_t* newRow)
 {
 #ifdef _DEBUG
   ASSERT_VALID(this);
@@ -630,7 +630,7 @@ int CuBM::Add(const CuBM& bm, int nbmRow/* =-1*/)
 }
 
 //-----------------------------------InsertRow(int nRow, const ULONG* newRow, int nCount)
-void CuBM::InsertRow(int nRow, const ULONG* newRow, int nCount /*=1*/)
+void CuBM::InsertRow(int nRow, const ptrdiff_t* newRow, int nCount /*=1*/)
 {
 #ifdef _DEBUG
   ASSERT_VALID(this);
@@ -831,7 +831,7 @@ void CuBM::Concat(const CuBM& bm)
 {
   ASSERT(m_nSize == bm.m_nSize);
   int i, j, OldLen = BIT_LONG(m_nBitLength), l_bit, r_bit;
-  l_bit = ADR_BITLONG(m_nBitLength);  r_bit = S_4 - l_bit;
+  l_bit = ADR_BITLONG(m_nBitLength);  r_bit = S_8 - l_bit;
   SetSize(m_nSize, m_nBitLength + bm.m_nBitLength, m_nGrowBy);
   for (i=0; i < m_nSize; i++)  {
     m_pData[i][OldLen] |= (bm.m_pData[i][0] >> l_bit);
@@ -847,7 +847,7 @@ void CuBM::Concat(const CuBM& bm1, const CuBM& bm2)
   ASSERT(bm1.m_nSize == bm2.m_nSize);
   SetSize(bm1.m_nSize, bm1.m_nBitLength + bm2.m_nBitLength, m_nGrowBy);
   int i, j, OldLen = BIT_LONG(bm1.m_nBitLength), l_bit, r_bit;
-  l_bit = ADR_BITLONG(bm1.m_nBitLength);  r_bit = S_4 - l_bit;
+  l_bit = ADR_BITLONG(bm1.m_nBitLength);  r_bit = S_8 - l_bit;
   for (i=0; i < m_nSize; i++)
     memcpy(m_pData[i], bm1.m_pData[i], bm1.m_nLongLength*sizeof(ULONG));
   for (i=0; i < m_nSize; i++)  {
