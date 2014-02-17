@@ -75,6 +75,9 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\../../bin/Release/Lib\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\../../bin/Release/objects/ShortBool\</IntDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\Users\IsachenkoA\Documents\GitHub\CBV64\Prj\ComBool;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
