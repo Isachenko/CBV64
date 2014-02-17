@@ -151,7 +151,7 @@ public:
   void AssignDif(int nBitLength, const ULONG* v1, const ULONG* v2);
 
 protected:
-    ULONG* m_bVect;
+    ptrdiff_t* m_bVect;
     int m_nBitLength;
     int m_nLongLength;
     int m_nAllocLength;
