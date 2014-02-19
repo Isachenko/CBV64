@@ -137,6 +137,7 @@ char* CsBV::BitChar(char One, char Zero)
 //-------------------------------------------------------------------
 void CsBV::CharBit(__int8 nLen, const char* pch)
 {
+	Zero();
 	for (__int8 j = 0; j < nLen; j++)
 	{
 		if (pch[j] == '1')
@@ -158,8 +159,8 @@ void CsBV::One()
 CsBV CsBV::Extract(__int8 nFirst, __int8 nCount)
 {
 	CsBV s;
-	ASSERT(nFirst > 0 && nFirst < SIZE_SHORTBOOL);
-	ASSERT(nCount <= SIZE_SHORTBOOL);
+	ASSERT(nFirst >= 0 && nFirst < SIZE_SHORTBOOL);
+	ASSERT(nCount > 0);
 	ASSERT(nFirst + nCount <= SIZE_SHORTBOOL);
 
 	s.m_bVect = m_bVect >> (SIZE_SHORTBOOL - (nFirst + nCount)) << (SIZE_SHORTBOOL - nCount);
