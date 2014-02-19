@@ -244,12 +244,12 @@ public:
     BOOL GetBitAt(int nRow, int nColumn, ULONG* mask) const;     //inline
     ULONG GetLongAt(int nRow, int nIndex) const;                 //inline
     ULONG GetLongAt(int nRow, int nIndex, ULONG* mask) const;    //inline
-    ULONG* GetRow(int nIndex) const;                             //inline
+    ptrdiff_t* GetRow(int nIndex) const;                             //inline
     CuBV GetRowBv(int nRow) const;
     CuBV GetRowBv(int nIndex, ptrdiff_t* mask) const;
     CuBV GetColumnBv(int nColomn) const;
     CuBV GetColumnBv(int nColumn, ptrdiff_t* mask) const;
-    ULONG* operator[](int nIndex) const;                         //inline
+    ptrdiff_t* operator[](int nIndex) const;                         //inline
 #ifndef _LINUX
     CString BitChar(char One = '1',char Zero = '0',BOOL WithNum=FALSE);
     void BitChar(CStringArray& StrRes, BOOL WithClear=TRUE, BOOL WithNum=FALSE,
@@ -267,7 +267,7 @@ public:
 //********************************** Writing the data ***********************************
     void SetBitAt(int nRow, int nColumn, BOOL bit);              //inline
     void SetLongAt(int nRow, int nIndex, ULONG val);             //inline
-    void SetRow(int nRow, const ULONG* newRow);                  //inline
+    void SetRow(int nRow, const ptrdiff_t* newRow);                  //inline
     void SetRow(int nRow, const CuBV& newRow);
     void SetRow(int nRow, const CuBM& bm, int nbmRow);
 
@@ -279,7 +279,7 @@ public:
     int Add(const CuBV& bv);                                      //inline
     int Add(const CuBM& bm, int nbmRow);                          //inline
     int Add(BOOL bit = FALSE, int nCount = 1);
-    void InsertRow(int nRow, const ULONG* newRow, int nCount = 1);
+    void InsertRow(int nRow, const ptrdiff_t* newRow, int nCount = 1);
     void InsertRow(int nRow, const CuBV& newRow, int nCount = 1);
     void InsertRow(int nRow, int nStartIndex, const CuBM& NewBM, int nCount = 1);
     void RemoveRow(int nIndex, int nCount = 1);
@@ -593,17 +593,17 @@ inline void CuBM::RemoveAll()          { SetSize(0,0); }
 inline void CuBM::RemoveAllRows()      { SetSize(0,m_nBitLength); }
 
 inline BOOL CuBM::IsEmpty() const { return (m_pData == NULL && m_nSize == 0); }
-inline ULONG* CuBM::operator [](int nIndex) const {return GetRow(nIndex); }
+inline ptrdiff_t* CuBM::operator [](int nIndex) const {return GetRow(nIndex); }
 
-inline ULONG* CuBM::GetRow(int nIndex) const
+inline ptrdiff_t* CuBM::GetRow(int nIndex) const
 { ASSERT(nIndex >= 0 && nIndex < m_nSize); return m_pData[nIndex]; }
 
-inline void CuBM::SetRow(int nIndex, const ULONG* newRow)
+inline void CuBM::SetRow(int nIndex, const ptrdiff_t* newRow)
 { ASSERT(nIndex >= 0 && nIndex < m_nSize);
-  memcpy(m_pData[nIndex], newRow, m_nLongLength*sizeof(ULONG));
+  memcpy(m_pData[nIndex], newRow, m_nLongLength*sizeof(ptrdiff_t));
 }
 
-inline int CuBM::Add(const ULONG* newRow)
+inline int CuBM::Add(const ptrdiff_t* newRow)
 { SetRowGrow(m_nSize, newRow); return (m_nSize - 1); }
 
 inline int CuBM::Add(const CuBV& bv)

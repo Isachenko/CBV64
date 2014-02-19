@@ -268,7 +268,7 @@ void CuBM::SetSize(int nRow, int nColumn, int nGrowBy /* = -1 */, int nColGrow/*
   }
   //------------------ Set columns size
   if (nLong > m_nAllocLength) {
-    ULONG* pV;
+    ptrdiff_t* pV;
     for (i=0; i < m_nSize; i++) {
       pV = (ptrdiff_t*) new ptrdiff_t[nLongmax];
       memset(pV, 0, nLongmax*sizeof(ptrdiff_t));  // zero fill
