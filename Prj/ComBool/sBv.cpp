@@ -67,7 +67,7 @@ CsBV::CsBV(__int8 nLength, BOOL Fl)
 	else
 	{
 		if (Fl)
-			m_bVect = 0xffffffffffffffff >> (SIZE_SHORTBOOL - nLength) << (SIZE_SHORTBOOL - nLength);
+			m_bVect = ONES >> (SIZE_SHORTBOOL - nLength) << (SIZE_SHORTBOOL - nLength);
 		else
 			m_bVect = 0;
 		m_nBitLength = nLength;
@@ -152,7 +152,7 @@ void CsBV::One()
 {
 	if (m_nBitLength == 0)
 		return;
-	m_bVect = 0xffffffffffffffff >> (SIZE_SHORTBOOL - m_nBitLength) << (SIZE_SHORTBOOL - m_nBitLength);
+	m_bVect = ONES >> (SIZE_SHORTBOOL - m_nBitLength) << (SIZE_SHORTBOOL - m_nBitLength);
 }
 
 //-------------------------------------------------------------------
@@ -556,9 +556,9 @@ void CsBV::LoopRightShift(__int8 nShift)
 {
 	ASSERT(nShift >= 0);
 	nShift %= m_nBitLength;
-	size_t w = m_bVect >> (SIZE_SHORTBOOL - (m_nBitLength - nShift));
-	m_bVect <<= nShift;
-	m_bVect = (m_bVect << (m_nBitLength - nShift)) | (w << (SIZE_SHORTBOOL - nShift));
+	size_t w = m_bVect << (m_nBitLength - nShift);
+	m_bVect = (m_bVect >> (SIZE_SHORTBOOL - m_nBitLength + nShift)) << (SIZE_SHORTBOOL - m_nBitLength);
+	m_bVect |= w;
 }
 
 

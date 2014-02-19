@@ -66,6 +66,7 @@ typedef int BOOL;
 
 #define SIZE_SHORTBOOL 64
 #define SIZE_BYTE 8
+#define ONES 0xffffffffffffffff
 
 const BYTE sTabC[256] = {
 0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 

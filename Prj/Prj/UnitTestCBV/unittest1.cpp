@@ -95,6 +95,8 @@ namespace UnitTestCBV
 			Assert::IsTrue(bv.GetBitAt(0) == 1);
 		}
 
+		//-----------------------------------------------------------
+
 		TEST_METHOD(TestMethod_operatorAssign)
 		{
 			int bitLenght = 64;
@@ -128,7 +130,7 @@ namespace UnitTestCBV
 			Assert::IsTrue(bv.GetBitAt(45) == 0);
 		}
 		
-		TEST_METHOD(TestMethod_operatorAndssign)
+		TEST_METHOD(TestMethod_operatorAndAssign)
 		{
 			int bitLenght = 64;
 			size_t value = ((size_t)1 << 63) | ((size_t)1 << 60) | ((size_t)1 << 2);
@@ -180,6 +182,136 @@ namespace UnitTestCBV
 			str1 = bv1.BitChar();
 			Assert::IsTrue(str1 == "0001001");
 		}
+
+		//----------------------------------------------------------
+
+		TEST_METHOD(TestMethod_operatorOr)
+		{
+			int bitLenght = 64;
+			size_t value = ((size_t)1 << 63) | ((size_t)1 << 60);
+			size_t value1 = ((size_t)1 << 62) | ((size_t)1 << 60);
+			CsBV bv = CsBV((size_t)value, (__int8)bitLenght);
+			CsBV bv1 = CsBV((size_t)value1, (__int8)bitLenght);
+			CString str1 = bv.BitChar('*', '_');
+			bv = bv | bv1;
+			CString str2 = bv.BitChar('*', '_');
+			bv =  bv | (size_t)4;
+			bv =  (size_t)8 | bv;
+			CString str3 = bv.BitChar('*', '_');
+			Assert::IsTrue(bv.GetBitAt(0) == 1);
+			Assert::IsTrue(bv.GetBitAt(1) == 1);
+			Assert::IsTrue(bv.GetBitAt(3) == 1);
+			Assert::IsTrue(bv.GetBitAt(61) == 1);
+			Assert::IsTrue(bv.GetBitAt(60) == 1);
+			Assert::IsTrue(bv.GetBitAt(45) == 0);
+		}
+		
+		TEST_METHOD(TestMethod_operatorAnd)
+		{
+			int bitLenght = 64;
+			size_t value = ((size_t)1 << 63) | ((size_t)1 << 60) | ((size_t)1 << 2);
+			size_t value1 = ((size_t)1 << 62) | ((size_t)1 << 60) | ((size_t)1 << 2);
+			CsBV bv = CsBV((size_t)value, (__int8)bitLenght);
+			CsBV bv1 = CsBV((size_t)value1, (__int8)bitLenght);
+			CString str1 = bv.BitChar('*', '_');
+			bv = bv& bv1;
+			CString str2 = bv.BitChar('*', '_');
+			bv = bv & (size_t)6;
+			bv = (size_t)6 & bv;
+			CString str3 = bv.BitChar('*', '_');
+			Assert::IsTrue(bv.GetBitAt(0) == 0);
+			Assert::IsTrue(bv.GetBitAt(1) == 0);
+			Assert::IsTrue(bv.GetBitAt(3) == 0);
+			Assert::IsTrue(bv.GetBitAt(61) == 1);
+			Assert::IsTrue(bv.GetBitAt(45) == 0);
+		}
+		
+		TEST_METHOD(TestMethod_operatorXor)
+		{
+			CsBV bv1 = "101000";
+			CsBV bv2 = "100110";
+			CString str1 = bv1.BitChar('*', '_');
+			CString str2 = bv2.BitChar('*', '_');
+			bv1 = bv1 ^ bv2;
+			CString str3 = bv1.BitChar('*', '_');
+			Assert::IsTrue(str3 == "__***_");
+		}
+		
+		TEST_METHOD(TestMethod_operatorMinus)
+		{			
+			CsBV bv1 = "1110011";
+			CsBV bv2 = "1101001";
+			bv1 = bv1 - bv2;
+			CString str1 = bv1.BitChar();
+			Assert::IsTrue(str1 == "0010010");
+			bv1 = bv1 - ((size_t)1 << 58);
+			str1 = bv1.BitChar();
+			Assert::IsTrue(str1 == "0010000");
+		}
+
+		TEST_METHOD(TestMethod_operatorNot)
+		{			
+			CsBV bv1 = "1110011";
+			bv1 = ~bv1;
+			CString str1 = bv1.BitChar();
+			Assert::IsTrue(str1 == "0001100");
+		}
+
+		TEST_METHOD(TestMethod_Invert)
+		{			
+			CsBV bv = CsBV(64, true);
+			bv.Invert(12);
+			CString ans = bv.BitChar('*', '_');			
+			Assert::IsTrue(ans == L"************************************************************__**");
+		}
+
+		//------------------------
+		
+		TEST_METHOD(TestMethod_operatorShift)
+		{			
+			CsBV bv1 = "1110011";
+			bv1 = bv1 << (__int8)2;
+			CString str1 = bv1.BitChar();
+			Assert::IsTrue(str1 == "1001100");
+			bv1 = bv1 >> (__int8)3;
+			str1 = bv1.BitChar();
+			Assert::IsTrue(str1 == "0001001");
+		}
+
+		TEST_METHOD(TestMethod_LoopShift)
+		{			
+			CsBV bv1 = "1110011";
+			bv1.LoopLeftShift(2);
+			CString str1 = bv1.BitChar();
+			Assert::IsTrue(str1 == "1001111");
+			bv1.LoopRightShift(3);
+			str1 = bv1.BitChar();
+			Assert::IsTrue(str1 == "1111001");
+		}
+
+		TEST_METHOD(TestMethod_LoopRightShift)
+		{			
+			CsBV bv1 = "1110011010101111";
+			bv1.LoopRightShift(5);
+			CString str1 = bv1.BitChar();
+			Assert::IsTrue(str1 == "0111111100110101");
+		}
+		
+		TEST_METHOD(TestMethod_CountBit)
+		{			
+			CsBV bv1 = "1110011010101111";
+			bv1.LoopRightShift(5);
+			__int8 ans = bv1.CountBit();
+			Assert::IsTrue(ans == 11);
+		}
+
+		//ToDO этот тетст не готов
+		TEST_METHOD(TestMethod_LeftOne)
+		{			
+			CsBV bv1 = "1110011010101111";
+		}
+
+
 
 	};
 }
