@@ -305,12 +305,29 @@ namespace UnitTestCBV
 			Assert::IsTrue(ans == 11);
 		}
 
-		//ToDO этот тетст не готов
 		TEST_METHOD(TestMethod_LeftOne)
 		{			
 			CsBV bv1 = "1110011010101111";
+			_int8 ans = bv1.LeftOne();
+			Assert::IsTrue(ans == 0);
+			ans = bv1.LeftOne(2);
+			Assert::IsTrue(ans == 5);
+			ans = bv1.LeftOne(6);
+			Assert::IsTrue(ans == 8);
 		}
 
+		TEST_METHOD(TestMethod_RightOne)
+		{			
+			CsBV bv1 = "1110011010101111";
+			_int8 ans = bv1.RightOne();
+			Assert::IsTrue(ans == 15);
+			ans = bv1.RightOne(5);
+			Assert::IsTrue(ans == 2);
+			ans = bv1.RightOne(8);
+			Assert::IsTrue(ans == 6);
+		}
+
+		//---------------------------------------
 
 
 	};
