@@ -280,7 +280,7 @@ void CuBV::AssignCopy(int nLen, int nLenLong, const ptrdiff_t* pV)
 //------------------------------------------------------------- CharBit(const char* pch)
 void CuBV::CharBit(const char* pch)
 { 
-  int i, j, nLen = strlen(pch);
+  int i, j, nLen = (int) strlen(pch);
   for (j=0; j < nLen; j++) {
     for (i=0; (i < BITS_IN_WORD) && *pch; i++) {
       if (*pch == '1') m_bVect[j] |= OB4[i];
@@ -776,7 +776,7 @@ void CuBV::LoopLeftShift(int nShift)
   ASSERT(nNewLenBit > 0);
   nNewLenLong = LEN_LONG(nNewLenBit);
   
-  work = new ptrdiff_t[m_nLongLength];       // may throw an exception
+  work = new ptrdiff_t[m_nLongLength+1];       // may throw an exception
   memset(work, 0, m_nLongLength*sizeof(ptrdiff_t));
   i = BIT_LONG(nShift);
   l_bit = ADR_BITLONG(nShift);
@@ -848,7 +848,7 @@ void CuBV::LoopRightShift(int nShift)
 int CuBV::CountBit() const
 {
   BYTE* pB = (BYTE*)m_bVect;
-  int one=0, j, w = m_nLongLength<<2; 
+  int one=0, j, w = m_nLongLength<<3; 
   for (j=0; j < w; j++) one += TabC[pB[j]];
   return one;
 }
@@ -1212,7 +1212,7 @@ m0: if (val & 0x00000000ffffffff)
               if (val & 0x0000400000000000) { val&=0xffff800000000000; return ((offset<<6)+17); }
               else                          { val&=0xffff000000000000; return ((offset<<6)+16); }
     else
-      if (val & 0x00ff0000)
+        if (val & 0x00ff000000000000)
           if (val & 0x000f000000000000)  
             if (val & 0x0003000000000000) 
               if (val & 0x0001000000000000) { val&=0xfffe000000000000; return ((offset<<6)+15); }

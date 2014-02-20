@@ -572,7 +572,7 @@ inline void CuBV::SafeDelete(ptrdiff_t* pV)
 { if (pV != NULL) delete [] pV; }
 
 inline int CuBV::SafeStrlen(const char* pch)
-{ return (pch == NULL) ? 0 : strlen((char*)pch); }
+{ return (pch == NULL) ? 0 : (int)strlen((char*)pch); }
 
 /////////////////////////////////////////////////////////////////////////////
 // ------------------------------------------ End of declaration of CuBV class
