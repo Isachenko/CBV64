@@ -327,8 +327,21 @@ namespace UnitTestCBV
 			Assert::IsTrue(ans == 6);
 		}
 
-		//---------------------------------------
+		//---------------------------------------		
 
-
+		TEST_METHOD(TestMethod_Concat)
+		{			
+			CsBV bv1 = "1110011010101111";
+			CsBV bv2 = "00000111";
+			bv1.Concat(bv2);
+			CString ans = bv1.BitChar();
+			Assert::IsTrue(ans == "111001101010111100000111");
+			bv1.Concat(1);
+			ans = bv1.BitChar();
+			Assert::IsTrue(ans == "1110011010101111000001111");
+			bv1.Concat(sOB[0],2);
+			ans = bv1.BitChar();
+			Assert::IsTrue(ans == "111001101010111100000111101");
+		}
 	};
 }

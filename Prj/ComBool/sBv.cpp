@@ -189,7 +189,7 @@ void CsBV::Conc2(const size_t Vect1, __int8 Len1, const size_t Vect2, __int8 Len
 //-------------------------------------------------------------------
 void CsBV::Concat(BOOL Bit/*=FALSE*/)
 {
-	Concat(Bit ? 0x8000000000000000 : 0, 1);
+	Concat(Bit ? sOB[0] : 0, 1);
 }
 
 //-------------------------------------------------------------------
@@ -203,6 +203,7 @@ void CsBV::Concat(const size_t Vect, __int8 Len)
 		return;
 	}
 	m_bVect |= Vect >> (SIZE_SHORTBOOL - Len) << (SIZE_SHORTBOOL - NewBitLen);
+	m_nBitLength = NewBitLen;
 	return;
 }
 
