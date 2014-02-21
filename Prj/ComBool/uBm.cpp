@@ -1629,8 +1629,8 @@ void CuBM::CharBit(const CStringArray& s)
     i = s[k].GetLength();
     if (i > max) max = i;    // max - length of row
   }  
-  if (m_pData == NULL) AllocMatrix(s.GetSize(), max);
-  else { SetSize(s.GetSize(), max, m_nGrowBy);  Zero(); }
+  if (m_pData == NULL) AllocMatrix((int)s.GetSize(), max);
+  else { SetSize((int)s.GetSize(), max, m_nGrowBy);  Zero(); }
   for (k=0; k < s.GetSize(); k++) {
     max = s[k].GetLength();
     CString w(s[k]);
@@ -1644,7 +1644,7 @@ void CuBM::CharBit(const CStringArray& s)
 //----------------------------------------------------------------------- CharBit(CString s)
 void CuBM::CharBit(char* s)
 {
-  int j = 0, i = 0, max = 0, len = strlen(s);
+  int j = 0, i = 0, max = 0, len = (int)strlen(s);
   char* w, *pdest;
   w = (char*)malloc(len+2);
 #ifndef _MSVC9

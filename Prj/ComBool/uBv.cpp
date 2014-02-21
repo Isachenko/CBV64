@@ -94,7 +94,7 @@ size_t GetRandN()
 CuBV GetRandVu()
 {
 	size_t data = GetRandN();
-	return *(new CuBV((BYTE *)&data, 64));
+	return *(new CuBV((int)&data, 64));
 
 }
 
@@ -103,7 +103,7 @@ CuBV GetRandVu()
 // вектора с равновероятным распределением нулей и единиц //
 //    Модификация Томашева - 27 января 1999
 //---------------------------------------------------------
-CuBV CuBV::GenRbv (size_t nCol)
+CuBV CuBV::GenRbv (int nCol)
 { 
   Empty();
   size_t a, b, hh, h, i, j, n; 
@@ -111,9 +111,9 @@ CuBV CuBV::GenRbv (size_t nCol)
   b=a/8;  hh=a-8;  
   n=(nCol/a)+((nCol%a)?1:0);
   size_t nn;
-  m_nBitLength = n*a;
-  m_nByteLength = m_nAllocLength = LEN_BYTE(n*a);
-  m_bVect = new unsigned char[m_nByteLength];
+  m_nBitLength = (int)(n*a);
+  m_nLongLength = m_nAllocLength = LEN_BYTE((int)(n*a));
+  m_bVect = new ptrdiff_t[m_nLongLength];
   for (i=0; i<n-1; i++) 
   {
     nn=GetRandN(); 
@@ -128,7 +128,7 @@ CuBV CuBV::GenRbv (size_t nCol)
   	if (m_nBitLength != nCol)
 	{
     m_nBitLength = nCol;
-    m_nByteLength = LEN_BYTE(nCol);
+    m_nLongLength = LEN_BYTE(nCol);
   }
   return *this;
 }
@@ -141,11 +141,11 @@ CuBV CuBV::GenRbvN(int n)
 { int i, k;
   size_t *Syn;
   size_t c, d, m1;
-  BYTE * pr;
+  ptrdiff_t *pr;
   Empty();
   m_nBitLength = n;
-  m_nByteLength = m_nAllocLength = LEN_BYTE(n);
-  m_bVect = new unsigned char[m_nByteLength];
+  m_nLongLength = m_nAllocLength = LEN_BYTE(n);
+  m_bVect = new ptrdiff_t[m_nLongLength];
   k = LEN_LONG(n);
   Syn = (size_t *) (m_bVect);
   for(i=0; i<k-1; i++)
@@ -154,7 +154,7 @@ CuBV CuBV::GenRbvN(int n)
 
   //Syn[i] = GetRandN() << m >> m;
   c = i * S_1;
-  m1 = m_nByteLength - c;
+  m1 =  m_nLongLength - c;
 	if (m1 == S_1)
 		Syn[i] = GetRandN();
 	else
@@ -167,7 +167,7 @@ CuBV CuBV::GenRbvN(int n)
 	}
 	 if (ADR_BIT(m_nBitLength)) {
     i = S_1 - ADR_BIT(m_nBitLength);
-    m_bVect[m_nByteLength-1] = (m_bVect[m_nByteLength-1] >> i) << i;
+	m_bVect[m_nLongLength-1] = (m_bVect[m_nLongLength-1] >> i) << i;
 	 }
   return *this;  
 }
@@ -214,7 +214,8 @@ CuBV CuBV::GenRbvFix (int nCol, int nRang)
   SetSize(nCol);
   if(nRang>=nCol) { One(); return *this; }
   Zero();
-  size_t j; size_t k; 
+  size_t j; 
+  int k; 
   for ( j = 0; j <nRang; j++)
   {
     k = GetRandN() % nCol;
