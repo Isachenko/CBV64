@@ -413,4 +413,10 @@ namespace UnitTestCubv
             Assert::IsTrue(TRUE == (expected == cubv));
         }
 	};
+
+	TEST_CLASS(UnitTestCubm)
+	{
+	public:
+
+	};
 }
