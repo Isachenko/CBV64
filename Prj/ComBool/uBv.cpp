@@ -35,6 +35,52 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 #endif
 
+static size_t Rgrain =1;
+static BOOL NewRand = TRUE;
+
+///////////////////////////////////////////////////////////
+// Установить новое "зерно" для базового генератора      //
+///////////////////////////////////////////////////////////
+
+void SetRgrain(size_t NewRgrain ) {Rgrain = NewRgrain;}
+
+///////////////////////////////////////////////////////////
+// Взять текущее "зерно" базового генератора             //
+///////////////////////////////////////////////////////////
+
+size_t GetRgrain() {return (Rgrain);}
+
+///////////////////////////////////////////////////////////
+// Установить новый режим генерации                      //
+///////////////////////////////////////////////////////////
+void SetRandMode(BOOL Fl/* = TRUE*/) {NewRand = Fl; }
+
+///////////////////////////////////////////////////////////
+// Взять текущий режим генерации                         //
+///////////////////////////////////////////////////////////
+BOOL GetRandMode() { return NewRand; }
+
+//////////////////////////////////////////////////////////// GetRandN
+// Получение очередного псевдослучайного целого числа     //
+// 32 или 16-разрядного(Романов - переход к 32 от 16 - 10.03.2006)
+// Корректно работающий вариант Томашева - 27 января 1999 //
+////////////////////////////////////////////////////////////
+size_t GetRandN()
+
+{
+	size_t	f13	= (size_t)1220703125 * (size_t)1220703125;  // f13 = 5**26
+	size_t	m	= 0x7fffffffffffffff;  //  m  = 2**31-1
+	size_t  w;
+
+	size_t x1 = (size_t)Rgrain;
+	x1 = (x1*f13)%m;
+	w = (x1 << 16) >> 32;
+	x1 = (x1*f13)%m;
+	w = (w << 32) | ((x1 << 16) >> 32);
+	Rgrain = (size_t)x1;
+	return (w);
+}
+
 //---------------------------------------------------------GetRandVu
 //  Получение псевдослучайного 32-разрядного булева вектора 
 //  Rgrain - глобальная перем.= тек.сост.генератора
@@ -42,31 +88,14 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 //    Vect - 32-разрядный базовый булев вектор 
 //  *** Модификация Томашева - 27 января 1999
 //---------------------------------------------------------
+
+
+
 CuBV GetRandVu()
-{ //CuBV Vect(32,0);
-//  BYTE Work[4];
-//  unsigned long   f13 = 1220703125;  // f13 = 5**13
-//  unsigned long  d, m = 0x7fffffff;  //  m  = 2**31-1
-//  d= GetRgrain();
-//#ifndef _LINUX
-// __asm mov eax,d           //      
-// __asm mul f13             //  Rgrain=(Rgrain*f13)[mod(2**31-1)]
-// __asm div m               //  (непосредсвенно на ассемблере)
-// __asm mov d,edx           //                              V.T.
-//    
-////  SetRgrain(d);     // Rgrain - глобальная перем.= тек.сост.генератора 
-//  Work[0] = (BYTE)( d >> 16); Work[1] = (BYTE)( d >> 8); 
-// __asm mov eax,d           //      
-// __asm mul f13             //  Rgrain=(Rgrain*f13)[mod(2**31-1)]
-// __asm div m               //  (непосредсвенно на ассемблере)
-// __asm mov d,edx           //                              V.T.
-//  
-//  SetRgrain(d);     // Rgrain - глобальная перем.= тек.сост.генератора 
-//  Work[2] = (BYTE)( d >> 16); Work[3] = (BYTE)( d >> 8); 
-//  Vect = (const ULONG*) Work;
-//#endif
-//  return Vect;
-return NULL;
+{
+	size_t data = GetRandN();
+	return *(new CuBV((BYTE *)&data, 64));
+
 }
 
 //********************************************************   GenRbv
@@ -74,14 +103,73 @@ return NULL;
 // вектора с равновероятным распределением нулей и единиц //
 //    Модификация Томашева - 27 января 1999
 //---------------------------------------------------------
-CuBV CuBV::GenRbv (int nCol)
-{ int n,i;
+CuBV CuBV::GenRbv (size_t nCol)
+{ 
   Empty();
-  n = nCol/32;      //число обращений к генератору баз.вектора -1
-  for (i=0; i<n; i++) Concat(GetRandVu());
-  i = nCol - n*32;
-  if (i!=0)  Concat((const ptrdiff_t*)GetRandVu(), i);
+  size_t a, b, hh, h, i, j, n; 
+  a = 32;
+  b=a/8;  hh=a-8;  
+  n=(nCol/a)+((nCol%a)?1:0);
+  size_t nn;
+  m_nBitLength = n*a;
+  m_nByteLength = m_nAllocLength = LEN_BYTE(n*a);
+  m_bVect = new unsigned char[m_nByteLength];
+  for (i=0; i<n-1; i++) 
+  {
+    nn=GetRandN(); 
+    for(h=hh, j=0; j<b; j++, h-=8)
+      m_bVect[b*i+j] =  (nn>>h & 255); 
+  } 
+
+  nn=(GetRandN()>> (a-nCol)) << (a-nCol); 
+  for(h=hh, j=0; j<b; j++, h-=8)
+    m_bVect[b*i+j] =  (nn>>h & 255); 
+  
+  	if (m_nBitLength != nCol)
+	{
+    m_nBitLength = nCol;
+    m_nByteLength = LEN_BYTE(nCol);
+  }
   return *this;
+}
+
+//*********************************** GenRbv ****************
+// Ускоренное генерирование псевдослучайного <n>-компонентного 
+// булева вектора с равновероятным распределением нулей и единиц 
+//---------------------------------------------------------
+CuBV CuBV::GenRbvN(int n)
+{ int i, k;
+  size_t *Syn;
+  size_t c, d, m1;
+  BYTE * pr;
+  Empty();
+  m_nBitLength = n;
+  m_nByteLength = m_nAllocLength = LEN_BYTE(n);
+  m_bVect = new unsigned char[m_nByteLength];
+  k = LEN_LONG(n);
+  Syn = (size_t *) (m_bVect);
+  for(i=0; i<k-1; i++)
+    Syn[i] = GetRandN();
+  //m = S_4 - ADR_BITLONG(n);
+
+  //Syn[i] = GetRandN() << m >> m;
+  c = i * S_1;
+  m1 = m_nByteLength - c;
+	if (m1 == S_1)
+		Syn[i] = GetRandN();
+	else
+	{
+  d = GetRandN();
+  pr = m_bVect + c;
+	for(i=0; i < m1; i++){
+		pr[i] = d << (i * S_1) >> (S_4-S_1);
+	}
+	}
+	 if (ADR_BIT(m_nBitLength)) {
+    i = S_1 - ADR_BIT(m_nBitLength);
+    m_bVect[m_nByteLength-1] = (m_bVect[m_nByteLength-1] >> i) << i;
+	 }
+  return *this;  
 }
 
 //********************************************************//
@@ -126,7 +214,7 @@ CuBV CuBV::GenRbvFix (int nCol, int nRang)
   SetSize(nCol);
   if(nRang>=nCol) { One(); return *this; }
   Zero();
-  int j; unsigned int k; 
+  size_t j; size_t k; 
   for ( j = 0; j <nRang; j++)
   {
     k = GetRandN() % nCol;

@@ -39,6 +39,7 @@ public:
   CuBV GenRbv (int nCol);
   CuBV GenRbvMid(int nCol, int nRang);
   CuBV GenRbvFix (int nCol, int nRang);
+  CuBV GenRbvN(int n);
 
 //*************************************** Reading ***************************************
   operator ptrdiff_t*() const;                   //inline
