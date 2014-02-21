@@ -2,6 +2,7 @@
 #include "CppUnitTest.h"
 #include "../Common/BaseBool.h"
 #include <string>
+#include <fstream>
 
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -336,5 +337,225 @@ namespace UnitTestCBV
             Assert::IsTrue(3 == cbv.GetByteLength());
         }
 
+		///////////////////////////////////////////////////////////
+		TEST_METHOD(TestMethod_GetRandN) {
+			int i, j;
+			size_t n, average;
+			CString str;
+
+			int sum[64];
+			for (i = 0; i < 64; i++) 
+				sum[i] = 0;
+
+			Logger::WriteMessage("--------------- The 1st test ----------------------\n");			
+			SetRgrain(1);
+			for (j = 0; j < 1000; j++) {
+				n =  GetRandN();
+				for (i = 0; i < 64; i++) {
+					if ((n & OB4[i]) != 0)
+						sum[i]++;
+				}
+			}
+			Logger::WriteMessage("sum[i]: ");
+			for (i = 0; i < 64; i++) {
+				str.Format("%d", sum[i]);
+				Logger::WriteMessage(str + "; ");
+			}
+
+			average = 0;
+			for (i = 0; i < 64; i++)
+			average += sum[i];
+			average /= 64; 
+			str.Format("%d", average);
+			Logger::WriteMessage("\nAverage = " + str);
+
+
+			Logger::WriteMessage("\n--------------- The 2nd test ----------------------\n");
+
+			for (i = 0; i < 64; i++) 
+				sum[i] = 0;
+
+			SetRgrain(11);
+			for (j = 0; j < 1000; j++) {
+				n =  GetRandN();
+				for (i = 0; i < 64; i++) {
+					if ((n & OB4[i]) != 0)
+						sum[i]++;
+				}
+			}
+			Logger::WriteMessage("sum[i]: ");
+			for (i = 0; i < 64; i++) {
+				str.Format("%d", sum[i]);
+				Logger::WriteMessage(str + "; ");
+			} 
+
+			average = 0;
+			for (i = 0; i < 64; i++)
+			average += sum[i];
+			average /= 64; 
+			str.Format("%d", average);
+			Logger::WriteMessage("\nAverage = " + str);
+
+			Logger::WriteMessage("\n--------------- The 3rd test ----------------------\n");	
+
+			for (i = 0; i < 64; i++) 
+				sum[i] = 0;
+
+			SetRgrain(30);
+			for (j = 0; j < 1000; j++) {
+				n =  GetRandN();
+				for (i = 0; i < 64; i++) {
+					if ((n & OB4[i]) != 0)
+						sum[i]++;
+				}
+			}
+			Logger::WriteMessage("sum[i]: ");
+			for (i = 0; i < 64; i++) {
+				str.Format("%d", sum[i]);
+				Logger::WriteMessage(str + "; ");
+
+			average = 0;
+			for (i = 0; i < 64; i++)
+			average += sum[i];
+			average /= 64; 
+			str.Format("%d", average);
+			Logger::WriteMessage("\nAverage = " + str);
+			} 
+		} // GetRandN
+
+		TEST_METHOD(TestMethod_GenRbvN_1000) {
+			int n = 100;
+			CBV v = CBV();
+			int i, j, kol_edin;
+			CString str;
+					
+			for (j = 0; j < 1000; j++) {								
+				v = v.GenRbvN(n);
+
+				str.Format("%d", j);
+				Logger::WriteMessage("\n----- Vector number " + str);
+				Logger::WriteMessage("\nPlaces of 1: ");
+
+				kol_edin = 0;
+				for (i = 0; i < n; i++) {
+					if (v.GetBitAt(i) == 1) {
+						str.Format("%d", i);
+						Logger::WriteMessage(str + "; ");
+						kol_edin++;
+					}
+				}
+				str.Format("%d", kol_edin);
+				Logger::WriteMessage("\nNumber of 1 = " + str + "\n");
+
+			}
+			
+		} // GenRbvN_1000
+
+		TEST_METHOD(TestMethod_GetRbvN_Series){
+			int kol_series = 5; 
+			const int vect_series = 200;
+			const int n = 100;
+			int h_Rgrain = 10;
+			int i, j, k, ammount;
+			CBV v = CBV();
+
+			ofstream f1("sum.csv");
+			ofstream f2("sumS.csv");
+			CString str;
+
+			int sum[n];
+			int kol_ed[vect_series];
+
+			SetRgrain(1);
+			for (i = 0; i < kol_series; i++){
+				SetRgrain(GetRgrain() + h_Rgrain);
+				
+				for (k = 0; k < n ; k++) {
+					sum[k] = 0;
+				}
+
+				for (j = 0; j < vect_series; j++){
+					kol_ed[j] = 0;
+					v = v.GenRbvN(n);
+					ammount = 0;
+					for (k = 0; k < n; k++){
+						if (v.GetBitAt(k) == 1){
+							sum[k]++;
+							ammount++;
+						}
+					}
+					kol_ed[ammount]++; 
+				}
+				// положить sum в файл
+				str.Format("%d", i);
+				f1 << "Series" + str << ';';
+				for (k = 0; k < n ; k++) {
+					f1 << sum[k] << ';';
+				}
+				f1 << endl;
+
+				// положить kol_ed в файл
+				str.Format("%d", i);
+				f2 << "Series" + str << ';';
+				for (k = 0; k < n ; k++) {
+					f2 << kol_ed[k] << ';';
+				}
+				f2 << endl;
+			} // for (i = 0; i < kol_series
+			f1.close();
+			f2.close();
+		} // TEST_METHOD(TestMethod_GetRbvN_Series)
+		
+			TEST_METHOD(TestMethod_GetRbvN_piece){
+			int n = 64;
+			int kol_rand = 20;
+			int r;
+			bool sovp;
+			int nomer_sovp;
+			int summa;
+			
+			ofstream f("sovp_piece.csv");
+			CString str;
+
+			CBV v0 = CBV();
+			CBV v = CBV();
+			v0 = v0.GenRbvN(n);
+
+			for (int i = 4; i <= 16; i++){ // длина куска
+				str.Format("%d", i);
+				f << "Length of piece = " + str << ';';
+				for (int j = 0; j < kol_rand; j++){ // количество рандомов
+					do {
+						r = rand() % 64; //GetRandN();
+					} while ((r + i) >= n);
+
+					summa = 0;
+					for (int l = 0; l < 10; l++){
+						nomer_sovp = 0;
+						do {
+							v = v.GenRbvN(n);
+							nomer_sovp++;
+							sovp = true;
+							for (size_t k = r; k < (r+i); k++){ // проверка на совпадение кусков
+								if (v.GetBitAt(k) != v0.GetBitAt(k)){
+									sovp = false;
+									break;
+								}
+							}
+						} while (!sovp);
+
+						// здесь знаю число nomer_sovp, за которое нашлось совпадение
+						summa += nomer_sovp ;		
+
+					} // for (int l = 0; l < 10
+
+					f << summa/10 << ';'; // вывод в файл среднего числа 
+
+				} // for (int j = 0; j < kol_rand
+				f << endl;
+
+			} // for (int i = 4; i <= 16
+
+		} // TEST_METHOD(TestMethod_GetRbvN_piece)
 	};
 }

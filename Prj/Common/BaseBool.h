@@ -120,8 +120,8 @@ inline BYTE COUNTBIT(BYTE a)
 }
 
 //----------- Внеклассовые функции для работы с датчиком случайных ------------
-extern void SetRgrain( unsigned long NewRgrain);
-extern unsigned long GetRgrain();
+extern void SetRgrain( size_t NewRgrain);
+extern size_t GetRgrain();
 extern size_t GetRandN();
 extern void SetRandMode(BOOL Fl = TRUE);
 extern BOOL GetRandMode();
@@ -149,7 +149,7 @@ public:
   CBV GenRbvMid(size_t nCol, size_t nRang);
   CBV GenRbvFix (size_t nCol, size_t nRang);
 
-  CBV GenRbvN(size_t n);   // 09.11.2007
+  CBV GenRbvN(int n);   // 09.11.2007
 //*************************************** Reading ***************************************
   operator BYTE*() const;
   BYTE operator[](size_t nIndex) const;

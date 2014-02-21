@@ -50,20 +50,20 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 #endif //_LINUX 
 
 
-static unsigned long Rgrain =1;
+static size_t Rgrain =1;
 static BOOL NewRand = TRUE;
 
 ///////////////////////////////////////////////////////////
 // Установить новое "зерно" для базового генератора      //
 ///////////////////////////////////////////////////////////
 
-void SetRgrain(unsigned long NewRgrain ) {Rgrain = NewRgrain;}
+void SetRgrain(size_t NewRgrain ) {Rgrain = NewRgrain;}
 
 ///////////////////////////////////////////////////////////
 // Взять текущее "зерно" базового генератора             //
 ///////////////////////////////////////////////////////////
 
-unsigned long GetRgrain() {return (Rgrain);}
+size_t GetRgrain() {return (Rgrain);}
 
 ///////////////////////////////////////////////////////////
 // Установить новый режим генерации                      //
@@ -83,16 +83,16 @@ BOOL GetRandMode() { return NewRand; }
 size_t GetRandN()
 
 {
-	unsigned long	f13	= 1220703125;  // f13 = 5**13
+	size_t	f13	= (size_t)1220703125 * (size_t)1220703125;  // f13 = 5**26
 	size_t	m	= 0x7fffffffffffffff;  //  m  = 2**31-1
 	size_t  w;
 
 	size_t x1 = (size_t)Rgrain;
 	x1 = (x1*f13)%m;
-	w = (x1 << 24) >> 32;
+	w = (x1 << 16) >> 32;
 	x1 = (x1*f13)%m;
-	w = (w << 32) | ((x1 << 24) >> 32);
-	Rgrain = (unsigned long)x1;
+	w = (w << 32) | ((x1 << 16) >> 32);
+	Rgrain = (size_t)x1;
 	return (w);
 }
 
@@ -150,10 +150,11 @@ CBV CBV::GenRbv (size_t nCol)
 // Ускоренное генерирование псевдослучайного <n>-компонентного 
 // булева вектора с равновероятным распределением нулей и единиц 
 //---------------------------------------------------------
-CBV CBV::GenRbvN(size_t n)
-{ 
-	size_t i, k,m;
-	size_t *Syn;
+CBV CBV::GenRbvN(int n)
+{ int i, k;
+  size_t *Syn;
+  size_t c, d, m1;
+  BYTE * pr;
   Empty();
   m_nBitLength = n;
   m_nByteLength = m_nAllocLength = LEN_BYTE(n);
@@ -162,8 +163,25 @@ CBV CBV::GenRbvN(size_t n)
   Syn = (size_t *) (m_bVect);
   for(i=0; i<k-1; i++)
     Syn[i] = GetRandN();
-  m = S_4 - ADR_BITLONG(n);
-  Syn[i] = GetRandN() << m >> m;
+  //m = S_4 - ADR_BITLONG(n);
+
+  //Syn[i] = GetRandN() << m >> m;
+  c = i * S_1;
+  m1 = m_nByteLength - c;
+	if (m1 == S_1)
+		Syn[i] = GetRandN();
+	else
+	{
+  d = GetRandN();
+  pr = m_bVect + c;
+	for(i=0; i < m1; i++){
+		pr[i] = d << (i * S_1) >> (S_4-S_1);
+	}
+	}
+	 if (ADR_BIT(m_nBitLength)) {
+    i = S_1 - ADR_BIT(m_nBitLength);
+    m_bVect[m_nByteLength-1] = (m_bVect[m_nByteLength-1] >> i) << i;
+	 }
   return *this;  
 }
 
