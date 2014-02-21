@@ -433,18 +433,26 @@ namespace UnitTestCubv
 		TEST_METHOD(TestMethod_GetRowBv)
 		{
 			CuBM testobj(4,4,true);
-			CBV bv = testobj.GetRowBv(3);
+			CuBV bv = testobj.GetRowBv(3);
 			ASSERT(bv = "1111");
-			ptrdiff_t* mask = {0,1,0,1};
+			ptrdiff_t mask [4];
+			mask[0] = 0;
+			mask[1] = 1;
+			mask[2] = 0;
+			mask[3] = 1;
 			bv = testobj.GetRowBv(3, mask);
 			ASSERT(bv = "0101");
 		}
 		TEST_METHOD(TestMethod_GetColumnBv)
 		{
 			CuBM testobj(4,4,true);
-			CBV bv = testobj.GetColumnBv(3);
+			CuBV bv = testobj.GetColumnBv(3);
 			ASSERT(bv = "1111");
-			ptrdiff_t* mask = {0,1,0,1};
+			ptrdiff_t mask [4];
+			mask[0] = 0;
+			mask[1] = 1;
+			mask[2] = 0;
+			mask[3] = 1;
 			bv = testobj.GetColumnBv(3, mask);
 			ASSERT(bv = "0101");
 		}
