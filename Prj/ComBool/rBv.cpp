@@ -31,7 +31,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 CrBV::CrBV()   { m_nVect.empty(); m_invert = TRUE; m_length = 0; }
 
 //----------------------------------------------------------------------(2)
-CrBV::CrBV(int Len, BOOL Inv)   { m_nVect.empty(); m_invert = Inv; m_length = Len; }
+CrBV::CrBV(size_t Len, BOOL Inv)   { m_nVect.empty(); m_invert = Inv; m_length = Len; }
 
 //----------------------------------------------------------------------(3)
 CrBV::CrBV(const CrBV& rbv)
@@ -42,7 +42,7 @@ CrBV::CrBV(const CrBV& rbv)
 }
 
 //----------------------------------------------------------------------(3a)
-CrBV::CrBV(VECTOR* v, int Len, BOOL Inv)
+CrBV::CrBV(VECTOR* v, size_t Len, BOOL Inv)
 {
   m_nVect.insert(m_nVect.begin(), v->begin( ), v->end());
   m_invert = Inv;
@@ -52,7 +52,7 @@ CrBV::CrBV(VECTOR* v, int Len, BOOL Inv)
 //----------------------------------------------------------------------(4)
 CrBV::CrBV(const CBV& bv, BOOL Inv /* == TRUE */)
 { 
-  int i, j = 0;
+  size_t i, j = 0;
   for (i = bv.LeftOne(-1); i>=0; i = bv.LeftOne(i)) {
     if (Inv == TRUE)
       m_nVect.push_back(i);
@@ -67,9 +67,9 @@ CrBV::CrBV(const CBV& bv, BOOL Inv /* == TRUE */)
 }
 
 //----------------------------------------------------------------------(5)
-CrBV::CrBV(const char* pch, int Len, BOOL Inv)
+CrBV::CrBV(const char* pch, size_t Len, BOOL Inv)
 {
-  int i, j = 0, w;
+  size_t i, j = 0, w;
   char *s = (char *)pch;
   w = strlen(s);
   m_invert = Inv;
@@ -91,10 +91,10 @@ CrBV::~CrBV()  { m_nVect.clear(); }
 /////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////// Reading and writing //////////////////////////////////
 //----------------------------------------------------------------------(8)
-BOOL CrBV::GetBitAt(int nIndex) const
+BOOL CrBV::GetBitAt(size_t nIndex) const
 { 
   ASSERT(m_length > 0 && nIndex >=0 && nIndex < m_length);
-  int Pos;
+  size_t Pos;
   if (m_invert == FALSE)
      if (m_nVect.size()==0) return TRUE;
      else  return !(Find(nIndex, Pos));
@@ -107,7 +107,7 @@ BOOL CrBV::GetBitAt(int nIndex) const
 //----------------------------------------------------------------------(9)
 CString CrBV::BitChar(char One,char Zero) const
 {
-  int i;
+  size_t i;
 
   if (m_length==0) return "";
   if (m_nVect.size() == 0)
@@ -161,7 +161,7 @@ CString CrBV::BitList() const
 //----------------------------------------------------------------------(9)
 char* CrBV::BitChar(char One,char Zero) const
 {
-  int i;
+  size_t i;
   char* res;
   if (m_length==0) return NULL;
   res = (char*)malloc(m_length+1);
@@ -201,7 +201,7 @@ char* CrBV::BitList() const
 {
   char* res;
   char w[16];
-  int siz = m_nVect.size();
+  size_t siz = m_nVect.size();
   res = (char*)malloc(siz*6);
   VECTOR:: const_iterator it = m_nVect.begin();
 
@@ -216,28 +216,28 @@ char* CrBV::BitList() const
 #endif
 
 //----------------------------------------------------------------------(11)
-CrBV CrBV::Extract(int nFirst,int nCount)
+CrBV CrBV::Extract(size_t nFirst,size_t nCount)
 { 
   CrBV s;   // new vector
-  int Last = nFirst + nCount; // last element
+  size_t Last = nFirst + nCount; // last element
   ASSERT(nCount >= 0);  ASSERT(nFirst >= 0);
   ASSERT((nCount+nFirst) <= m_length);
   s.m_invert = m_invert;
   s.m_length = nCount;
   if (nCount==0 || m_nVect.size()==0) return s;
-  int PosBeg, PosEnd;
+  size_t PosBeg, PosEnd;
   Find(nFirst, PosBeg);
   Find(Last, PosEnd);
-  for (int k = PosBeg; k <PosEnd; k++)
+  for (size_t k = PosBeg; k <PosEnd; k++)
     s.m_nVect.push_back(m_nVect[k]-nFirst);
   return s;
 }
 
 //----------------------------------------------------------------------(12)
-void CrBV::SetBitAt(int nIndex,  BOOL bit)
+void CrBV::SetBitAt(size_t nIndex,  BOOL bit)
 { 
   ASSERT(nIndex >= 0); ASSERT(nIndex < m_length);
-  int Pos, Val;
+  size_t Pos, Val;
   Val = Find(nIndex, Pos);
   VECTOR:: iterator it = m_nVect.begin()+Pos;
   if (m_invert == TRUE) {//    res = "1 : ";
@@ -273,7 +273,7 @@ const CrBV& CrBV::operator =(const CrBV& rbv)              //operator =
 //----------------------------------------------------------------------(14)
 const CrBV& CrBV::operator=(const CBV& bv)
 {
-  int i, j = 0;
+  size_t i, j = 0;
   m_invert = TRUE;
   m_length = bv.GetBitLength();
   m_nVect.clear();
@@ -287,8 +287,8 @@ const CrBV& CrBV::operator=(const CBV& bv)
 //----------------------------------------------------------------------(15)
 void CrBV::Reverse()
 {
-  int Count = m_length - m_nVect.size() + 10;
-  int g;
+  size_t Count = m_length - m_nVect.size() + 10;
+  size_t g;
   VECTOR temp;
   temp.reserve(m_nVect.size());
   temp.insert(temp.begin(), m_nVect.begin(),m_nVect.end());
@@ -297,7 +297,7 @@ void CrBV::Reverse()
   VECTOR:: const_iterator it1 = temp.begin();
   if (it1 == temp.end()) g = m_length;
   else g = *it1;
-  for (int k=0; k < m_length; k++) {
+  for (size_t k=0; k < m_length; k++) {
     if (k<g) m_nVect.push_back(k);
     else {
       it1++;
@@ -414,11 +414,11 @@ CrBV operator~(const CrBV& bv2)
 /////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////// Shift operations //////////////////////////////////////
 //----------------------------------------------------------------------(29)
-CrBV operator<<(const CrBV& bv1, int nShift)
+CrBV operator<<(const CrBV& bv1, size_t nShift)
 { 
   CrBV s(bv1.m_length, bv1.m_invert);
   ASSERT(nShift >= 0 && nShift < s.m_length);
-  int Pos;
+  size_t Pos;
   bv1.Find(nShift, Pos);
   for (; (unsigned) Pos < bv1.m_nVect.size(); Pos++)
     s.m_nVect.push_back(bv1.m_nVect[Pos] - nShift);
@@ -429,11 +429,11 @@ CrBV operator<<(const CrBV& bv1, int nShift)
 }
    
 //----------------------------------------------------------------------(30)
-CrBV operator>>(const CrBV& bv1, int nShift)
+CrBV operator>>(const CrBV& bv1, size_t nShift)
 { 
   CrBV s(bv1.m_length, bv1.m_invert);
   ASSERT(nShift >= 0 && nShift < s.m_length);
-  int Pos, i;
+  size_t Pos, i;
   if (bv1.m_invert==FALSE)
     for (Pos = 0; Pos < nShift; Pos++)
       s.m_nVect.push_back(Pos);
@@ -444,14 +444,14 @@ CrBV operator>>(const CrBV& bv1, int nShift)
 
 
 //----------------------------------------------------------------------(31)
-void CrBV::LoopLeftShift(int nShift)
+void CrBV::LoopLeftShift(size_t nShift)
 { 
   nShift %= m_length;
   if (nShift==0) return;
   VECTOR temp;
   temp.reserve(m_nVect.size());
 
-  int Pos,g;
+  size_t Pos,g;
   Find(nShift, Pos);
   g = Pos;
   for (; (unsigned)Pos < m_nVect.size(); Pos++)
@@ -464,7 +464,7 @@ void CrBV::LoopLeftShift(int nShift)
 }
    
 //----------------------------------------------------------------------(32)
-void CrBV::LoopRightShift(int nShift)
+void CrBV::LoopRightShift(size_t nShift)
 { 
   nShift %= m_length;
   if (nShift==0) return;
@@ -512,13 +512,13 @@ const CrBV& CrBV::operator -=(const CrBV& bvr)
 }
 
 //----------------------------------------------------------------------(37)
-const CrBV& CrBV::operator <<=(int nShift)
+const CrBV& CrBV::operator <<=(size_t nShift)
 {
   CrBV temp(m_length, m_invert);
   temp.m_nVect.assign(m_nVect.begin(), m_nVect.end());
   m_nVect.clear();
   ASSERT(nShift >= 0 && nShift < m_length);
-  int Pos;
+  size_t Pos;
   temp.Find(nShift, Pos);
   for (; (unsigned)Pos < temp.m_nVect.size(); Pos++)
     m_nVect.push_back(temp.m_nVect[Pos] - nShift);
@@ -529,13 +529,13 @@ const CrBV& CrBV::operator <<=(int nShift)
 }
 
 //----------------------------------------------------------------------(38)
-const CrBV& CrBV::operator >>=(int nShift)
+const CrBV& CrBV::operator >>=(size_t nShift)
 {
   CrBV temp(m_length, m_invert);
   temp.m_nVect.assign(m_nVect.begin(), m_nVect.end());
   m_nVect.clear();
   ASSERT(nShift >= 0 && nShift < m_length);
-  int Pos, i;
+  size_t Pos, i;
   if (temp.m_invert==FALSE)
     for (Pos = 0; Pos < nShift; Pos++)
       m_nVect.push_back(Pos);
@@ -546,9 +546,9 @@ const CrBV& CrBV::operator >>=(int nShift)
 
 //******************** Operations of weighting, finding and casing **********************
 //----------------------------------------------------------------------(40)
-int CrBV::LeftOne(int nNext /*= -1*/) const
+size_t CrBV::LeftOne(size_t nNext /*= -1*/) const
 {
-  int i,j, Pos;
+  size_t i,j, Pos;
   if (nNext== -1) {
     if (m_invert) 
       if (m_nVect.size()>0) return m_nVect[0];
@@ -581,9 +581,9 @@ int CrBV::LeftOne(int nNext /*= -1*/) const
 
 
 //----------------------------------------------------------------------(41)
-int CrBV::RightOne(int nNext /*= -1*/) const
+size_t CrBV::RightOne(size_t nNext /*= -1*/) const
 {
-  int i,j, Pos;
+  size_t i,j, Pos;
   if (nNext== -1) {
     if (m_invert) 
       if (m_nVect.size()>0) return m_nVect[m_nVect.size()-1];
@@ -623,11 +623,11 @@ int CrBV::RightOne(int nNext /*= -1*/) const
 void CrBV::Concat(const CrBV& rbv)
 {
   if (m_invert == rbv.m_invert) {
-    for (int i=0; (unsigned)i<rbv.m_nVect.size(); i++)
+    for (size_t i=0; (unsigned)i<rbv.m_nVect.size(); i++)
       m_nVect.push_back(rbv.m_nVect[i] + m_length);
   }
   else {
-    int j=0, i;
+    size_t j=0, i;
     for (i=0; (unsigned)i<rbv.m_nVect.size(); i++, j++) {
       while (j < rbv.m_nVect[i])
         m_nVect.push_back(m_length + (j++));
@@ -747,20 +747,20 @@ CArchive& operator<<(CArchive& ar, const CrBV& rbv)
 { ar << rbv.m_length;
   ar << (BYTE)rbv.m_invert;
   ar << rbv.m_nVect.size();
-  for (int i=0; (unsigned)i < rbv.m_nVect.size(); i++)  ar << rbv.m_nVect[i];
+  for (size_t i=0; (unsigned)i < rbv.m_nVect.size(); i++)  ar << rbv.m_nVect[i];
   return ar;
 }
 
 //----------------------------------------------------------------------(54)
 CArchive& operator>>(CArchive& ar, CrBV& rbv)
 {
-  int size, val;
+  size_t size, val;
   rbv.m_nVect.clear();
   ar >> rbv.m_length;
   ar >> size; rbv.m_invert = (size>0);
   ar >> size;
   if (size==0)  return ar;
-  for (int i=0; i < size; i++)  {
+  for (size_t i=0; i < size; i++)  {
     ar >> val; 
     rbv.m_nVect.push_back(val);
   }
@@ -771,9 +771,9 @@ CArchive& operator>>(CArchive& ar, CrBV& rbv)
 //=====================================================================================//
 //============================ Protected function =======================================
 //----------------------------------------------------------------------(56)
-BOOL CrBV::Find(int X, int& Pos) const
+BOOL CrBV::Find(size_t X, size_t& Pos) const
 {
-  int m, R=m_nVect.size() - 1, flag=0;
+  size_t m, R=m_nVect.size() - 1, flag=0;
   Pos=0;
   while (Pos<=R && !flag)
   {
@@ -910,7 +910,7 @@ BOOL CrBV::Equal11_00(const CrBV* rbv) const
 {
   if (rbv->m_nVect.size() != m_nVect.size()) return FALSE;
   
-  for (int i=0; (unsigned)i < m_nVect.size(); i++)
+  for (size_t i=0; (unsigned)i < m_nVect.size(); i++)
     if (rbv->m_nVect[i] != m_nVect[i]) return FALSE;
   return TRUE;
 }
@@ -936,7 +936,7 @@ BOOL CrBV::Equal10_01(const CrBV* rbv) const
 //----------------------------------------------------------------------(63)
 BOOL CrBV::Absorb11(const CrBV* rbv) const   // >=
 {
-  int j=0;
+  size_t j=0;
   if (m_nVect.size() <= rbv->m_nVect.size()) return FALSE;
   if (rbv->m_nVect.size()==0) return TRUE;  
   VECTOR:: const_iterator it1 = m_nVect.begin();
@@ -961,7 +961,7 @@ BOOL CrBV::Absorb11(const CrBV* rbv) const   // >=
 //----------------------------------------------------------------------(64)
 BOOL CrBV::Absorb00(const CrBV* rbv) const  // >=
 {
-  int j=0;
+  size_t j=0;
   if (m_nVect.size() > rbv->m_nVect.size()) return FALSE;
   if (m_nVect.size()==0) return TRUE;  // First 111...111
   VECTOR:: const_iterator it1 = m_nVect.begin();
@@ -999,7 +999,7 @@ BOOL CrBV::Con01(const CrBV& rbv2, BOOL Opt)
   if (Opt) {  // Vect(TRUE) compare with rbv2
     if (rbv2.GetForm()) { // TRUE-TRUE
         if (rbv2.m_nVect.size() != Vect.size()) return FALSE;
-        for (int i=0; (unsigned)i < Vect.size(); i++)
+        for (size_t i=0; i < Vect.size(); i++)
           if (rbv2.m_nVect[i] != Vect[i]) return FALSE;
         return TRUE;
     }        
@@ -1022,7 +1022,7 @@ BOOL CrBV::Con01(const CrBV& rbv2, BOOL Opt)
   else {  // compare with this    
     if (GetForm()) { // TRUE-TRUE
         if (m_nVect.size() != Vect.size()) return FALSE;
-        for (int i=0; (unsigned)i < Vect.size(); i++)
+        for (size_t i=0; i < Vect.size(); i++)
           if (m_nVect[i] != Vect[i]) return FALSE;
         return TRUE;
     }        

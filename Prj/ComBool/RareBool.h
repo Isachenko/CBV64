@@ -20,19 +20,19 @@ class CrBV
 public:
 //******************************* Constructors\Destructor *******************************
   CrBV();                                           //(1)
-  CrBV(int Len, BOOL Inv = TRUE);                   //(2)
+  CrBV(size_t Len, BOOL Inv = TRUE);                   //(2)
   CrBV(const CrBV& rbv);                            //(3)
-  CrBV(VECTOR* v, int Len, BOOL Inv);               //(3a)
+  CrBV(VECTOR* v, size_t Len, BOOL Inv);               //(3a)
   CrBV(const CBV& bv, BOOL Inv = TRUE );            //(4)
-  CrBV(const char* pch, int Len, BOOL Inv = TRUE);  //(5)
+  CrBV(const char* pch, size_t Len, BOOL Inv = TRUE);  //(5)
   ~CrBV();                                          //(6)
 
 //*********************** Functions for getting class's parametrs ***********************
-  int GetLength() const;                             //(7) inline
+  size_t GetLength() const;                             //(7) inline
   BOOL GetForm() const;                              //(7a) inline
   VECTOR * GetData();                                //(7b) inline 
 //*************************************** Reading ***************************************
-  BOOL GetBitAt(int nIndex) const;                       //(8)
+  BOOL GetBitAt(size_t nIndex) const;                       //(8)
 #ifndef _LINUX
   CString BitChar(char One = '1',char Zero='0') const;   //(9)
   CString BitList() const;                               //(10)
@@ -40,10 +40,10 @@ public:
   char* BitChar(char One = '1',char Zero='0') const;   //(9)
   char* BitList() const;                               //(10)
 #endif
-  CrBV Extract(int nFirst,int nCount);                   //(11)
+  CrBV Extract(size_t nFirst,size_t nCount);                   //(11)
 
 //*************************************** Writing ***************************************
-  void SetBitAt(int nIndex, BOOL bit);                   //(12)
+  void SetBitAt(size_t nIndex, BOOL bit);                   //(12)
 
 //*********************** Operators and functions of assignment *************************
   const CrBV& operator=(const CrBV& bvr);                //(13)
@@ -67,10 +67,10 @@ public:
   friend CrBV operator~(const CrBV& bv2);                  //(28)
 
 //********************************** Shift operations ***********************************
-  friend CrBV operator<<(const CrBV& bv1, int nShift);  //(29)
-  friend CrBV operator>>(const CrBV& bv1, int nShift);  //(30)
-  void LoopLeftShift(int nShift);                              //(31)
-  void LoopRightShift(int nShift);                             //(32)
+  friend CrBV operator<<(const CrBV& bv1, size_t nShift);  //(29)
+  friend CrBV operator>>(const CrBV& bv1, size_t nShift);  //(30)
+  void LoopLeftShift(size_t nShift);                              //(31)
+  void LoopRightShift(size_t nShift);                             //(32)
 
 
 //************************** Operators of advanced assignment ***************************
@@ -78,13 +78,13 @@ public:
   const CrBV& operator &=(const CrBV& bvr);             //(34)
   const CrBV& operator ^=(const CrBV& bvr);             //(35)
   const CrBV& operator -=(const CrBV& bvr);             //(36)
-  const CrBV& operator <<=(int nShift);                 //(37)
-  const CrBV& operator >>=(int nShift);                 //(38)
+  const CrBV& operator <<=(size_t nShift);                 //(37)
+  const CrBV& operator >>=(size_t nShift);                 //(38)
 
 //******************** Operations of weighting, finding and casing **********************
-  int CountBit() const;                                 //(39) inline
-  int LeftOne(int nNext = -1) const;                    //(40)
-  int RightOne(int nNext = -1) const;                   //(41) 
+  size_t CountBit() const;                                 //(39) inline
+  size_t LeftOne(size_t nNext = -1) const;                    //(40)
+  size_t RightOne(size_t nNext = -1) const;                   //(41) 
 
 //**************************** Operations of concatinations *****************************
   void Concat(const CrBV& bv);                   //(42)
@@ -114,11 +114,11 @@ public:
 protected:
   VECTOR m_nVect;
   BOOL m_invert;        // TRUE - normal, FALSE - inversion
-  int m_length;         // Length of boolean vector
-
+  size_t m_length;         // Length of boolean vector
+  
 //******************************** Protected functions **********************************
 public:
-  BOOL Find(int X, int& Pos) const;                           //(56)
+  BOOL Find(size_t X, size_t& Pos) const;                           //(56)
   void SetU(VECTOR& v0, const VECTOR& v1, const VECTOR& v2);  //(57)
   void SetI(VECTOR& v0, const VECTOR& v1, const VECTOR& v2);  //(58)
   void SetD(VECTOR& v0, const VECTOR& v1, const VECTOR& v2);  //(59) 
@@ -137,7 +137,7 @@ public:
 //                          inline functions
 //***************************************************************************************
 //----------------------------------------------------------------------(7)
-inline int CrBV::GetLength() const { return m_length; }
+inline size_t CrBV::GetLength() const { return m_length; }
 //----------------------------------------------------------------------(7a)
 inline BOOL CrBV::GetForm() const { return m_invert; }
 //----------------------------------------------------------------------(7b)
@@ -151,7 +151,7 @@ inline void CrBV::One() { m_invert = TRUE; m_nVect.clear(); }
 //----------------------------------------------------------------------(19)
 inline void CrBV::Invert() { m_invert = !m_invert; }
 //----------------------------------------------------------------------(39)
-inline int CrBV::CountBit() const
+inline size_t CrBV::CountBit() const
 {
   if (m_invert) return m_nVect.size();
   else return m_length - m_nVect.size();
