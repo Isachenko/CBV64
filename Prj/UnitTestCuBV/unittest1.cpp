@@ -419,16 +419,34 @@ namespace UnitTestCubv
 	public:
 		TEST_METHOD(TestMethod_SetSize)
 		{
-			CuBM testobj = new CuBM(4,4,false);
+			CuBM testobj(4,4,false);
 			testobj.SetSize(5,5,-1,0);
 			ASSERT(testobj.GetLongLength() == LEN_LONG(5) && testobj.GetCountC() == 5  && testobj.GetCountR() == 5);
 		}
 		TEST_METHOD(TestMethod_FreeExtra)
 		{
-			CuBM testobj = new CuBM(4,4,false);
+			CuBM testobj(4,4,false);
 			testobj.SetSize(5,5,5,1);
-			testobj.FreeExtra()
-				ASSERT(testobj.GetLongLength() == testobj.GetAllocLength());
+			testobj.FreeExtra();
+			ASSERT(testobj.GetLongLength() == testobj.GetAllocLength());
+		}
+		TEST_METHOD(TestMethod_GetRowBv)
+		{
+			CuBM testobj(4,4,true);
+			CBV bv = testobj.GetRowBv(3);
+			ASSERT(bv = "1111");
+			ptrdiff_t* mask = {0,1,0,1};
+			bv = testobj.GetRowBv(3, mask);
+			ASSERT(bv = "0101");
+		}
+		TEST_METHOD(TestMethod_GetColumnBv)
+		{
+			CuBM testobj(4,4,true);
+			CBV bv = testobj.GetColumnBv(3);
+			ASSERT(bv = "1111");
+			ptrdiff_t* mask = {0,1,0,1};
+			bv = testobj.GetColumnBv(3, mask);
+			ASSERT(bv = "0101");
 		}
 	};
 }
