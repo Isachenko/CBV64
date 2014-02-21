@@ -243,8 +243,8 @@ public:
 
     BOOL GetBitAt(int nRow, int nColumn) const;                  //inline
     BOOL GetBitAt(int nRow, int nColumn, ULONG* mask) const;     //inline
-    ULONG GetLongAt(int nRow, int nIndex) const;                 //inline
-    ULONG GetLongAt(int nRow, int nIndex, ULONG* mask) const;    //inline
+    ptrdiff_t GetLongAt(int nRow, int nIndex) const;                 //inline
+    ptrdiff_t GetLongAt(int nRow, int nIndex, ptrdiff_t* mask) const;    //inline
     ptrdiff_t* GetRow(int nIndex) const;                             //inline
     CuBV GetRowBv(int nRow) const;
     CuBV GetRowBv(int nIndex, ptrdiff_t* mask) const;
@@ -610,13 +610,13 @@ inline int CuBM::Add(const ptrdiff_t* newRow)
 inline int CuBM::Add(const CuBV& bv)
 { SetRowGrow(m_nSize, bv); return (m_nSize - 1); }
 
-inline ULONG CuBM::GetLongAt(int nRow, int nIndex) const
+inline ptrdiff_t CuBM::GetLongAt(int nRow, int nIndex) const
 { ASSERT ((nIndex >= 0) && (nRow >= 0));
   ASSERT ((nIndex < m_nLongLength) && (nRow < m_nSize));
   return m_pData[nRow][nIndex];
 }
 
-inline ULONG CuBM::GetLongAt(int nRow, int nIndex, ULONG* mask) const
+inline ptrdiff_t CuBM::GetLongAt(int nRow, int nIndex, ptrdiff_t* mask) const
 { ASSERT ((nIndex >= 0) && (nRow >= 0));
   ASSERT ((nIndex < m_nLongLength) && (nRow < m_nSize));
   return (m_pData[nRow][nIndex] & mask[nIndex]);

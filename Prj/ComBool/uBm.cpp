@@ -1058,7 +1058,7 @@ CuBV CuBM::Conjunction()
   ASSERT_VALID(this);
 #endif
   CuBV bv(m_nBitLength, FALSE);
-  ULONG val;
+  ptrdiff_t val;
   for (int i=0; i < m_nLongLength; i++)  {
     val = LONG_1;
     for (int j=0; j < m_nSize; j++) val &= m_pData[j][i];
@@ -1196,7 +1196,7 @@ int CuBM::CountBit(const ULONG* mask, int nRow) const
 int CuBM::LeftOne(int nRow, int nNext) const
 {
   int i, j, pos = 0;
-  ULONG val;
+  ptrdiff_t val;
   ASSERT((m_nBitLength - nNext) >= 0);
   if (nNext == -1) { i=0;  j=0; }
   else { i = BIT_LONG(nNext);  j = ADR_BITLONG(nNext);  j++; }
@@ -1243,7 +1243,7 @@ int CuBM::LeftOne(int nRow, int nNext, ULONG* mask) const
 int CuBM::RightOne(int nRow, int nPrev) const
 {
   int i, j, pos = S_4 - 1;
-  ULONG val;
+  ptrdiff_t val;
   ASSERT((m_nBitLength - nPrev) >= 0);
   if (nPrev == -1) { i = m_nLongLength - 1;  j=0; }
   else { i = BIT_LONG(nPrev);  j = S_4 - ADR_BITLONG(nPrev); }
@@ -1374,7 +1374,7 @@ BOOL CuBM::IsOne(int nRow) const
   int i, first, last;
   ASSERT (nRow>=-1);
   if (m_nLongLength == 0) return FALSE;
-  ULONG b1, b2;
+  ptrdiff_t b1, b2;
   if (nRow == -1) { first = 0; last = m_nSize-1; }
   else { first = nRow; last = nRow; }
   for (; first <= last; first++) {
@@ -1394,7 +1394,7 @@ BOOL CuBM::IsOne(const ULONG* mask, int nRow) const
   int i, first, last;
   ASSERT (nRow>=-1);
   if (m_nLongLength == 0) return FALSE;
-  ULONG b1, b2;
+  ptrdiff_t b1, b2;
   if (nRow == -1) { first = 0; last = m_nSize-1; }
   else { first = nRow; last = nRow; }
   for (; first <= last; first++) {
@@ -1482,7 +1482,7 @@ BOOL operator<=(const CuBM& bm1, const CuBM& bm2)
 int CuBM::CoverRow(int nRow1, int nRow2)
 {
   int pi, pj, k;
-  ULONG work, worki, workj;
+  ptrdiff_t work, worki, workj;
 
   for (k = pi = pj = 0; k < m_nLongLength; k++) {
     worki = GetLongAt(nRow1, k); workj = GetLongAt(nRow2, k);
