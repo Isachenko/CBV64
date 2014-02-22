@@ -1,9 +1,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "../../ComBool/ShortBool.h"
+#include "../../UnitTestCBV/ComBool/ShortBool.h"
+
 #include <string>
-
-
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTestCBV
@@ -339,9 +338,152 @@ namespace UnitTestCBV
 			bv1.Concat(1);
 			ans = bv1.BitChar();
 			Assert::IsTrue(ans == "1110011010101111000001111");
-			bv1.Concat(sOB[0],2);
+			bv1.Concat(sOB[1],2);
 			ans = bv1.BitChar();
 			Assert::IsTrue(ans == "111001101010111100000111101");
 		}
+
+		//-------------------------------------------------		
+
+		TEST_METHOD(TestMethod_IsEmptyIsZeroIsOne)
+		{			
+			CsBV bv1 = "1110011010101111";
+			Assert::IsTrue(!bv1.IsEmpty());
+			Assert::IsTrue(!bv1.IsZero());
+			Assert::IsTrue(!bv1.IsOne());
+			bv1 = "111111";
+			Assert::IsTrue(!bv1.IsEmpty());
+			Assert::IsTrue(!bv1.IsZero());
+			Assert::IsTrue(bv1.IsOne());
+			bv1 = "0000";
+			Assert::IsTrue(!bv1.IsEmpty());
+			Assert::IsTrue(bv1.IsZero());
+			Assert::IsTrue(!bv1.IsOne());
+			bv1 = "";
+			Assert::IsTrue(bv1.IsEmpty());
+			Assert::IsTrue(!bv1.IsZero());
+			Assert::IsTrue(!bv1.IsOne());
+		}
+
+		//----------------------------------------		
+
+		TEST_METHOD(TestMethod_operatorEqual)
+		{			
+			CsBV bv1 = "10000";
+			CsBV bv2 = "1010101011101010";
+			CsBV bv3 = "1010101011101010";
+			CsBV bv4 = "0010000";
+			Assert::IsFalse(bv1 == bv2);
+			Assert::IsTrue(bv3 == bv2);
+			Assert::IsFalse(bv1 == (size_t)3000000000);
+			Assert::IsTrue(bv1 == sOB[0]);
+			Assert::IsFalse((size_t)36336 == bv2);
+			Assert::IsTrue(sOB[2] == bv4);
+		}
+
+		TEST_METHOD(TestMethod_operatorNotEqual)
+		{			
+			CsBV bv1 = "10000";
+			CsBV bv2 = "1010101011101010";
+			CsBV bv3 = "1010101011101010";
+			CsBV bv4 = "0010000";
+			Assert::IsTrue(bv1 != bv2);
+			Assert::IsFalse(bv3 != bv2);
+			Assert::IsTrue(bv1 != (size_t)3000000000);
+			Assert::IsFalse(bv1 != sOB[0]);
+			Assert::IsTrue((size_t)36336 != bv2);
+			Assert::IsFalse(sOB[2] != bv4);
+		}
+
+		TEST_METHOD(TestMethod_operatorGreater)
+		{			
+			CsBV bv1 = "1000000001000000";
+			CsBV bv2 = "1010101011101010";
+			CsBV bv3 = "1010101011101010";
+			CsBV bv4 = "0010000000000000";
+			Assert::IsTrue(bv2 > bv1);
+			Assert::IsFalse(bv3 > bv2);
+			Assert::IsFalse(bv1 > (sOB[0] | sOB[3]));
+			Assert::IsTrue(bv1 > sOB[0]);
+			Assert::IsFalse((size_t)36336846523653 > bv2);
+			Assert::IsTrue((sOB[1] | sOB[2]) > bv4);
+		}
+
+		TEST_METHOD(TestMethod_operatorLess)
+		{			
+			CsBV bv1 = "1000000001000000";
+			CsBV bv2 = "1010101011101010";
+			CsBV bv3 = "1010101011101010";
+			CsBV bv4 = "0010000000000000";
+			Assert::IsFalse(bv2 < bv1);
+			Assert::IsFalse(bv3 < bv2);
+			Assert::IsFalse(bv1 < (sOB[0] | sOB[3]));
+			Assert::IsFalse(bv1 < sOB[0]);
+			Assert::IsTrue((size_t)0 < bv2);
+			Assert::IsFalse((sOB[1] | sOB[2]) < bv4);
+		}
+
+		TEST_METHOD(TestMethod_operatorGreaterOrEqual)
+		{			
+			CsBV bv1 = "1000000001000000";
+			CsBV bv2 = "1010101011101010";
+			CsBV bv3 = "1010101011101010";
+			CsBV bv4 = "0010000000000000";
+			Assert::IsTrue(bv2 >= bv1);
+			Assert::IsTrue(bv3 >= bv2);
+			Assert::IsFalse(bv1 >= (sOB[0] | sOB[3]));
+			Assert::IsTrue(bv1 >= sOB[0]);
+			Assert::IsFalse((size_t)36336846523653 >= bv2);
+			Assert::IsTrue((sOB[1] | sOB[2]) >= bv4);
+		}
+
+		TEST_METHOD(TestMethod_operatorLessOrEqual)
+		{			
+			CsBV bv1 = "1000000001000000";
+			CsBV bv2 = "1010101011101010";
+			CsBV bv3 = "1010101011101010";
+			CsBV bv4 = "0010000000000000";
+			Assert::IsFalse(bv2 <= bv1);
+			Assert::IsTrue(bv3 <= bv2);
+			Assert::IsFalse(bv1 <= (sOB[0] | sOB[3]));
+			Assert::IsFalse(bv1 <= sOB[0]);
+			Assert::IsTrue((size_t)0 <= bv2);
+			Assert::IsFalse((sOB[1] | sOB[2]) <= bv4);
+		}
+
+		//-------------------------------
+
+		TEST_METHOD(TestMethod_Empty)
+		{			
+			CsBV bv = "1000000001000000";
+			bv.Empty();
+			Assert::IsTrue(bv.GetBitLength() == 0);
+			Assert::IsTrue(bv == (size_t)0);
+		}		
+
+		TEST_METHOD(TestMethod_SetSize)
+		{			
+			CsBV bv = "100110";
+			bv.SetSize(3);
+			Assert::IsTrue(bv.GetBitLength() == 3);
+			Assert::IsTrue(bv == "100");
+		}
+
+		TEST_METHOD(TestMethod_CharBit)
+		{			
+			CsBV bv = "100110";
+			bv.SetSize(3);
+			Assert::IsTrue(bv.GetBitLength() == 3);
+			Assert::IsTrue(bv == "100");
+		}
+
+		TEST_METHOD(TestMethod_CsBM_SetSize)
+		{
+	//	CsBM m = CsBM("");
+//			m.SetSize(33, 4, 4);
+			//Assert::IsTrue(m.GetCountC() == 4);
+		}
+
+
 	};
 }

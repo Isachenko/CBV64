@@ -611,11 +611,14 @@ BOOL CsBV::Pogl(const size_t Vect, __int8 Len, BOOL Dist) const
 {
 	ASSERT(m_nBitLength == Len);
 	size_t V = Vect >> (SIZE_SHORTBOOL - m_nBitLength) << (SIZE_SHORTBOOL - m_nBitLength);
-	if (Dist)
+	if (Dist){
 		if ((m_bVect & V) != V)
 			return FALSE; 
-	else if ((m_bVect & V) != m_bVect)
-		return FALSE; 
+	}
+	else{
+		if ((m_bVect & V) != m_bVect)
+			return FALSE; 
+	}
 	if (m_bVect == V)
 		return FALSE; 
 	return TRUE;
@@ -626,11 +629,14 @@ BOOL CsBV::PoglEq(const size_t Vect, __int8 Len, BOOL Dist) const
 {
 	ASSERT(m_nBitLength == Len);
 	size_t V = Vect >> (SIZE_SHORTBOOL - m_nBitLength) << (SIZE_SHORTBOOL - m_nBitLength);
-	if (Dist)
+	if (Dist){
 		if ((m_bVect & V) != V)
 			return FALSE; 
-	else if ((m_bVect & V) != m_bVect)
-		return FALSE; 
+	}
+	else{
+		if ((m_bVect & V) != m_bVect)
+			return FALSE; 
+	}
 	return TRUE;
 }
 //*****************************************************************//

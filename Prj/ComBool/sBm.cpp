@@ -1442,7 +1442,7 @@ void CsBM::Dump(CDumpContext& dc) const
 {
 	ASSERT_VALID(this);
 #define MAKESTRING(x) #x
-	AFX_DUMP1(dc, "a " MAKESTRING(CsBM) " with ", m_nSize);
+	//AFX_DUMP1(dc, "a " MAKESTRING(CsBM) " with ", m_nSize);
 	AFX_DUMP0(dc, " elements");
 #undef MAKESTRING
 	if (dc.GetDepth() > 0)
@@ -1485,25 +1485,27 @@ void CsBM::Serialize(CArch& ar)
 {
 	if (ar.IsStoring())
 	{
-		ar << (unsigned int)m_nSize;
-		ar << (__int8)m_nBitLength;
+		ar << m_nSize;
+		//ar << (__int8)m_nBitLength;
 		for (unsigned int i = 0; i < m_nSize; i++)
 		{
 			BYTE * byteData = (BYTE *)&(m_pData[i]);
 			for (__int8 j = 0; j * SIZE_BYTE < SIZE_SHORTBOOL; ++j)
-				ar << (BYTE)byteData[j];
+				//ar << (BYTE)byteData[j]
+					;
 		}
 	}
 	else
 	{
-		ar >> (unsigned int)m_nSize;
-		ar >> (__int8)m_nBitLength;
+		//ar >> (unsigned int)m_nSize;
+		//ar >> (__int8)m_nBitLength;
 		SetSize(m_nSize, m_nBitLength, m_nGrowBy);
 		for (unsigned int i = 0; i < m_nSize; i++)
 		{
 			BYTE * byteData = (BYTE *)&(m_pData[i]);
 			for (__int8 j = 0; j * SIZE_BYTE < SIZE_SHORTBOOL; ++j)
-				ar >> (BYTE)byteData[j];
+				//ar >> (BYTE)byteData[j]
+					;
 		}
 	}
 }
