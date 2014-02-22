@@ -132,6 +132,8 @@ public:
   //void FromShort(CBV &bv);
 //*********************** Functions for getting class's parametrs ***********************
   __int8 GetBitLength() const;
+  //*********************** Functions for generation **************************************
+  CsBV GenRbvN(__int8 n);
 //*************************************** Reading ***************************************
   operator size_t () const;
   BOOL GetBitAt(__int8 nIndex) const;

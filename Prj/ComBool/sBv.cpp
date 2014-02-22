@@ -40,8 +40,10 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 #define new DEBUG_NEW
 #endif
 
-typedef unsigned long long size_t;
+//typedef unsigned long long size_t;
 
+static size_t Rgrain = 1;
+static BOOL NewRand = TRUE;
 
 /////////////////////////////////////////////////////////////////////
 //////////////////////// Construction/Destruction ///////////////////
@@ -101,6 +103,33 @@ CsBV::CsBV(const char* pch)
 
 //-------------------------------------------------------------------
 CsBV::~CsBV() {}
+
+//////////////////////////////////////////////////////////// GetRandN
+// Получение очередного псевдослучайного целого числа     //
+// 32 или 16-разрядного(Романов - переход к 32 от 16 - 10.03.2006)
+// Корректно работающий вариант Томашева - 27 января 1999 //
+////////////////////////////////////////////////////////////
+size_t GetRandN()
+
+{
+	size_t	f13	= (size_t)1220703125 * (size_t)1220703125;  // f13 = 5**26
+	size_t	m	= 0x7fffffffffffffff;  //  m  = 2**31-1
+	size_t  w;
+
+	size_t x1 = (size_t)Rgrain;
+	x1 = (x1*f13)%m;
+	w = (x1 << 16) >> 32;
+	x1 = (x1*f13)%m;
+	w = (w << 32) | ((x1 << 16) >> 32);
+	Rgrain = (size_t)x1;
+	return (w);
+}
+
+CsBV CsBV::GenRbvN(__int8 n){
+	m_nBitLength = n;
+	m_bVect = GetRandN();
+	return *this; 
+}
 
 /////////////////////////////////////////////////////////////////////
 ////////////////////////////////// Reading and writing //////////////
