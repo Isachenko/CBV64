@@ -433,33 +433,72 @@ namespace UnitTestCubv
 			Assert::IsTrue(testobj.GetLongLength() == testobj.GetAllocLength());
 		}
 		
-		/*TEST_METHOD(TestMethod_GetRowBv)
+		TEST_METHOD(TestMethod_GetRowBv)
 		{
-			CuBM testobj(4,4,true);
+			CuBM testobj(4,4,false);
 			CuBV bv = testobj.GetRowBv(3);
-			ASSERT(bv == "1111");
+			Assert::IsTrue(bv == "0000");
 			ptrdiff_t mask [4];
 			mask[0] = 0;
 			mask[1] = 1;
 			mask[2] = 0;
 			mask[3] = 1;
 			bv = testobj.GetRowBv(3, mask);
-			ASSERT(bv == "0101");
+			Assert::IsTrue(bv == "0000");
 		}
 		
 		TEST_METHOD(TestMethod_GetColumnBv)
 		{
-			CuBM testobj(4,4,true);
+			CuBM testobj(4,4,false);
 			CuBV bv = testobj.GetColumnBv(3);
-			ASSERT(bv == "1111");
+			Assert::IsTrue(bv == "0000");
 			ptrdiff_t mask [4];
 			mask[0] = 0;
 			mask[1] = 1;
 			mask[2] = 0;
 			mask[3] = 1;
 			bv = testobj.GetColumnBv(3, mask);
-			ASSERT(bv == "0101");
-		}*/
+			Assert::IsTrue(bv == "0000");
+		}
 		
+		TEST_METHOD(TestMethod_ExtractRows)
+		{
+			CuBM testobj(4,4,true);
+			CuBM testobj2 = testobj.ExtractRows(0,3);
+			for(int i =0; i<3; i++)
+			{
+				Assert::IsTrue(testobj.GetRowBv(i) == testobj2.GetRowBv(i));
+			}
+		}
+		TEST_METHOD(TestMethod_ExtractColumns)
+		{
+			CuBM testobj(4,4,true);
+			CuBM testobj2 = testobj.ExtractColumns(0,3);
+			for(int i =0; i<3; i++)
+			{
+				Assert::IsTrue(testobj.GetColumnBv(i) == testobj2.GetColumnBv(i));
+			}
+		}
+		TEST_METHOD(TestMethod_Extract)
+		{
+			CuBM testobj(4,4,true);
+			CuBM testobj2 = testobj.Extract(0,0,2,2);
+			for(int i =0; i<2; i++)
+			{
+				for(int j =0; j<2; j++)
+				{
+					Assert::IsTrue(1 == testobj2.GetBitAt(i,j));
+				}
+				
+			}
+		}
+		TEST_METHOD(TestMethod_OperatorAdvBitOr)
+		{
+			CuBM testobj3(4,4,true);
+			CuBM testobj(4,4,true);
+			CuBM testobj2(4,4,false);
+			testobj |=testobj2;
+			Assert::IsTrue(testobj == testobj3);
+		}
 	};
 }
