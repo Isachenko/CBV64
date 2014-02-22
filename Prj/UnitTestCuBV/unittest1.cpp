@@ -470,6 +470,7 @@ namespace UnitTestCubv
 				Assert::IsTrue(testobj.GetRowBv(i) == testobj2.GetRowBv(i));
 			}
 		}
+
 		TEST_METHOD(TestMethod_ExtractColumns)
 		{
 			CuBM testobj(4,4,true);
@@ -479,6 +480,7 @@ namespace UnitTestCubv
 				Assert::IsTrue(testobj.GetColumnBv(i) == testobj2.GetColumnBv(i));
 			}
 		}
+
 		TEST_METHOD(TestMethod_Extract)
 		{
 			CuBM testobj(4,4,true);
@@ -492,6 +494,7 @@ namespace UnitTestCubv
 				
 			}
 		}
+
 		TEST_METHOD(TestMethod_OperatorAdvBitOr)
 		{
 			CuBM testobj3(4,4,true);
@@ -500,5 +503,48 @@ namespace UnitTestCubv
 			testobj |=testobj2;
 			Assert::IsTrue(testobj == testobj3);
 		}
+
+		TEST_METHOD(TestMethod_OperatorAdvBitAnd)
+		{
+			CuBM testobj3(4,4,true);
+			CuBM testobj(4,4,true);
+			CuBM testobj2(4,4,false);
+			testobj &=testobj2;
+			Assert::IsTrue(testobj != testobj3);
+		}
+
+		TEST_METHOD(TestMethod_OperatorAdvBitExcOr)
+		{
+			CuBM testobj3(4,4,true);
+			CuBM testobj(4,4,true);
+			CuBM testobj2(4,4,false);
+			testobj ^=testobj2;
+			Assert::IsTrue(testobj == testobj3);
+		}
+
+		/*TEST_METHOD(TestMethod_SetRowDiz)
+		{
+			CuBM testobj(4,4,false);
+			ptrdiff_t v1[4];
+			v1[0] = 0;
+			v1[1] = 0;
+			v1[2] = 1;
+			v1[3] = 1;
+			testobj.SetRowDiz(0, v1);
+			CuBV b = testobj.GetRowBv(0);
+			Assert::IsTrue(b == "0011");
+		}*/
+
+		TEST_METHOD(TestMethod_SetRow)
+		{
+			CuBM testobj(4,4,false);
+			CuBM testobj2(4,4,true);
+			CuBV c1("1111");
+			testobj.SetRow(0, c1);
+			Assert::IsTrue(testobj.GetRowBv(0) == testobj2.GetRowBv(0));
+			testobj.SetRow(1, testobj2, 1);
+			Assert::IsTrue(testobj.GetRowBv(1) == testobj2.GetRowBv(1));
+		}
+
 	};
 }

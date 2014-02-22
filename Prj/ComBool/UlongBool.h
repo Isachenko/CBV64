@@ -242,7 +242,7 @@ public:
 //********************************** Reading the data ***********************************
 
     BOOL GetBitAt(int nRow, int nColumn) const;                  //inline
-    BOOL GetBitAt(int nRow, int nColumn, ULONG* mask) const;     //inline
+    BOOL GetBitAt(int nRow, int nColumn, ptrdiff_t* mask) const;     //inline
     ptrdiff_t GetLongAt(int nRow, int nIndex) const;                 //inline
     ptrdiff_t GetLongAt(int nRow, int nIndex, ptrdiff_t* mask) const;    //inline
     ptrdiff_t* GetRow(int nIndex) const;                             //inline
@@ -267,7 +267,7 @@ public:
 
 //********************************** Writing the data ***********************************
     void SetBitAt(int nRow, int nColumn, BOOL bit);              //inline
-    void SetLongAt(int nRow, int nIndex, ULONG val);             //inline
+    void SetLongAt(int nRow, int nIndex, ptrdiff_t val);             //inline
     void SetRow(int nRow, const ptrdiff_t* newRow);                  //inline
     void SetRow(int nRow, const CuBV& newRow);
     void SetRow(int nRow, const CuBM& bm, int nbmRow);
@@ -335,29 +335,29 @@ public:
 
 //******************** Operations of weighting, finding and casing **********************
     int CountBit(int nRow = -1) const;
-    int CountBit(const ULONG* mask, int nRow = -1) const;
+    int CountBit(const ptrdiff_t* mask, int nRow = -1) const;
     int LeftOne(int nRow, int nNext = -1) const;
-    int LeftOne(int nRow, int nNext, ULONG* mask) const;
+    int LeftOne(int nRow, int nNext, ptrdiff_t* mask) const;
     int RightOne(int nRow, int nPrev = -1) const;
-    int RightOne(int nRow, int nPrev, ULONG* mask) const;
+    int RightOne(int nRow, int nPrev, ptrdiff_t* mask) const;
     int FindRow (BOOL Empty, int nFRow = -1) const;
-    int FindRow (BOOL Empty, ULONG* mask, int nFRow = -1) const;
+    int FindRow (BOOL Empty, ptrdiff_t* mask, int nFRow = -1) const;
     int FindRow (const CuBV& bv, int nFRow = -1) const;
-    int FindRow(const ULONG* pt, int nFRow = -1) const;
+    int FindRow(const ptrdiff_t* pt, int nFRow = -1) const;
 
 //******************************* Compareing operations *********************************
     BOOL IsEmpty() const;                                    //inline
     BOOL IsZero(int nRow = -1) const;
-    BOOL IsZero(const ULONG* mask, int nRow) const;
+    BOOL IsZero(const ptrdiff_t* mask, int nRow) const;
     BOOL IsOne(int nRow = -1) const;
-    BOOL IsOne(const ULONG* mask, int nRow) const;
+    BOOL IsOne(const ptrdiff_t* mask, int nRow) const;
     friend BOOL operator==(const CuBM& bm1, const CuBM& bm2);
     friend BOOL operator!=(const CuBM& bm1, const CuBM& bm2);
     friend BOOL operator>(const CuBM& bm1, const CuBM& bm2);
     friend BOOL operator<(const CuBM& bm1, const CuBM& bm2);
     friend BOOL operator>=(const CuBM& bm1, const CuBM& bm2);
     friend BOOL operator<=(const CuBM& bm1, const CuBM& bm2);
-    int CoverRow(int nRow1, int nRow2, const ULONG* mask);
+    int CoverRow(int nRow1, int nRow2, const ptrdiff_t* mask);
     int CoverRow(int nRow1, int nRow2);
 
 #ifndef _LINUX
@@ -369,31 +369,31 @@ public:
 #endif
 #endif
 
-  void SetRowDiz(int nRow, const ULONG* v1);
-  void SetRowDiz(int nRow, const ULONG* v1, const ULONG* v2);
-  void SetRowDiz(const ULONG* mask, int nRow, const ULONG* v1);
-  void SetRowDiz(const ULONG* mask, int nRow, const ULONG* v1, const ULONG* v2);
-  void SetRowDiz(int nRow, int Num, ULONG* v1, ...);
-  void SetRowDiz(const ULONG* mask, int nRow, int Num, ULONG* v1, ...);
+  void SetRowDiz(int nRow, const ptrdiff_t* v1);
+  void SetRowDiz(int nRow, const ptrdiff_t* v1, const ptrdiff_t* v2);
+  void SetRowDiz(const ptrdiff_t* mask, int nRow, const ptrdiff_t* v1);
+  void SetRowDiz(const ptrdiff_t* mask, int nRow, const ptrdiff_t* v1, const ptrdiff_t* v2);
+  void SetRowDiz(int nRow, int Num, ptrdiff_t* v1, ...);
+  void SetRowDiz(const ptrdiff_t* mask, int nRow, int Num, ptrdiff_t* v1, ...);
 
-  void SetRowCon(int nRow, const ULONG* v1);
-  void SetRowCon(int nRow, const ULONG* v1, const ULONG* v2);
-  void SetRowCon(const ULONG* mask, int nRow, const ULONG* v1);
-  void SetRowCon(const ULONG* mask, int nRow, const ULONG* v1, const ULONG* v2);
-  void SetRowCon(int nRow, int Num, ULONG* v1, ...);
-  void SetRowCon(const ULONG* mask, int nRow, int Num, ULONG* v1, ...);
+  void SetRowCon(int nRow, const ptrdiff_t* v1);
+  void SetRowCon(int nRow, const ptrdiff_t* v1, const ptrdiff_t* v2);
+  void SetRowCon(const ptrdiff_t* mask, int nRow, const ptrdiff_t* v1);
+  void SetRowCon(const ptrdiff_t* mask, int nRow, const ptrdiff_t* v1, const ptrdiff_t* v2);
+  void SetRowCon(int nRow, int Num, ptrdiff_t* v1, ...);
+  void SetRowCon(const ptrdiff_t* mask, int nRow, int Num, ptrdiff_t* v1, ...);
 
-  void SetRowXor(int nRow, const ULONG* v1);
-  void SetRowXor(int nRow, const ULONG* v1, const ULONG* v2);
-  void SetRowXor(const ULONG* mask, int nRow, const ULONG* v1);
-  void SetRowXor(const ULONG* mask, int nRow, const ULONG* v1, const ULONG* v2);
-  void SetRowXor(int nRow, int Num, ULONG* v1, ...);
-  void SetRowXor(const ULONG* mask, int nRow, int Num, ULONG* v1, ...);
+  void SetRowXor(int nRow, const ptrdiff_t* v1);
+  void SetRowXor(int nRow, const ptrdiff_t* v1, const ptrdiff_t* v2);
+  void SetRowXor(const ptrdiff_t* mask, int nRow, const ptrdiff_t* v1);
+  void SetRowXor(const ptrdiff_t* mask, int nRow, const ptrdiff_t* v1, const ptrdiff_t* v2);
+  void SetRowXor(int nRow, int Num, ptrdiff_t* v1, ...);
+  void SetRowXor(const ptrdiff_t* mask, int nRow, int Num, ptrdiff_t* v1, ...);
 
-  void SetRowDif(int nRow, const ULONG* v1);
-  void SetRowDif(int nRow, const ULONG* v1, const ULONG* v2);
-  void SetRowDif(const ULONG* mask, int nRow, const ULONG* v1);
-  void SetRowDif(const ULONG* mask, int nRow, const ULONG* v1, const ULONG* v2);
+  void SetRowDif(int nRow, const ptrdiff_t* v1);
+  void SetRowDif(int nRow, const ptrdiff_t* v1, const ptrdiff_t* v2);
+  void SetRowDif(const ptrdiff_t* mask, int nRow, const ptrdiff_t* v1);
+  void SetRowDif(const ptrdiff_t* mask, int nRow, const ptrdiff_t* v1, const ptrdiff_t* v2);
 
 
 protected:
@@ -628,14 +628,14 @@ inline BOOL CuBM::GetBitAt(int nRow, int nColumn) const
   return ((m_pData[nRow][BIT_LONG(nColumn)] & OB4[ADR_BITLONG(nColumn)])!=0);
 }
 
-inline BOOL CuBM::GetBitAt(int nRow, int nColumn, ULONG* mask) const
+inline BOOL CuBM::GetBitAt(int nRow, int nColumn, ptrdiff_t* mask) const
 { ASSERT ((nColumn >= 0) && (nRow >= 0));
   ASSERT ((nColumn < m_nBitLength) && (nRow < m_nSize));
   return ((m_pData[nRow][BIT_LONG(nColumn)] &
            mask[BIT_LONG(nColumn)] & OB4[ADR_BITLONG(nColumn)])!=0);
 }
 
-inline void CuBM::SetLongAt(int nRow, int nIndex, ULONG val)
+inline void CuBM::SetLongAt(int nRow, int nIndex, ptrdiff_t val)
 { ASSERT ((nIndex >= 0) && (nRow >= 0));
   ASSERT ((nIndex < m_nLongLength) && (nRow < m_nSize));
   m_pData[nRow][nIndex] = val;

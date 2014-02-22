@@ -198,7 +198,7 @@ CuBM::CuBM(int nRow, int nColumn, BOOL Fl /*= FALSE*/)
   m_nGrowBy = 10;
 }
 
-//-------------------------------------------- CuBM(const ULONG* pV, int nRow, int nColumn)
+//-------------------------------------------- CuBM(const ptrdiff_t* pV, int nRow, int nColumn)
 CuBM::CuBM(const ptrdiff_t* pV, int nRow, int nColumn)
 {
   if (nRow==0 && nColumn==0) { Init(); return; }
@@ -558,7 +558,7 @@ void CuBM::SetRow(int nRow, const CuBM& bm, int nbmRow)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 //********************************** Working with row ***********************************
-//----------------------------------------------SetRowGrow(int nRow, const ULONG* newRow)
+//----------------------------------------------SetRowGrow(int nRow, const ptrdiff_t* newRow)
 void CuBM::SetRowGrow(int nRow, const ptrdiff_t* newRow)
 {
 #ifdef _DEBUG
@@ -611,7 +611,7 @@ int CuBM::Add(BOOL bit/*=FALSE*/, int nCount/*=1*/)
   else 
     SetSize(m_nSize + nCount, m_nBitLength, m_nGrowBy, m_nAllocLength*BITS_IN_WORD - m_nBitLength);
   if (bit == TRUE) {
-    ULONG maska=((i = ADR_BITLONG(m_nBitLength)) > 0 ) ?
+    ptrdiff_t maska=((i = ADR_BITLONG(m_nBitLength)) > 0 ) ?
                 (LONG_1 << (BITS_IN_WORD - i)) : LONG_1;
     for (; first < m_nSize; first++) {
       memset(m_pData[first], BYTE_1, (m_nLongLength-1)*sizeof(ptrdiff_t));
@@ -629,7 +629,7 @@ int CuBM::Add(const CuBM& bm, int nbmRow/* =-1*/)
   return (ind); 
 }
 
-//-----------------------------------InsertRow(int nRow, const ULONG* newRow, int nCount)
+//-----------------------------------InsertRow(int nRow, const ptrdiff_t* newRow, int nCount)
 void CuBM::InsertRow(int nRow, const ptrdiff_t* newRow, int nCount /*=1*/)
 {
 #ifdef _DEBUG
@@ -849,7 +849,7 @@ void CuBM::Concat(const CuBM& bm1, const CuBM& bm2)
   int i, j, OldLen = BIT_LONG(bm1.m_nBitLength), l_bit, r_bit;
   l_bit = ADR_BITLONG(bm1.m_nBitLength);  r_bit = BITS_IN_WORD - l_bit;
   for (i=0; i < m_nSize; i++)
-    memcpy(m_pData[i], bm1.m_pData[i], bm1.m_nLongLength*sizeof(ULONG));
+    memcpy(m_pData[i], bm1.m_pData[i], bm1.m_nLongLength*sizeof(ptrdiff_t));
   for (i=0; i < m_nSize; i++)  {
     m_pData[i][OldLen] |= (bm2.m_pData[i][0] >> l_bit);
     for (j = 1; j < bm2.m_nLongLength; j++)
@@ -881,7 +881,7 @@ const CuBM& CuBM::operator|=(const CuBV& bv)
   return *this;
 }
 
-//------------------------------------------------------- operator|=(const ULONG * pb)
+//------------------------------------------------------- operator|=(const ptrdiff_t * pb)
 const CuBM& CuBM::operator|=(const ptrdiff_t* pV)
 {
   for (int i=0; i < m_nSize; i++)
@@ -910,7 +910,7 @@ const CuBM& CuBM::operator&=(const CuBV& bv)
   return *this;
 }
 
-//------------------------------------------------------- operator&=(const ULONG *pb)
+//------------------------------------------------------- operator&=(const ptrdiff_t *pb)
 const CuBM& CuBM::operator&=(const ptrdiff_t *pV)
 {
   for (int i=0; i < m_nSize; i++)
@@ -939,7 +939,7 @@ const CuBM& CuBM::operator^=(const CuBV& bv)
   return *this;
 }
 
-//------------------------------------------------------- operator^=(const ULONG *pb)
+//------------------------------------------------------- operator^=(const ptrdiff_t *pb)
 const CuBM& CuBM::operator^=(const ptrdiff_t *pV)
 {                                              // may be new '1' on the end in last long
   for (int i=0; i < m_nSize; i++)
@@ -958,7 +958,7 @@ const CuBM& CuBM::operator-=(const CuBV& bv)
   return *this;
 }
 
-//------------------------------------------------------- operator-=(const ULONG *pb)
+//------------------------------------------------------- operator-=(const ptrdiff_t *pb)
 const CuBM& CuBM::operator-=(const ptrdiff_t *pV)
 {
   for (int i=0; i < m_nSize; i++)
@@ -993,7 +993,7 @@ CuBM operator|(const CuBM& bm1, const CuBV& bv)
   return bm;
 }
 
-//--------------------------------------- operator|(const CuBM& bm1, const ULONG *pb)
+//--------------------------------------- operator|(const CuBM& bm1, const ptrdiff_t *pb)
 CuBM operator|(const CuBM& bm1, const ptrdiff_t *pV)
 {
   CuBM bm(bm1.m_nSize, bm1.m_nBitLength);
@@ -1010,7 +1010,7 @@ CuBV CuBM::Disjunction()
   ASSERT_VALID(this);
 #endif
   CuBV bv(m_nBitLength, FALSE);
-  ULONG val;
+  ptrdiff_t val;
   for (int i=0; i < m_nLongLength; i++)  {
     val = 0;
     for (int j=0; j < m_nSize; j++) val |= m_pData[j][i];
@@ -1041,7 +1041,7 @@ CuBM operator&(const CuBM& bm1, const CuBV& bv)
   return bm;
 }
 
-//--------------------------------------- operator&(const CuBM& bm1, const ULONG *pb)
+//--------------------------------------- operator&(const CuBM& bm1, const ptrdiff_t *pb)
 CuBM operator&(const CuBM& bm1, const ptrdiff_t *pV)
 {
   CuBM bm(bm1.m_nSize, bm1.m_nBitLength);
@@ -1089,7 +1089,7 @@ CuBM operator^(const CuBM& bm1, const CuBV& bv)
   return bm;
 }
 
-//--------------------------------------- operator^(const CuBM& bm1, const ULONG *pb)
+//--------------------------------------- operator^(const CuBM& bm1, const ptrdiff_t *pb)
 CuBM operator^(const CuBM& bm1, const ptrdiff_t *pV)
 {
   CuBM bm(bm1.m_nSize, bm1.m_nBitLength);
@@ -1106,7 +1106,7 @@ CuBV CuBM::BitwiseExclusive()
   ASSERT_VALID(this);
 #endif
   CuBV bv(m_nBitLength, FALSE);
-  ULONG val;
+  ptrdiff_t val;
   for (int i=0; i < m_nLongLength; i++)  {
     val = 0;
     for (int j=0; j < m_nSize; j++) val ^= m_pData[j][i];
@@ -1126,7 +1126,7 @@ CuBM operator-(const CuBM& bm1, const CuBV& bv)
   return bm;
 }
 
-//--------------------------------------- operator-(const CuBM& bm1, const ULONG *pb)
+//--------------------------------------- operator-(const CuBM& bm1, const ptrdiff_t *pb)
 CuBM operator-(const CuBM& bm1, const ptrdiff_t *pV)
 {
   CuBM bm(bm1.m_nSize, bm1.m_nBitLength);
@@ -1175,7 +1175,7 @@ int CuBM::CountBit(int nRow) const
 }
 
 //-------------------------------------------------------------------- CountBit(int nRow)
-int CuBM::CountBit(const ULONG* mask, int nRow) const 
+int CuBM::CountBit(const ptrdiff_t* mask, int nRow) const 
 {
   int j, one=0, first, last, len;
   ASSERT (nRow >= -1);
@@ -1216,11 +1216,11 @@ int CuBM::LeftOne(int nRow, int nNext) const
 }
 
 
-//----------------------------------------------- LeftOne(int nRow, int nNext,ULONG* mask)
-int CuBM::LeftOne(int nRow, int nNext, ULONG* mask) const
+//----------------------------------------------- LeftOne(int nRow, int nNext,ptrdiff_t* mask)
+int CuBM::LeftOne(int nRow, int nNext, ptrdiff_t* mask) const
 { 
   int i, j, pos = 0;
-  ULONG val;
+  ptrdiff_t val;
   ASSERT((m_nBitLength - nNext) >= 0);
   if (nNext == -1) { i=0;  j=0; }
   else { i = BIT_LONG(nNext);  j = ADR_BITLONG(nNext);  j++; }
@@ -1262,10 +1262,10 @@ int CuBM::RightOne(int nRow, int nPrev) const
 }
 
 //------------------------------------------------------------------- RightOne(int nPrev)
-int CuBM::RightOne(int nRow, int nPrev, ULONG* mask) const
+int CuBM::RightOne(int nRow, int nPrev, ptrdiff_t* mask) const
 {
   int i, j, pos = S_4 - 1;
-  ULONG val;
+  ptrdiff_t val;
   ASSERT((m_nBitLength - nPrev) >= 0);
   if (nPrev == -1) { i = m_nLongLength - 1;  j=0; }
   else { i = BIT_LONG(nPrev);  j=S_4 - ADR_BITLONG(nPrev); }
@@ -1286,7 +1286,7 @@ int CuBM::RightOne(int nRow, int nPrev, ULONG* mask) const
 //------------------------------------------------------- FindRow (BOOL Empty, int nFRow)
 int CuBM::FindRow (BOOL Empty, int nFRow) const
 {
-  ULONG work; 
+  ptrdiff_t work; 
   if (m_nSize == 0) return -1;
   ASSERT(nFRow < m_nSize-1);
   nFRow++; 
@@ -1299,10 +1299,10 @@ int CuBM::FindRow (BOOL Empty, int nFRow) const
   return -1;
 }
 
-//------------------------------------------ FindRow (BOOL Empty, ULONG* mask, int nFRow)
-int CuBM::FindRow (BOOL Empty, ULONG* mask, int nFRow) const
+//------------------------------------------ FindRow (BOOL Empty, ptrdiff_t* mask, int nFRow)
+int CuBM::FindRow (BOOL Empty, ptrdiff_t* mask, int nFRow) const
 {
-  ULONG work; 
+  ptrdiff_t work; 
   if (m_nSize == 0) return -1;
   ASSERT(nFRow < m_nSize-1);
   nFRow++; 
@@ -1322,18 +1322,18 @@ int CuBM::FindRow (const CuBV& bv, int nFRow) const
   ASSERT(nFRow < m_nSize-1);
   nFRow++; 
   for (int i = nFRow; i < m_nSize; i++)
-    if (memcmp(bv, m_pData[i], m_nLongLength*sizeof(ULONG)) == 0) return i;
+    if (memcmp(bv, m_pData[i], m_nLongLength*sizeof(ptrdiff_t)) == 0) return i;
   return -1;
 }
 
-//------------------------------------------------- FindRow (const ULONG* pt, int nFRow)
-int CuBM::FindRow (const ULONG* pV, int nFRow) const
+//------------------------------------------------- FindRow (const ptrdiff_t* pt, int nFRow)
+int CuBM::FindRow (const ptrdiff_t* pV, int nFRow) const
 {
   if (m_nSize == 0) return -1;       //new 24.01.00    
   ASSERT(nFRow < m_nSize-1);
   nFRow++; 
   for (int i = nFRow; i < m_nSize; i++)
-    if (memcmp(pV, m_pData[i], m_nLongLength*sizeof(ULONG)) == 0) return i;
+    if (memcmp(pV, m_pData[i], m_nLongLength*sizeof(ptrdiff_t)) == 0) return i;
   return -1;
 }
 
@@ -1355,7 +1355,7 @@ BOOL CuBM::IsZero(int nRow) const
 }
 
 //-----------------------------------------------------------IsZero(int nRow)
-BOOL CuBM::IsZero(const ULONG* mask, int nRow) const
+BOOL CuBM::IsZero(const ptrdiff_t* mask, int nRow) const
 {
   int i, first, last;
   ASSERT (nRow >= -1);
@@ -1388,7 +1388,7 @@ BOOL CuBM::IsOne(int nRow) const
 }
 
 //-----------------------------------------------------------IsOne(int nRow)
-BOOL CuBM::IsOne(const ULONG* mask, int nRow) const
+BOOL CuBM::IsOne(const ptrdiff_t* mask, int nRow) const
 
 {
   int i, first, last;
@@ -1496,10 +1496,10 @@ int CuBM::CoverRow(int nRow1, int nRow2)
 }
 
 //---------------------------------CoverRow(int nRow1, int nRow2, const ULONG * mask)
-int CuBM::CoverRow(int nRow1, int nRow2, const ULONG* mask)
+int CuBM::CoverRow(int nRow1, int nRow2, const ptrdiff_t* mask)
 {
   int pi, pj, k;
-  ULONG work, worki, workj;
+  ptrdiff_t work, worki, workj;
 
   for (k = pi = pj = 0; k < m_nLongLength; k++) { 
     worki = GetLongAt(nRow1, k) & mask[k];  workj = GetLongAt(nRow2, k) & mask[k];
@@ -1580,7 +1580,7 @@ void CuBM::AssertValid() const
     ASSERT(m_nSize >= 0);
     ASSERT(m_nMaxSize >= 0);
     ASSERT(m_nSize <= m_nMaxSize);
-    ASSERT(AfxIsValidAddress(m_pData, m_nMaxSize*sizeof(ULONG*)));
+    ASSERT(AfxIsValidAddress(m_pData, m_nMaxSize*sizeof(ptrdiff_t*)));
     ASSERT(m_nBitLength >= 0);
     ASSERT(m_nLongLength == LEN_LONG(m_nBitLength));
     ASSERT(m_nAllocLength >= 0);
@@ -1703,21 +1703,21 @@ void CuBM::CharBit(char* s)
 //**************************************************************************************
 
 //-------------------------------------------------------------------
-void CuBM::SetRowDiz(int nRow, const ULONG* v1)
+void CuBM::SetRowDiz(int nRow, const ptrdiff_t* v1)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
   for (int i=0; i<m_nLongLength; i++) m_pData[nRow][i] |= v1[i];
 }
 
 //-------------------------------------------------------------------
-void CuBM::SetRowDiz(int nRow, const ULONG* v1, const ULONG* v2)
+void CuBM::SetRowDiz(int nRow, const ptrdiff_t* v1, const ptrdiff_t* v2)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
   for (int i=0; i<m_nLongLength; i++) m_pData[nRow][i] = v1[i] | v2[i];
 }
 
 //-------------------------------------------------------------------
-void CuBM::SetRowDiz(const ULONG* mask, int nRow, const ULONG* v1)
+void CuBM::SetRowDiz(const ptrdiff_t* mask, int nRow, const ptrdiff_t* v1)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
   for (int i=0; i<m_nLongLength; i++) 
@@ -1725,23 +1725,23 @@ void CuBM::SetRowDiz(const ULONG* mask, int nRow, const ULONG* v1)
 }
 
 //-------------------------------------------------------------------
-void CuBM::SetRowDiz(const ULONG* mask, int nRow, const ULONG* v1, const ULONG* v2)
+void CuBM::SetRowDiz(const ptrdiff_t* mask, int nRow, const ptrdiff_t* v1, const ptrdiff_t* v2)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
   for (int i=0; i<m_nLongLength; i++) m_pData[nRow][i] = (v1[i] | v2[i]) & mask[i];
 }
 
 //-------------------------------------------------------------------
-void CuBM::SetRowDiz(int nRow, int Num, ULONG* v1, ...)
+void CuBM::SetRowDiz(int nRow, int Num, ptrdiff_t* v1, ...)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
 
-  ULONG * v[10];
+  ptrdiff_t * v[10];
   va_list marker;
   v[0] = v1;
   va_start( marker, v1);     /* Initialize variable arguments. */
   for (int j=1; j< Num; j++) {
-    v[j] = va_arg( marker, ULONG* );
+    v[j] = va_arg( marker, ptrdiff_t* );
   }
   va_end( marker );              /* Reset variable arguments.      */
 
@@ -1752,16 +1752,16 @@ void CuBM::SetRowDiz(int nRow, int Num, ULONG* v1, ...)
 }
 
 //-------------------------------------------------------------------
-void CuBM::SetRowDiz(const ULONG* mask, int nRow, int Num, ULONG* v1, ...)
+void CuBM::SetRowDiz(const ptrdiff_t* mask, int nRow, int Num, ptrdiff_t* v1, ...)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
 
-  ULONG * v[10];
+  ptrdiff_t * v[10];
   va_list marker;
   v[0] = v1;
   va_start( marker, v1);     /* Initialize variable arguments. */
   for (int j=1; j< Num; j++) {
-    v[j] = va_arg( marker, ULONG* );
+    v[j] = va_arg( marker, ptrdiff_t* );
   }
   va_end( marker );              /* Reset variable arguments.      */
 
@@ -1774,21 +1774,21 @@ void CuBM::SetRowDiz(const ULONG* mask, int nRow, int Num, ULONG* v1, ...)
 
 
 //-------------------------------------------------------------------
-void CuBM::SetRowCon(int nRow, const ULONG* v1)
+void CuBM::SetRowCon(int nRow, const ptrdiff_t* v1)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
   for (int i=0; i<m_nLongLength; i++) m_pData[nRow][i] &= v1[i];
 }
 
 //-------------------------------------------------------------------
-void CuBM::SetRowCon(int nRow, const ULONG* v1, const ULONG* v2)
+void CuBM::SetRowCon(int nRow, const ptrdiff_t* v1, const ptrdiff_t* v2)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
   for (int i=0; i<m_nLongLength; i++) m_pData[nRow][i] = v1[i] & v2[i];
 }
 
 //-------------------------------------------------------------------
-void CuBM::SetRowCon(const ULONG* mask, int nRow, const ULONG* v1)
+void CuBM::SetRowCon(const ptrdiff_t* mask, int nRow, const ptrdiff_t* v1)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
   for (int i=0; i<m_nLongLength; i++) 
@@ -1796,23 +1796,23 @@ void CuBM::SetRowCon(const ULONG* mask, int nRow, const ULONG* v1)
 }
 
 //-------------------------------------------------------------------
-void CuBM::SetRowCon(const ULONG* mask, int nRow, const ULONG* v1, const ULONG* v2)
+void CuBM::SetRowCon(const ptrdiff_t* mask, int nRow, const ptrdiff_t* v1, const ptrdiff_t* v2)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
   for (int i=0; i<m_nLongLength; i++) m_pData[nRow][i] = v1[i] & v2[i] & mask[i];
 }
 
 //-------------------------------------------------------------------
-void CuBM::SetRowCon(int nRow, int Num, ULONG* v1, ...)
+void CuBM::SetRowCon(int nRow, int Num, ptrdiff_t* v1, ...)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
 
-  ULONG * v[10];
+  ptrdiff_t * v[10];
   va_list marker;
   v[0] = v1;
   va_start( marker, v1);     /* Initialize variable arguments. */
   for (int j=1; j< Num; j++) {
-    v[j] = va_arg( marker, ULONG* );
+    v[j] = va_arg( marker, ptrdiff_t* );
   }
   va_end( marker );              /* Reset variable arguments.      */
 
@@ -1823,16 +1823,16 @@ void CuBM::SetRowCon(int nRow, int Num, ULONG* v1, ...)
 }
 
 //-------------------------------------------------------------------
-void CuBM::SetRowCon(const ULONG* mask, int nRow, int Num, ULONG* v1, ...)
+void CuBM::SetRowCon(const ptrdiff_t* mask, int nRow, int Num, ptrdiff_t* v1, ...)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
 
-  ULONG * v[10];
+  ptrdiff_t * v[10];
   va_list marker;
   v[0] = v1;
   va_start( marker, v1);     /* Initialize variable arguments. */
   for (int j=1; j< Num; j++) {
-    v[j] = va_arg( marker, ULONG* );
+    v[j] = va_arg( marker, ptrdiff_t* );
   }
   va_end( marker );              /* Reset variable arguments.      */
 
@@ -1844,21 +1844,21 @@ void CuBM::SetRowCon(const ULONG* mask, int nRow, int Num, ULONG* v1, ...)
 
 
 //-------------------------------------------------------------------
-void CuBM::SetRowXor(int nRow, const ULONG* v1)
+void CuBM::SetRowXor(int nRow, const ptrdiff_t* v1)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
   for (int i=0; i<m_nLongLength; i++) m_pData[nRow][i] ^= v1[i];
 }
 
 //-------------------------------------------------------------------
-void CuBM::SetRowXor(int nRow, const ULONG* v1, const ULONG* v2)
+void CuBM::SetRowXor(int nRow, const ptrdiff_t* v1, const ptrdiff_t* v2)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
   for (int i=0; i<m_nLongLength; i++) m_pData[nRow][i] = v1[i] ^ v2[i];
 }
 
 //-------------------------------------------------------------------
-void CuBM::SetRowXor(const ULONG* mask, int nRow, const ULONG* v1)
+void CuBM::SetRowXor(const ptrdiff_t* mask, int nRow, const ptrdiff_t* v1)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
   for (int i=0; i<m_nLongLength; i++) 
@@ -1866,23 +1866,23 @@ void CuBM::SetRowXor(const ULONG* mask, int nRow, const ULONG* v1)
 }
 
 //-------------------------------------------------------------------
-void CuBM::SetRowXor(const ULONG* mask, int nRow, const ULONG* v1, const ULONG* v2)
+void CuBM::SetRowXor(const ptrdiff_t* mask, int nRow, const ptrdiff_t* v1, const ptrdiff_t* v2)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
   for (int i=0; i<m_nLongLength; i++) m_pData[nRow][i] = (v1[i] ^ v2[i]) & mask[i];
 }
 
 //-------------------------------------------------------------------
-void CuBM::SetRowXor(int nRow, int Num, ULONG* v1, ...)
+void CuBM::SetRowXor(int nRow, int Num, ptrdiff_t* v1, ...)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
 
-  ULONG * v[10];
+  ptrdiff_t * v[10];
   va_list marker;
   v[0] = v1;
   va_start( marker, v1);     /* Initialize variable arguments. */
   for (int j=1; j< Num; j++) {
-    v[j] = va_arg( marker, ULONG* );
+    v[j] = va_arg( marker, ptrdiff_t* );
   }
   va_end( marker );              /* Reset variable arguments.      */
 
@@ -1893,17 +1893,17 @@ void CuBM::SetRowXor(int nRow, int Num, ULONG* v1, ...)
 }
 
 //-------------------------------------------------------------------
-void CuBM::SetRowXor(const ULONG* mask, int nRow, int Num, ULONG* v1, ...)
+void CuBM::SetRowXor(const ptrdiff_t* mask, int nRow, int Num, ptrdiff_t* v1, ...)
 {
   ASSERT(nRow > 0);
   ASSERT(nRow < m_nSize);
 
-  ULONG * v[10];
+  ptrdiff_t * v[10];
   va_list marker;
   v[0] = v1;
   va_start( marker, v1);     /* Initialize variable arguments. */
   for (int j=1; j< Num; j++) {
-    v[j] = va_arg( marker, ULONG* );
+    v[j] = va_arg( marker, ptrdiff_t* );
   }
   va_end( marker );              /* Reset variable arguments.      */
 
@@ -1915,21 +1915,21 @@ void CuBM::SetRowXor(const ULONG* mask, int nRow, int Num, ULONG* v1, ...)
 }
 
 //-------------------------------------------------------------------
-void CuBM::SetRowDif(int nRow, const ULONG* v1)
+void CuBM::SetRowDif(int nRow, const ptrdiff_t* v1)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
   for (int i=0; i<m_nLongLength; i++) m_pData[nRow][i] &= ~v1[i];
 }
 
 //-------------------------------------------------------------------
-void CuBM::SetRowDif(int nRow, const ULONG* v1, const ULONG* v2)
+void CuBM::SetRowDif(int nRow, const ptrdiff_t* v1, const ptrdiff_t* v2)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
   for (int i=0; i<m_nLongLength; i++) m_pData[nRow][i] = v1[i] & ~v2[i];
 }
 
 //-------------------------------------------------------------------
-void CuBM::SetRowDif(const ULONG* mask, int nRow, const ULONG* v1)
+void CuBM::SetRowDif(const ptrdiff_t* mask, int nRow, const ptrdiff_t* v1)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
   for (int i=0; i<m_nLongLength; i++) 
@@ -1937,7 +1937,7 @@ void CuBM::SetRowDif(const ULONG* mask, int nRow, const ULONG* v1)
 }
 
 //-------------------------------------------------------------------
-void CuBM::SetRowDif(const ULONG* mask, int nRow, const ULONG* v1, const ULONG* v2)
+void CuBM::SetRowDif(const ptrdiff_t* mask, int nRow, const ptrdiff_t* v1, const ptrdiff_t* v2)
 {
   ASSERT(nRow > 0); ASSERT(nRow < m_nSize);
   for (int i=0; i<m_nLongLength; i++) 
