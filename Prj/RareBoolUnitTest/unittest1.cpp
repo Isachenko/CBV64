@@ -68,11 +68,6 @@ namespace RareBoolUnitTest
 			CrBV b = CrBV(100000, true);
 			Assert::IsFalse(a > b);
 		}
-		TEST_METHOD(loadTest)
-		{
-			CrBV a = CrBV(3700000, true);
-			a.Reverse();
-		}
 		TEST_METHOD(TestOperator)
 		{
 			CrBV a = CrBV(100000, true);
@@ -100,6 +95,17 @@ namespace RareBoolUnitTest
 			a.Reverse();
 			CrBV b = CrBV(100000, true);
 			a -= b;
+		}
+		TEST_METHOD(ReverseLoadTest)
+		{
+			CrBV a = CrBV(3700000, true);
+			a.Reverse();
+		}
+		TEST_METHOD(SetBitAtLoadTest)
+		{
+			CrBV a = CrBV(2000000, true);
+			a.Reverse();
+			a.SetBitAt(1500000, false);
 		}
 	};
 }
