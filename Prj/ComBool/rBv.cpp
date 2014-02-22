@@ -773,7 +773,10 @@ CArchive& operator>>(CArchive& ar, CrBV& rbv)
 //----------------------------------------------------------------------(56)
 BOOL CrBV::Find(size_t X, size_t& Pos) const
 {
-  size_t m, R=m_nVect.size() - 1, flag=0;
+  if (m_nVect.size() == 0) {
+	return 0;
+  }
+  size_t m, R=m_nVect.size()-1, flag=0;
   Pos=0;
   while (Pos<=R && !flag)
   {
