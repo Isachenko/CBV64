@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "../../UnitTestCBV/ComBool/ShortBool.h"
+#include "../../ComBool/ShortBool.h"
 
 #include <string>
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -479,11 +479,139 @@ namespace UnitTestCBV
 
 		TEST_METHOD(TestMethod_CsBM_SetSize)
 		{
-	//	CsBM m = CsBM("");
-//			m.SetSize(33, 4, 4);
-			//Assert::IsTrue(m.GetCountC() == 4);
+			CsBM m = CsBM("");
+			m.SetSize(33, 4, 4);
+			Assert::IsTrue(m.GetCountC() == 4);
 		}
 
+		TEST_METHOD(TestMethod_BitCharstr)
+		{
 
+			CsBM bm = CsBM("1010100101");
+			CsBM bm1 = CsBM("1010100101");
+			
+			CStringArray s1;
+			CString s2;
+			CString s3;
+			bm.BitChar(s1);
+			s2 = bm.BitChar();
+			s3 = (*s1.GetData());
+			Assert::IsFalse(strcmp(s2.GetBuffer(), s3.GetBuffer()) == 0);
+		}
+
+		TEST_METHOD(TestMethod_GetRowBv){
+			CsBM bm = CsBM("10100101\r\n1010010");
+			CsBV bv = CsBV("10100101");
+			Assert::IsTrue(bv == bm.GetRowBv(0));
+		}
+
+		TEST_METHOD(TestMethod_GetRowBvmask){
+			CsBM bm = CsBM("11111101\r\n1010010");
+			CsBV bv = CsBV("11000000");
+			Assert::IsTrue(bv == bm.GetRowBv(0, 0xc000000000000000));
+		}
+
+		TEST_METHOD(TestMethod_GetColumn){
+			CsBM bm = CsBM("1101\r\n1101\r\n1101\r\n1101");
+			CsBV bv = CsBV("1111");
+			Assert::IsTrue(bv == bm.GetColumnBv(1));						
+		}
+
+		TEST_METHOD(TestMethod_ExtractRows){
+			CsBM bm = CsBM("1101\r\n1101\r\n1101\r\n1101");
+			CsBM bm1 = bm.ExtractRows(1,2);
+			Assert::IsTrue(bm1.GetCountR() == 2);		
+		}
+
+		TEST_METHOD(CsBMTestMethod_Extract){
+			CsBM bm = CsBM("1101\r\n1101\r\n1101\r\n1101");
+			CsBM bm1 = bm.Extract(1,1,1,2);
+			Assert::IsTrue(bm1.GetCountC() == 2 && bm1.GetCountR() == 1);
+		}//stoped at minor method
+
+		TEST_METHOD(CsBVTestMethod_GetBitAt)
+		{
+			int bitLenght = 64;
+			size_t value = ((size_t)1 << 63) | ((size_t)1 << 60);
+			CsBV bv = CsBV((size_t)value, (__int8)bitLenght);
+			int ans1 = bv.GetBitAt(0);	
+			int ans2 = bv.GetBitAt(3);			
+			int ans3 = bv.GetBitAt(23);
+			Assert::IsTrue(ans1 == 1);
+			Assert::IsTrue(ans2 == 1);
+			Assert::IsTrue(ans3 == 0);
+		}
+
+		TEST_METHOD(CsBMTestMethod_GetRowBvmask){
+			CsBM bm = CsBM("11111101\r\n1010010");
+			CsBV bv = CsBV("11000000");
+			Assert::IsTrue(bv == bm.GetRowBv(0, 0xc000000000000000));
+		}
+
+		TEST_METHOD(CsBMTestMethod_GetColumn){
+			CsBM bm = CsBM("1101\r\n1101\r\n1101\r\n1101");
+			CsBV bv = CsBV("1111");
+			Assert::IsTrue(bv == bm.GetColumnBv(1));						
+		}
+
+		TEST_METHOD(CsBMTestMethod_ExtractRows){
+			CsBM bm = CsBM("1101\r\n1101\r\n1101\r\n1101");
+			CsBM bm1 = bm.ExtractRows(1,2);
+			Assert::IsTrue(bm1.GetCountR() == 2);		
+		}
+
+		TEST_METHOD(CsBMCsBMTestMethod_Extract){
+			CsBM bm = CsBM("1101\r\n1101\r\n1101\r\n1101");
+			CsBM bm1 = bm.Extract(1,1,1,2);
+			Assert::IsTrue(bm1.GetCountC() == 2 && bm1.GetCountR() == 1);
+		}//stoped at minor method
+
+		TEST_METHOD(CsBVTestMethod_Empty)
+		{			
+			CsBV bv = "1000000001000000";
+			bv.Empty();
+			Assert::IsTrue(bv.GetBitLength() == 0);
+			Assert::IsTrue(bv == (size_t)0);
+		}		
+
+		TEST_METHOD(CsBVTestMethod_SetSize)
+		{			
+			CsBV bv = "100110";
+			bv.SetSize(3);
+			Assert::IsTrue(bv.GetBitLength() == 3);
+			Assert::IsTrue(bv == "100");
+		}
+
+		TEST_METHOD(CsBVTestMethod_CharBit)
+		{			
+			CsBV bv = "100110";
+			bv.SetSize(3);
+			Assert::IsTrue(bv.GetBitLength() == 3);
+			Assert::IsTrue(bv == "100");
+		}
+
+		TEST_METHOD(CsBMTestMethod_CsBM_SetSize)
+		{
+			CsBM m = CsBM("");
+			m.SetSize(33, 4, 4);
+			Assert::IsTrue(m.GetCountC() == 4);
+		}
+
+		TEST_METHOD(CsBMTestMethod_BitCharstr){
+			CsBM bm = CsBM("1010100101");
+			CStringArray s1;
+			CString s2;
+			CString s3;
+			bm.BitChar(s1);
+			s2 = bm.BitChar();
+			s3 = (*s1.GetData());
+			Assert::IsFalse(strcmp(s2.GetBuffer(), s3.GetBuffer()) == 0);
+		}
+
+		TEST_METHOD(CsBMTestMethod_GetRowBv){
+			CsBM bm = CsBM("10100101\r\n1010010");
+			CsBV bv = CsBV("10100101");
+			Assert::IsTrue(bv == bm.GetRowBv(0));
+		}
 	};
 }

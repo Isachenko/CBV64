@@ -478,7 +478,7 @@ CsBM CsBM::Extract(unsigned int nFirstR, __int8 nFirstC, unsigned int nCountR, _
 	{ 
 		bv = m_pData[i]; 
 		bv1 = bv.Extract(nFirstC, nCountC);
-		bm.SetRow(i, bv1);
+		bm.SetRow(i - nFirstR, bv1);
 	}
 	return bm;
 } 
@@ -1481,34 +1481,34 @@ void CsBM::AssertValid() const
 //---------------------------------------------------------------Serialize(CArchive& ar)
 // Serialization
 //---------------------------------------------------------------
-void CsBM::Serialize(CArch& ar)
-{
-	if (ar.IsStoring())
-	{
-		ar << m_nSize;
-		//ar << (__int8)m_nBitLength;
-		for (unsigned int i = 0; i < m_nSize; i++)
-		{
-			BYTE * byteData = (BYTE *)&(m_pData[i]);
-			for (__int8 j = 0; j * SIZE_BYTE < SIZE_SHORTBOOL; ++j)
-				//ar << (BYTE)byteData[j]
-					;
-		}
-	}
-	else
-	{
-		//ar >> (unsigned int)m_nSize;
-		//ar >> (__int8)m_nBitLength;
-		SetSize(m_nSize, m_nBitLength, m_nGrowBy);
-		for (unsigned int i = 0; i < m_nSize; i++)
-		{
-			BYTE * byteData = (BYTE *)&(m_pData[i]);
-			for (__int8 j = 0; j * SIZE_BYTE < SIZE_SHORTBOOL; ++j)
-				//ar >> (BYTE)byteData[j]
-					;
-		}
-	}
-}
+//void CsBM::Serialize(CArch& ar)
+//{
+//	if (ar.IsStoring())
+//	{
+//		ar << m_nSize;
+//		//ar << (__int8)m_nBitLength;
+//		for (unsigned int i = 0; i < m_nSize; i++)
+//		{
+//			BYTE * byteData = (BYTE *)&(m_pData[i]);
+//			for (__int8 j = 0; j * SIZE_BYTE < SIZE_SHORTBOOL; ++j)
+//				//ar << (BYTE)byteData[j]
+//					;
+//		}
+//	}
+//	else
+//	{
+//		//ar >> (unsigned int)m_nSize;
+//		//ar >> (__int8)m_nBitLength;
+//		SetSize(m_nSize, m_nBitLength, m_nGrowBy);
+//		for (unsigned int i = 0; i < m_nSize; i++)
+//		{
+//			BYTE * byteData = (BYTE *)&(m_pData[i]);
+//			for (__int8 j = 0; j * SIZE_BYTE < SIZE_SHORTBOOL; ++j)
+//				//ar >> (BYTE)byteData[j]
+//					;
+//		}
+//	}
+//}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
